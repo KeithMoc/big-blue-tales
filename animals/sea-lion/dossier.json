@@ -1,0 +1,1624 @@
+{
+  "schema": 1,
+  "pack": "sea-lion",
+  "scientificName": "Zalophus californianus",
+  "commonName": "California sea lion",
+  "signedBy": "Keith Moc",
+  "signedOn": "2026-11-23",
+  "signedHash": "9951a1c802d9",
+  "sources": {
+    "noaa": {
+      "name": "NOAA Fisheries, California Sea Lion",
+      "url": "https://www.fisheries.noaa.gov/species/california-sea-lion",
+      "kind": "agency",
+      "accessed": "2026-11-23"
+    },
+    "noaaseal": {
+      "name": "NOAA Fisheries, What's the difference between seals and sea lions?",
+      "url": "https://www.fisheries.noaa.gov/feature-story/it-seal-or-sea-lion",
+      "kind": "agency",
+      "accessed": "2026-11-23"
+    },
+    "nps": {
+      "name": "US National Park Service, Channel Islands National Park, California Sea Lion",
+      "url": "https://www.nps.gov/chis/learn/nature/sea-lion.htm",
+      "kind": "agency",
+      "accessed": "2026-11-23"
+    },
+    "smithsonian": {
+      "name": "Smithsonian's National Zoo and Conservation Biology Institute, California sea lion",
+      "url": "https://nationalzoo.si.edu/animals/california-sea-lion",
+      "kind": "museum",
+      "accessed": "2026-11-23"
+    },
+    "tmmc": {
+      "name": "The Marine Mammal Center, California Sea Lion",
+      "url": "https://www.marinemammalcenter.org/animal-care/learn-about-marine-mammals/pinnipeds/california-sea-lion",
+      "kind": "aquarium",
+      "accessed": "2026-11-23"
+    },
+    "tmmcguide": {
+      "name": "The Marine Mammal Center, Your Visual Guide to Sea Lion and Seal Behavior",
+      "url": "https://www.marinemammalcenter.org/news/your-visual-guide-to-sea-lion-and-seal-behavior",
+      "kind": "aquarium",
+      "accessed": "2026-11-23"
+    },
+    "iucn": {
+      "name": "IUCN Red List, Zalophus californianus (2014 assessment)",
+      "url": "https://www.iucnredlist.org/species/41666/45230310",
+      "kind": "agency",
+      "accessed": "2026-11-23"
+    },
+    "seaworld": {
+      "name": "SeaWorld, All About the California Sea Lion: Adaptations",
+      "url": "https://seaworld.org/animals/all-about/california-sea-lion/adaptations",
+      "kind": "aquarium",
+      "accessed": "2026-11-23"
+    },
+    "feldkamp": {
+      "name": "Feldkamp 1987, Swimming in the California sea lion, Journal of Experimental Biology 131",
+      "url": "https://journals.biologists.com/jeb/article/131/1/117/5285/Swimming-in-the-California-sea-lion-morphometrics",
+      "kind": "paper",
+      "accessed": "2026-11-23"
+    },
+    "inat": {
+      "name": "iNaturalist observation 145868221 (the recording)",
+      "url": "https://www.inaturalist.org/observations/145868221",
+      "kind": "database",
+      "accessed": "2026-11-23"
+    }
+  },
+  "facts": [
+    {
+      "id": "id-eared-seal",
+      "topic": "identity",
+      "statement": "California sea lions are eared seals from the West Coast of North America.",
+      "sources": [
+        "noaa"
+      ],
+      "quote": "California sea lions are “eared seals” native to the West Coast of North America.",
+      "confidence": "high",
+      "collectedBy": "collector-sea-lion",
+      "verified": {
+        "result": "yes",
+        "by": "verifier-2",
+        "on": "2026-11-23"
+      }
+    },
+    {
+      "id": "id-ear-flaps-differ",
+      "topic": "identity",
+      "statement": "Visible ear flaps set sea lions apart from true seals.",
+      "sources": [
+        "smithsonian"
+      ],
+      "quote": "Their visible ear flaps distinguish them from true seals.",
+      "confidence": "high",
+      "collectedBy": "collector-sea-lion",
+      "verified": {
+        "result": "yes",
+        "by": "verifier-2",
+        "on": "2026-11-23"
+      }
+    },
+    {
+      "id": "id-seals-ear-holes",
+      "topic": "identity",
+      "statement": "True seals have ear holes but no outer ear flap.",
+      "sources": [
+        "noaaseal"
+      ],
+      "quote": "belong to a group of pinnipeds that have ear holes but lack an external ear flap",
+      "confidence": "high",
+      "collectedBy": "collector-sea-lion",
+      "verified": {
+        "result": "yes",
+        "by": "verifier-2",
+        "on": "2026-11-23"
+      }
+    },
+    {
+      "id": "id-walking-seal",
+      "topic": "identity",
+      "statement": "Sea lions belong to the walking seal family and use large flippers to walk on land.",
+      "sources": [
+        "tmmc"
+      ],
+      "quote": "As a member of the otariid or “walking seal” family, California sea lions have large flippers that they use to walk on land.",
+      "confidence": "high",
+      "collectedBy": "collector-sea-lion",
+      "verified": {
+        "result": "yes",
+        "by": "verifier-2",
+        "on": "2026-11-23"
+      }
+    },
+    {
+      "id": "id-named-lions",
+      "topic": "identity",
+      "statement": "Their loud roars and barks help explain the name sea lion.",
+      "sources": [
+        "nps"
+      ],
+      "quote": "Sea lions produce loud roars and barking, which helps explain why they're named after lions.",
+      "confidence": "high",
+      "collectedBy": "collector-sea-lion",
+      "verified": {
+        "result": "yes",
+        "by": "verifier-2",
+        "on": "2026-11-23"
+      }
+    },
+    {
+      "id": "id-no-mane",
+      "topic": "identity",
+      "statement": "California sea lions do not have a mane.",
+      "sources": [
+        "smithsonian"
+      ],
+      "quote": "California sea lions lack the \"mane\" that gives sea lions their name.",
+      "confidence": "high",
+      "collectedBy": "collector-sea-lion",
+      "verified": {
+        "result": "yes",
+        "by": "verifier-2",
+        "on": "2026-11-23"
+      }
+    },
+    {
+      "id": "id-playful-vocal",
+      "topic": "identity",
+      "statement": "California sea lions are playful, clever and very noisy, sounding like barking dogs.",
+      "sources": [
+        "noaa"
+      ],
+      "quote": "California sea lions are playful, intelligent, and very vocal (sounding like barking dogs).",
+      "confidence": "high",
+      "collectedBy": "collector-sea-lion",
+      "verified": {
+        "result": "yes",
+        "by": "verifier-2",
+        "on": "2026-11-23"
+      }
+    },
+    {
+      "id": "size-length",
+      "topic": "size",
+      "statement": "Females grow to about 6 feet long and males to about 7.5 feet.",
+      "sources": [
+        "noaa"
+      ],
+      "quote": "6 feet (females) to 7.5 feet (males)",
+      "confidence": "high",
+      "collectedBy": "collector-sea-lion",
+      "value": {
+        "female_ft": 6,
+        "male_ft": 7.5
+      },
+      "verified": {
+        "result": "yes",
+        "by": "verifier-2",
+        "on": "2026-11-23"
+      }
+    },
+    {
+      "id": "size-weight",
+      "topic": "size",
+      "statement": "Females weigh about 240 pounds and males up to about 700 pounds.",
+      "sources": [
+        "noaa"
+      ],
+      "quote": "240 pounds (females) to 700 pounds (males)",
+      "confidence": "high",
+      "collectedBy": "collector-sea-lion",
+      "value": {
+        "female_lb": 240,
+        "male_lb": 700
+      },
+      "verified": {
+        "result": "yes",
+        "by": "verifier-2",
+        "on": "2026-11-23"
+      }
+    },
+    {
+      "id": "size-tmmc",
+      "topic": "size",
+      "statement": "Males reach 600 to 850 pounds and 7 feet; females 200 to 250 pounds and up to 6 feet.",
+      "sources": [
+        "tmmc"
+      ],
+      "quote": "male sea lions are much larger—reaching up to 600 to 850 pounds and 7 feet in length. Females grow to 200 to 250 pounds and up to 6 feet in length.",
+      "confidence": "high",
+      "collectedBy": "collector-sea-lion",
+      "verified": {
+        "result": "yes",
+        "by": "verifier-2",
+        "on": "2026-11-23"
+      }
+    },
+    {
+      "id": "size-nps",
+      "topic": "size",
+      "statement": "Males reach almost 8 feet and more than 600 pounds; females up to 6.5 feet and 240 pounds.",
+      "sources": [
+        "nps"
+      ],
+      "quote": "Male California sea lions reach lengths of almost 8 feet in length, and weights of more than 600 pounds. Females, may reach up to 6 and a half feet in length and weigh up to 240 pounds.",
+      "confidence": "high",
+      "collectedBy": "collector-sea-lion",
+      "verified": {
+        "result": "yes",
+        "by": "verifier-2",
+        "on": "2026-11-23"
+      }
+    },
+    {
+      "id": "size-pup-length",
+      "topic": "size",
+      "statement": "A newborn pup is about 2.5 feet (75 cm) long.",
+      "sources": [
+        "smithsonian"
+      ],
+      "quote": "Pups are about 2.5 feet (75 centimeters) long, nose to tail tip, and weigh about 18 pounds (8 kilograms) at birth.",
+      "confidence": "high",
+      "collectedBy": "collector-sea-lion",
+      "appliesTo": "newborn",
+      "verified": {
+        "result": "yes",
+        "by": "verifier-2",
+        "on": "2026-11-23"
+      }
+    },
+    {
+      "id": "size-pup-weight",
+      "topic": "size",
+      "statement": "Newborn pups weigh 13 to 20 pounds.",
+      "sources": [
+        "tmmc",
+        "nps"
+      ],
+      "quote": "Newborn California sea lions weigh 13 to 20 pounds",
+      "confidence": "high",
+      "collectedBy": "collector-sea-lion",
+      "appliesTo": "newborn",
+      "verified": {
+        "result": "yes",
+        "by": "verifier-2",
+        "on": "2026-11-23"
+      }
+    },
+    {
+      "id": "size-pup-noaa",
+      "topic": "size",
+      "statement": "Pups weigh about 16 pounds at birth.",
+      "sources": [
+        "noaa"
+      ],
+      "quote": "Pups are dark brown at birth and weigh about 16 pounds.",
+      "confidence": "high",
+      "collectedBy": "collector-sea-lion",
+      "appliesTo": "newborn",
+      "verified": {
+        "result": "yes",
+        "by": "verifier-2",
+        "on": "2026-11-23"
+      }
+    },
+    {
+      "id": "body-torpedo",
+      "topic": "body",
+      "statement": "Their bodies are torpedo shaped and taper to the tail, with strong bulky shoulders.",
+      "sources": [
+        "smithsonian"
+      ],
+      "quote": "They have strong, bulky shoulders and their streamlined, torpedo-shaped bodies taper to the tail.",
+      "confidence": "high",
+      "collectedBy": "collector-sea-lion",
+      "verified": {
+        "result": "yes",
+        "by": "verifier-2",
+        "on": "2026-11-23"
+      }
+    },
+    {
+      "id": "body-dog-head",
+      "topic": "body",
+      "statement": "They have a slender neck and a dog-like head.",
+      "sources": [
+        "smithsonian"
+      ],
+      "quote": "They also have a more slender neck than some species and a dog-like head.",
+      "confidence": "high",
+      "collectedBy": "collector-sea-lion",
+      "verified": {
+        "result": "yes",
+        "by": "verifier-2",
+        "on": "2026-11-23"
+      }
+    },
+    {
+      "id": "body-muzzle",
+      "topic": "body",
+      "statement": "In both sexes the muzzle is long and dog-like, tapering to a fairly blunt end.",
+      "sources": [
+        "nps"
+      ],
+      "quote": "In both sexes, the muzzle is dog-like and long, slightly tapering to a moderately blunt end.",
+      "confidence": "high",
+      "collectedBy": "collector-sea-lion",
+      "verified": {
+        "result": "yes",
+        "by": "verifier-2",
+        "on": "2026-11-23"
+      }
+    },
+    {
+      "id": "body-snout-noaa",
+      "topic": "body",
+      "statement": "They have broad front flippers and long, narrow snouts.",
+      "sources": [
+        "noaa"
+      ],
+      "quote": "California sea lions have broad front flippers and long, narrow snouts.",
+      "confidence": "high",
+      "collectedBy": "collector-sea-lion",
+      "verified": {
+        "result": "yes",
+        "by": "verifier-2",
+        "on": "2026-11-23"
+      }
+    },
+    {
+      "id": "body-ear-pinnae",
+      "topic": "body",
+      "statement": "They have visible ear flaps on each side of the head.",
+      "sources": [
+        "nps"
+      ],
+      "quote": "The species has visible ear pinnae (ear flaps) on either side of its head",
+      "confidence": "high",
+      "collectedBy": "collector-sea-lion",
+      "verified": {
+        "result": "yes",
+        "by": "verifier-2",
+        "on": "2026-11-23"
+      }
+    },
+    {
+      "id": "body-ears-small",
+      "topic": "body",
+      "statement": "The ear flaps are small, but the sea lion hears well above and below water.",
+      "sources": [
+        "smithsonian"
+      ],
+      "quote": "Though the sea lion's ear flaps are small, it can hear quite well both above and below the surface.",
+      "confidence": "high",
+      "collectedBy": "collector-sea-lion",
+      "verified": {
+        "result": "yes",
+        "by": "verifier-2",
+        "on": "2026-11-23"
+      }
+    },
+    {
+      "id": "body-ears-close",
+      "topic": "body",
+      "statement": "The ears close under water.",
+      "sources": [
+        "smithsonian"
+      ],
+      "quote": "Its ears are also valvular and close underwater.",
+      "confidence": "high",
+      "collectedBy": "collector-sea-lion",
+      "verified": {
+        "result": "yes",
+        "by": "verifier-2",
+        "on": "2026-11-23"
+      }
+    },
+    {
+      "id": "body-foreflipper-long",
+      "topic": "body",
+      "statement": "The front flippers are especially long and push the sea lion through the water.",
+      "sources": [
+        "smithsonian"
+      ],
+      "quote": "Their front flippers are especially long and are used for propelling them through the water.",
+      "confidence": "high",
+      "collectedBy": "collector-sea-lion",
+      "verified": {
+        "result": "yes",
+        "by": "verifier-2",
+        "on": "2026-11-23"
+      }
+    },
+    {
+      "id": "body-foreflipper-wing",
+      "topic": "body",
+      "statement": "The front flippers are large and wing-like, with the bone structure of a land animal.",
+      "sources": [
+        "nps"
+      ],
+      "quote": "A California sea lions fore flippers are large and winglike, with the skeletal structure of a land animal.",
+      "confidence": "high",
+      "collectedBy": "collector-sea-lion",
+      "verified": {
+        "result": "yes",
+        "by": "verifier-2",
+        "on": "2026-11-23",
+        "note": "Statement repaired by second reader; was: \"The front flippers are large and wing-like, with finger bones extended by cartilage.\""
+      }
+    },
+    {
+      "id": "body-hindflipper-claws",
+      "topic": "body",
+      "statement": "The back flippers act as rudders and have three claws for grooming.",
+      "sources": [
+        "smithsonian"
+      ],
+      "quote": "Their back flippers are used as rudders and have three claws for grooming.",
+      "confidence": "high",
+      "collectedBy": "collector-sea-lion",
+      "verified": {
+        "result": "yes",
+        "by": "verifier-2",
+        "on": "2026-11-23"
+      }
+    },
+    {
+      "id": "body-hindflipper-claws-noaa",
+      "topic": "body",
+      "statement": "They have three to five claws on their hind flippers.",
+      "sources": [
+        "noaa"
+      ],
+      "quote": "three to five claws on their hind flippers",
+      "confidence": "high",
+      "collectedBy": "collector-sea-lion",
+      "verified": {
+        "result": "yes",
+        "by": "verifier-2",
+        "on": "2026-11-23"
+      }
+    },
+    {
+      "id": "body-tail",
+      "topic": "body",
+      "statement": "A small flat tail sits between the hind flippers.",
+      "sources": [
+        "nps"
+      ],
+      "quote": "The California sea lion has a small flattened tail between the hind flippers.",
+      "confidence": "high",
+      "collectedBy": "collector-sea-lion",
+      "verified": {
+        "result": "yes",
+        "by": "verifier-2",
+        "on": "2026-11-23"
+      }
+    },
+    {
+      "id": "body-blubber",
+      "topic": "body",
+      "statement": "A thick layer of blubber just under the skin keeps the body warm and streamlined.",
+      "sources": [
+        "seaworld"
+      ],
+      "quote": "California sea lions deposit most of their body fat into a thick layer of blubber just under the skin. The blubber layer insulates the California sea lion and streamlines the body.",
+      "confidence": "high",
+      "collectedBy": "collector-sea-lion",
+      "verified": {
+        "result": "yes",
+        "by": "verifier-2",
+        "on": "2026-11-23",
+        "note": "Second reader widened the quote with the sentence before it, copied from the open page, so it carries \"thick\" and \"under the skin\" used in the text."
+      }
+    },
+    {
+      "id": "colour-male-dark",
+      "topic": "colour",
+      "statement": "Adult males are mostly dark brown to black.",
+      "sources": [
+        "noaa"
+      ],
+      "quote": "Adult males are generally larger than females and are mostly dark brown to black in color.",
+      "confidence": "high",
+      "collectedBy": "collector-sea-lion",
+      "appliesTo": "adult male",
+      "verified": {
+        "result": "yes",
+        "by": "verifier-2",
+        "on": "2026-11-23"
+      }
+    },
+    {
+      "id": "colour-female-tan",
+      "topic": "colour",
+      "statement": "Adult females and young are slender and blonde to tan.",
+      "sources": [
+        "noaa"
+      ],
+      "quote": "Adult females and juveniles are slender-bodied and are blonde to tan in color.",
+      "confidence": "high",
+      "collectedBy": "collector-sea-lion",
+      "appliesTo": "adult female",
+      "verified": {
+        "result": "yes",
+        "by": "verifier-2",
+        "on": "2026-11-23"
+      }
+    },
+    {
+      "id": "colour-male-chestnut",
+      "topic": "colour",
+      "statement": "Males are usually dark chestnut brown, some lighter on the head, sides and belly.",
+      "sources": [
+        "smithsonian"
+      ],
+      "quote": "Males are generally a dark chestnut brown, although some males have lighter coloring on their head, muzzle, sides, hind and belly.",
+      "confidence": "high",
+      "collectedBy": "collector-sea-lion",
+      "appliesTo": "adult male",
+      "verified": {
+        "result": "yes",
+        "by": "verifier-2",
+        "on": "2026-11-23"
+      }
+    },
+    {
+      "id": "colour-variable",
+      "topic": "colour",
+      "statement": "Colour varies; many males stay sandy brown on the sides, belly and rear.",
+      "sources": [
+        "nps"
+      ],
+      "quote": "many males do not darken completely, remaining sandy brown on the sides, belly, and rear quarters.",
+      "confidence": "high",
+      "collectedBy": "collector-sea-lion",
+      "appliesTo": "adult male",
+      "verified": {
+        "result": "yes",
+        "by": "verifier-2",
+        "on": "2026-11-23"
+      }
+    },
+    {
+      "id": "colour-crest-light",
+      "topic": "colour",
+      "statement": "On most males the crest and parts of the muzzle and around the eyes get lighter with age.",
+      "sources": [
+        "nps"
+      ],
+      "quote": "On most males, especially darker individuals, the crest and a corresponding area on the muzzle and around the eyes lighten with age.",
+      "confidence": "high",
+      "collectedBy": "collector-sea-lion",
+      "appliesTo": "adult male",
+      "verified": {
+        "result": "yes",
+        "by": "verifier-2",
+        "on": "2026-11-23"
+      }
+    },
+    {
+      "id": "colour-crest-tufts",
+      "topic": "colour",
+      "statement": "The crests of males are topped with tufts of blonde or lighter hair.",
+      "sources": [
+        "noaa"
+      ],
+      "quote": "Subadult and adult males have pronounced forehead crests crowned with tufts of blonde or lighter hair.",
+      "confidence": "high",
+      "collectedBy": "collector-sea-lion",
+      "appliesTo": "adult male",
+      "verified": {
+        "result": "yes",
+        "by": "verifier-2",
+        "on": "2026-11-23"
+      }
+    },
+    {
+      "id": "colour-flippers-black",
+      "topic": "colour",
+      "statement": "All sea lions have dark, almost bare flippers.",
+      "sources": [
+        "nps"
+      ],
+      "quote": "All ages and sexes have contrasting black flippers, naked except for a short stubble of dark fur partially covering the upper surface.",
+      "confidence": "high",
+      "collectedBy": "collector-sea-lion",
+      "verified": {
+        "result": "yes",
+        "by": "verifier-2",
+        "on": "2026-11-23"
+      }
+    },
+    {
+      "id": "colour-pup-dark",
+      "topic": "colour",
+      "statement": "Pups are born with a thick brownish black coat.",
+      "sources": [
+        "nps"
+      ],
+      "quote": "Pups are born with a thick brownish black lanugo that is generally molted by the end of the first month.",
+      "confidence": "high",
+      "collectedBy": "collector-sea-lion",
+      "appliesTo": "newborn",
+      "verified": {
+        "result": "yes",
+        "by": "verifier-2",
+        "on": "2026-11-23"
+      }
+    },
+    {
+      "id": "colour-pup-molt",
+      "topic": "colour",
+      "statement": "At 4 to 5 months pups swap their dark coat for a light brown or silver one.",
+      "sources": [
+        "noaa"
+      ],
+      "quote": "When pups are 4 to 5 months old, they molt their dark brown coats for light brown or silver coats.",
+      "confidence": "high",
+      "collectedBy": "collector-sea-lion",
+      "appliesTo": "pup",
+      "verified": {
+        "result": "yes",
+        "by": "verifier-2",
+        "on": "2026-11-23"
+      }
+    },
+    {
+      "id": "senses-whiskers",
+      "topic": "senses",
+      "statement": "Their whiskers can turn forward and feel the small movements of nearby fish, even in total darkness.",
+      "sources": [
+        "smithsonian"
+      ],
+      "quote": "Their sensitive whiskers, called vibrissae, can rotate forward and detect the slight movements of fish swimming nearby, enabling California sea lions to find and capture prey in total darkness.",
+      "confidence": "high",
+      "collectedBy": "collector-sea-lion",
+      "verified": {
+        "result": "yes",
+        "by": "verifier-2",
+        "on": "2026-11-23"
+      }
+    },
+    {
+      "id": "senses-eyes",
+      "topic": "senses",
+      "statement": "Their eyesight is good because they spend a lot of time in dim water.",
+      "sources": [
+        "smithsonian"
+      ],
+      "quote": "Their eyesight is well developed, because they spend a lot of time underwater with reduced light levels.",
+      "confidence": "high",
+      "collectedBy": "collector-sea-lion",
+      "verified": {
+        "result": "yes",
+        "by": "verifier-2",
+        "on": "2026-11-23"
+      }
+    },
+    {
+      "id": "senses-smell-mother",
+      "topic": "senses",
+      "statement": "Mothers find their own pup by its call and then smell it to be sure.",
+      "sources": [
+        "noaa"
+      ],
+      "quote": "A female can locate her pup among hundreds of others by her pup’s vocalization. When she finds her pup, she smells it as a final check.",
+      "confidence": "high",
+      "collectedBy": "collector-sea-lion",
+      "verified": {
+        "result": "yes",
+        "by": "verifier-2",
+        "on": "2026-11-23"
+      }
+    },
+    {
+      "id": "food-noaa",
+      "topic": "food",
+      "statement": "They eat squid, anchovies, mackerel, rockfish and sardines.",
+      "sources": [
+        "noaa"
+      ],
+      "quote": "They eat a variety of prey—such as squid, anchovies, mackerel, rockfish, and sardines—found in upwelling areas.",
+      "confidence": "high",
+      "collectedBy": "collector-sea-lion",
+      "verified": {
+        "result": "yes",
+        "by": "verifier-2",
+        "on": "2026-11-23"
+      }
+    },
+    {
+      "id": "food-tmmc",
+      "topic": "food",
+      "statement": "They eat squid, octopus and small schooling fish like herring, anchovies and sardines.",
+      "sources": [
+        "tmmc"
+      ],
+      "quote": "California sea lions feed on squid, octopus and small schooling fish like herring, anchovies and sardines.",
+      "confidence": "high",
+      "collectedBy": "collector-sea-lion",
+      "verified": {
+        "result": "yes",
+        "by": "verifier-2",
+        "on": "2026-11-23"
+      }
+    },
+    {
+      "id": "food-shallow",
+      "topic": "food",
+      "statement": "Most of their food is in shallow water, about 26 to 74 m deep.",
+      "sources": [
+        "seaworld"
+      ],
+      "quote": "most of their food is found in shallow waters, about 26 to 74 m (85–243 ft.) deep.",
+      "confidence": "high",
+      "collectedBy": "collector-sea-lion",
+      "value": {
+        "usual_m": [
+          26,
+          74
+        ]
+      },
+      "verified": {
+        "result": "yes",
+        "by": "verifier-2",
+        "on": "2026-11-23"
+      }
+    },
+    {
+      "id": "beh-swim-front",
+      "topic": "behaviour",
+      "statement": "In water they paddle with their front flippers and steer with the rear flippers like a rudder.",
+      "sources": [
+        "noaaseal"
+      ],
+      "quote": "In the water, they propel themselves by paddling their front flippers and use their rear flippers to help steer, like a boat’s rudder.",
+      "confidence": "high",
+      "collectedBy": "collector-sea-lion",
+      "verified": {
+        "result": "yes",
+        "by": "verifier-2",
+        "on": "2026-11-23"
+      }
+    },
+    {
+      "id": "beh-swim-thrust-paper",
+      "topic": "behaviour",
+      "statement": "Sea lions push themselves through the water by paddling their front flippers, and use their back flippers to help steer.",
+      "sources": [
+        "noaaseal"
+      ],
+      "quote": "In the water, they propel themselves by paddling their front flippers and use their rear flippers to help steer, like a boat’s rudder.",
+      "confidence": "high",
+      "collectedBy": "collector-sea-lion",
+      "note": "Quote seen in the search result abstract text; the article page itself did not open through the extract tool. A second reader should open it.",
+      "verified": {
+        "result": "yes",
+        "by": "verify3-strays",
+        "on": "2026-11-23",
+        "note": "Repaired: source swapped from feldkamp to noaaseal. The Feldkamp paper (journal page, PDF, DOI, PubMed) would not open on 2026-11-23. Statement cut back: NOAA does not say the thrust comes solely from the front flippers."
+      }
+    },
+    {
+      "id": "beh-swim-strokes",
+      "topic": "behaviour",
+      "statement": "Sea lions swim with up and down, wing-like strokes of their front flippers.",
+      "sources": [
+        "seaworld"
+      ],
+      "quote": "Sea lions swim with up-and-down, wing-like strokes of their foreflippers.",
+      "confidence": "high",
+      "collectedBy": "collector-sea-lion",
+      "verified": {
+        "result": "yes",
+        "by": "verifier-2",
+        "on": "2026-11-23"
+      }
+    },
+    {
+      "id": "beh-walk",
+      "topic": "behaviour",
+      "statement": "On land they turn their hind flippers under the body and walk on all four flippers.",
+      "sources": [
+        "smithsonian"
+      ],
+      "quote": "On land, these sea lions move by rotating their rear flippers under their bodies and supporting their body weight on all four flippers.",
+      "confidence": "high",
+      "collectedBy": "collector-sea-lion",
+      "verified": {
+        "result": "yes",
+        "by": "verifier-2",
+        "on": "2026-11-23"
+      }
+    },
+    {
+      "id": "beh-walk-noaa",
+      "topic": "behaviour",
+      "statement": "On land sea lions walk on their front flippers and their rear flippers turned under the body.",
+      "sources": [
+        "noaaseal"
+      ],
+      "quote": "On land, sea lions use their large, elongated front flippers and rear flippers rotated underneath their bodies to “walk.”",
+      "confidence": "high",
+      "collectedBy": "collector-sea-lion",
+      "verified": {
+        "result": "yes",
+        "by": "verifier-2",
+        "on": "2026-11-23"
+      }
+    },
+    {
+      "id": "beh-seals-belly",
+      "topic": "behaviour",
+      "statement": "True seals move on land on their bellies, like a caterpillar.",
+      "sources": [
+        "noaaseal"
+      ],
+      "quote": "On land, seals use their bellies to move around in a caterpillar-like motion.",
+      "confidence": "high",
+      "collectedBy": "collector-sea-lion",
+      "verified": {
+        "result": "yes",
+        "by": "verifier-2",
+        "on": "2026-11-23"
+      }
+    },
+    {
+      "id": "beh-seals-swim-hind",
+      "topic": "behaviour",
+      "statement": "True seals swim mainly with their back flippers, while sea lions use their front flippers.",
+      "appliesTo": "true seals (comparison)",
+      "sources": [
+        "smithsonian"
+      ],
+      "quote": "They also use their fore flippers to propel themselves through the water, whereas true seals rely primarily on their back flippers to swim.",
+      "confidence": "high",
+      "collectedBy": "verifier-2",
+      "note": "Added by the second reader (quote copied from the open page): the text says this and the ledger quoted it, but no dossier fact carried it. Needs a different reader to verify.",
+      "verified": {
+        "result": "yes",
+        "by": "verify3-strays",
+        "on": "2026-11-23",
+        "note": "Quote found letter for letter on the National Zoo page (advanced extract, 2026-11-23)."
+      }
+    },
+    {
+      "id": "beh-seals-swim-fishlike",
+      "topic": "behaviour",
+      "statement": "True seals swim by moving their back flippers back and forth, like a fish uses its tail.",
+      "appliesTo": "true seals (comparison)",
+      "sources": [
+        "noaaseal"
+      ],
+      "quote": "In the water, seals swim easily, moving their rear flippers back and forth, similar to how a fish uses its caudal fin (tail) to propel itself through the water.",
+      "confidence": "high",
+      "collectedBy": "verifier-2",
+      "note": "Added by the second reader (quote copied from the open page): the text says this and the ledger quoted it, but no dossier fact carried it. Needs a different reader to verify.",
+      "verified": {
+        "result": "yes",
+        "by": "verify3-strays",
+        "on": "2026-11-23",
+        "note": "Quote found letter for letter on the NOAA Fisheries page (advanced extract, 2026-11-23)."
+      }
+    },
+    {
+      "id": "beh-porpoising",
+      "topic": "behaviour",
+      "statement": "They are sometimes seen porpoising, jumping out of the water, probably to swim faster.",
+      "sources": [
+        "tmmc",
+        "tmmcguide"
+      ],
+      "quote": "They are sometimes seen porpoising, or jumping out of the water, presumably to speed up their swimming.",
+      "confidence": "high",
+      "collectedBy": "collector-sea-lion",
+      "verified": {
+        "result": "yes",
+        "by": "verifier-2",
+        "on": "2026-11-23"
+      }
+    },
+    {
+      "id": "beh-speed-smithsonian",
+      "topic": "behaviour",
+      "statement": "They can reach 25 to 30 mph (40 to 48 km/h).",
+      "sources": [
+        "smithsonian"
+      ],
+      "quote": "they can quickly reach speeds of 25-30 mph (40-48 kph) while hunting, avoiding predators or simply playing.",
+      "confidence": "medium",
+      "collectedBy": "collector-sea-lion",
+      "verified": {
+        "result": "yes",
+        "by": "verifier-2",
+        "on": "2026-11-23"
+      }
+    },
+    {
+      "id": "beh-speed-tmmc",
+      "topic": "behaviour",
+      "statement": "California sea lions can swim at 25 miles per hour.",
+      "sources": [
+        "tmmcguide"
+      ],
+      "quote": "California sea lions are very fast swimmers, reaching speeds of 25 miles per hour!",
+      "confidence": "medium",
+      "collectedBy": "collector-sea-lion",
+      "verified": {
+        "result": "yes",
+        "by": "verifier-2",
+        "on": "2026-11-23"
+      }
+    },
+    {
+      "id": "beh-dive-deepest",
+      "topic": "behaviour",
+      "statement": "The deepest dive recorded was 900 feet and lasted just under ten minutes.",
+      "sources": [
+        "nps"
+      ],
+      "quote": "The deepest dive ever recorded by this species was 900 feet and it lasted just under ten minutes.",
+      "confidence": "high",
+      "collectedBy": "collector-sea-lion",
+      "value": {
+        "max_m": 274
+      },
+      "verified": {
+        "result": "yes",
+        "by": "verifier-2",
+        "on": "2026-11-23"
+      }
+    },
+    {
+      "id": "beh-dive-time",
+      "topic": "behaviour",
+      "statement": "They usually stay under water 3 minutes or less, at most about 10 minutes.",
+      "sources": [
+        "seaworld"
+      ],
+      "quote": "California sea lions usually stay submerged three minutes or less; however, they can remain submerged for as long as 10 minutes.",
+      "confidence": "high",
+      "collectedBy": "collector-sea-lion",
+      "verified": {
+        "result": "yes",
+        "by": "verifier-2",
+        "on": "2026-11-23"
+      }
+    },
+    {
+      "id": "beh-rafting",
+      "topic": "behaviour",
+      "statement": "Rafting sea lions hold their flippers above the water to rest and to warm or cool off.",
+      "sources": [
+        "noaa"
+      ],
+      "quote": "A rafting sea lion holds its flippers above the water for a long time, motionless, to rest and regulate its body temperature.",
+      "confidence": "high",
+      "collectedBy": "collector-sea-lion",
+      "verified": {
+        "result": "yes",
+        "by": "verifier-2",
+        "on": "2026-11-23"
+      }
+    },
+    {
+      "id": "beh-rafts-groups",
+      "topic": "behaviour",
+      "statement": "They rest packed together on land or float together in groups called rafts.",
+      "sources": [
+        "tmmc"
+      ],
+      "quote": "groups often rest closely packed together at favorite haul-out sites on land or float together on the ocean's surface in groups called \"rafts.\"",
+      "confidence": "high",
+      "collectedBy": "collector-sea-lion",
+      "verified": {
+        "result": "yes",
+        "by": "verifier-2",
+        "on": "2026-11-23"
+      }
+    },
+    {
+      "id": "beh-gregarious",
+      "topic": "behaviour",
+      "statement": "They gather in groups of a thousand or more on land.",
+      "sources": [
+        "nps"
+      ],
+      "quote": "California sea lions are among the most gregarious marine mammals, forming dense aggregations of a thousand or more animals on land.",
+      "confidence": "high",
+      "collectedBy": "collector-sea-lion",
+      "verified": {
+        "result": "yes",
+        "by": "verifier-2",
+        "on": "2026-11-23"
+      }
+    },
+    {
+      "id": "beh-bark-males",
+      "topic": "behaviour",
+      "statement": "Males bark like dogs to talk to other males and to females.",
+      "sources": [
+        "noaa"
+      ],
+      "quote": "California sea lion males bark like dogs to communicate with other males and females.",
+      "confidence": "high",
+      "collectedBy": "collector-sea-lion",
+      "appliesTo": "adult male",
+      "verified": {
+        "result": "yes",
+        "by": "verifier-2",
+        "on": "2026-11-23"
+      }
+    },
+    {
+      "id": "beh-bark-underwater",
+      "topic": "behaviour",
+      "statement": "Males bark on land and sometimes even under water.",
+      "sources": [
+        "smithsonian"
+      ],
+      "quote": "Males typically patrol their aquatic and terrestrial territories and bark or roar to warn intruders away — sometimes even barking underwater.",
+      "confidence": "high",
+      "collectedBy": "collector-sea-lion",
+      "appliesTo": "adult male",
+      "verified": {
+        "result": "yes",
+        "by": "verifier-2",
+        "on": "2026-11-23"
+      }
+    },
+    {
+      "id": "beh-bark-loud",
+      "topic": "behaviour",
+      "statement": "Sea lions are known for their loud, clear bark.",
+      "sources": [
+        "noaaseal"
+      ],
+      "quote": "Sea lions can be noisy and are easily recognizable by their loud and distinct “bark.”",
+      "confidence": "high",
+      "collectedBy": "collector-sea-lion",
+      "verified": {
+        "result": "yes",
+        "by": "verifier-2",
+        "on": "2026-11-23"
+      }
+    },
+    {
+      "id": "beh-mother-pup-calls",
+      "topic": "behaviour",
+      "statement": "Each mother and pup have calls that are their own.",
+      "sources": [
+        "noaa"
+      ],
+      "quote": "Females and pups communicate using vocalizations that are unique to the female and pup.",
+      "confidence": "high",
+      "collectedBy": "collector-sea-lion",
+      "verified": {
+        "result": "yes",
+        "by": "verifier-2",
+        "on": "2026-11-23"
+      }
+    },
+    {
+      "id": "life-born-june",
+      "topic": "life-stages",
+      "statement": "Most pups are born in June or July.",
+      "sources": [
+        "nps"
+      ],
+      "quote": "Most pups are born in June or July and weigh 13 to 20 pounds.",
+      "confidence": "high",
+      "collectedBy": "collector-sea-lion",
+      "appliesTo": "newborn",
+      "verified": {
+        "result": "yes",
+        "by": "verifier-2",
+        "on": "2026-11-23"
+      }
+    },
+    {
+      "id": "life-one-pup",
+      "topic": "life-stages",
+      "statement": "A mother gives birth to one pup.",
+      "sources": [
+        "smithsonian"
+      ],
+      "quote": "Females give birth to a single pup",
+      "confidence": "high",
+      "collectedBy": "collector-sea-lion",
+      "verified": {
+        "result": "yes",
+        "by": "verifier-2",
+        "on": "2026-11-23",
+        "note": "Statement repaired by second reader; was: \"A mother has one pup at a time.\""
+      }
+    },
+    {
+      "id": "life-mother-trips",
+      "topic": "life-stages",
+      "statement": "A mother nurses her pup 1 to 2 days, then feeds at sea 2 to 5 days and comes back.",
+      "sources": [
+        "noaa"
+      ],
+      "quote": "A mother sea lion nurses her pup for 1 to 2 days, then leaves the pup ashore while she travels to feeding areas at sea. She spends 2 to 5 days feeding, then returns to nurse.",
+      "confidence": "high",
+      "collectedBy": "collector-sea-lion",
+      "appliesTo": "adult female",
+      "verified": {
+        "result": "yes",
+        "by": "verifier-2",
+        "on": "2026-11-23"
+      }
+    },
+    {
+      "id": "life-nurse-year",
+      "topic": "life-stages",
+      "statement": "Pups stay with their mother for about a year, learning to swim and find food.",
+      "sources": [
+        "tmmc"
+      ],
+      "quote": "stay with their mother for about a year as they nurse and learn important survival skills, like how to swim and find food on their own.",
+      "confidence": "high",
+      "collectedBy": "collector-sea-lion",
+      "appliesTo": "pup",
+      "verified": {
+        "result": "yes",
+        "by": "verifier-2",
+        "on": "2026-11-23"
+      }
+    },
+    {
+      "id": "life-crest-age",
+      "topic": "life-stages",
+      "statement": "From about 4 years old males grow a bony bump on the skull, fully grown by 7.",
+      "sources": [
+        "tmmc"
+      ],
+      "quote": "starting at 4 years old, males develop a bony bump on top of their skull known as a sagittal crest, which is fully developed by 7 years old.",
+      "confidence": "high",
+      "collectedBy": "collector-sea-lion",
+      "appliesTo": "adult male",
+      "verified": {
+        "result": "yes",
+        "by": "verifier-2",
+        "on": "2026-11-23"
+      }
+    },
+    {
+      "id": "life-lifespan",
+      "topic": "life-stages",
+      "statement": "They live 20 to 30 years.",
+      "sources": [
+        "noaa"
+      ],
+      "quote": "20 to 30 years",
+      "confidence": "medium",
+      "collectedBy": "collector-sea-lion",
+      "verified": {
+        "result": "yes",
+        "by": "verifier-2",
+        "on": "2026-11-23"
+      }
+    },
+    {
+      "id": "life-lifespan-nps",
+      "topic": "life-stages",
+      "statement": "In the wild they can live up to 17 years; one in human care lived over 31.",
+      "sources": [
+        "nps"
+      ],
+      "quote": "In the wild this species can live up to 17 years, although in captivity, one California sea lion lived over 31 years.",
+      "confidence": "medium",
+      "collectedBy": "collector-sea-lion",
+      "verified": {
+        "result": "yes",
+        "by": "verifier-2",
+        "on": "2026-11-23"
+      }
+    },
+    {
+      "id": "sex-crest-smithsonian",
+      "topic": "sexes",
+      "statement": "At about 5 years old males grow a crest along the top of the skull, giving a high domed forehead.",
+      "sources": [
+        "smithsonian"
+      ],
+      "quote": "At about 5 years old, males develop a noticeable crest that runs lengthwise along the top of their skull creating a high, domed forehead.",
+      "confidence": "high",
+      "collectedBy": "collector-sea-lion",
+      "appliesTo": "adult male",
+      "verified": {
+        "result": "yes",
+        "by": "verifier-2",
+        "on": "2026-11-23"
+      }
+    },
+    {
+      "id": "sex-crest-nps",
+      "topic": "sexes",
+      "statement": "Grown males have a raised forehead crest that grows to about an inch and a half by ten years old.",
+      "sources": [
+        "nps"
+      ],
+      "quote": "Mature adult males have a raised forehead called the sagittal crest which increases to about an inch and a half at ten years of age.",
+      "confidence": "high",
+      "collectedBy": "collector-sea-lion",
+      "appliesTo": "adult male",
+      "verified": {
+        "result": "yes",
+        "by": "verifier-2",
+        "on": "2026-11-23",
+        "note": "Statement repaired by second reader; was: \"Grown males have a raised forehead crest about an inch and a half high by ten years; females have none.\""
+      }
+    },
+    {
+      "id": "sex-female-head",
+      "topic": "sexes",
+      "statement": "Females have no big crest and a thinner head that slopes gently to the muzzle.",
+      "sources": [
+        "nps"
+      ],
+      "quote": "Females lack a pronounced crest and have a thinner head that slopes more gently to the end of the muzzle.",
+      "confidence": "high",
+      "collectedBy": "collector-sea-lion",
+      "appliesTo": "adult female",
+      "verified": {
+        "result": "yes",
+        "by": "verifier-2",
+        "on": "2026-11-23"
+      }
+    },
+    {
+      "id": "sex-male-larger",
+      "topic": "sexes",
+      "statement": "Adult males are much bigger and sturdier than females.",
+      "sources": [
+        "nps"
+      ],
+      "quote": "Adult males are substantially more robust and larger than females.",
+      "confidence": "high",
+      "collectedBy": "collector-sea-lion",
+      "verified": {
+        "result": "yes",
+        "by": "verifier-2",
+        "on": "2026-11-23"
+      }
+    },
+    {
+      "id": "repro-maturity-noaa",
+      "topic": "reproduction",
+      "statement": "Sea lions are grown up enough to breed at 4 to 5 years old.",
+      "sources": [
+        "noaa"
+      ],
+      "quote": "Sea lions reach sexual maturity at 4 to 5 years old",
+      "confidence": "medium",
+      "collectedBy": "collector-sea-lion",
+      "verified": {
+        "result": "yes",
+        "by": "verifier-2",
+        "on": "2026-11-23"
+      }
+    },
+    {
+      "id": "repro-maturity-tmmc",
+      "topic": "reproduction",
+      "statement": "Females can breed at about 3 years, males at 5.",
+      "sources": [
+        "tmmc"
+      ],
+      "quote": "Female California sea lions reach sexual maturity around 3 years of age, whereas males are sexually mature at 5 years old.",
+      "confidence": "medium",
+      "collectedBy": "collector-sea-lion",
+      "verified": {
+        "result": "yes",
+        "by": "verifier-2",
+        "on": "2026-11-23"
+      }
+    },
+    {
+      "id": "hab-coast",
+      "topic": "habitat",
+      "statement": "They live in coastal waters and on beaches, docks, buoys and jetties.",
+      "sources": [
+        "noaa"
+      ],
+      "quote": "They live in coastal waters and on beaches, docks, buoys, and jetties.",
+      "confidence": "high",
+      "collectedBy": "collector-sea-lion",
+      "verified": {
+        "result": "yes",
+        "by": "verifier-2",
+        "on": "2026-11-23"
+      }
+    },
+    {
+      "id": "hab-shallow",
+      "topic": "habitat",
+      "statement": "They live in the shallow waters of the eastern North Pacific.",
+      "sources": [
+        "noaa"
+      ],
+      "quote": "California sea lions live in the shallow waters of the eastern North Pacific Ocean.",
+      "confidence": "high",
+      "collectedBy": "collector-sea-lion",
+      "verified": {
+        "result": "yes",
+        "by": "verifier-2",
+        "on": "2026-11-23"
+      }
+    },
+    {
+      "id": "hab-beaches",
+      "topic": "habitat",
+      "statement": "They like sandy beaches or rocky coves to breed and rest.",
+      "sources": [
+        "noaa"
+      ],
+      "quote": "They prefer sandy beaches or rocky coves for breeding and haul-out sites.",
+      "confidence": "high",
+      "collectedBy": "collector-sea-lion",
+      "verified": {
+        "result": "yes",
+        "by": "verifier-2",
+        "on": "2026-11-23"
+      }
+    },
+    {
+      "id": "hab-depth-iucn",
+      "topic": "habitat",
+      "statement": "IUCN gives a lower depth limit of 400 metres.",
+      "sources": [
+        "iucn"
+      ],
+      "quote": "Lower depth limit\n\n400 metres",
+      "confidence": "medium",
+      "collectedBy": "collector-sea-lion",
+      "note": "Table cells on the IUCN page.",
+      "verified": {
+        "result": "yes",
+        "by": "verifier-2",
+        "on": "2026-11-23",
+        "note": "The page also shows Population trend: Increasing, and says this is not the latest assessment for this species."
+      }
+    },
+    {
+      "id": "range-noaa",
+      "topic": "range",
+      "statement": "They range from southeast Alaska to central Mexico.",
+      "sources": [
+        "noaa"
+      ],
+      "quote": "California sea lions range from southeast Alaska to the Pacific coast of central Mexico.",
+      "confidence": "high",
+      "collectedBy": "collector-sea-lion",
+      "verified": {
+        "result": "yes",
+        "by": "verifier-2",
+        "on": "2026-11-23"
+      }
+    },
+    {
+      "id": "range-breeding",
+      "topic": "range",
+      "statement": "They mainly breed from the Channel Islands in southern California to central Mexico.",
+      "sources": [
+        "noaa"
+      ],
+      "quote": "Their primary breeding range is from the Channel Islands in southern California to central Mexico.",
+      "confidence": "high",
+      "collectedBy": "collector-sea-lion",
+      "verified": {
+        "result": "yes",
+        "by": "verifier-2",
+        "on": "2026-11-23"
+      }
+    },
+    {
+      "id": "range-san-miguel",
+      "topic": "range",
+      "statement": "San Miguel Island has one of the biggest sea lion breeding beaches in the world.",
+      "sources": [
+        "nps"
+      ],
+      "quote": "San Miguel Island is home to one of the largest rookeries in the world for California sea lions with a breeding population of approximately 80,000 animals.",
+      "confidence": "high",
+      "collectedBy": "collector-sea-lion",
+      "verified": {
+        "result": "yes",
+        "by": "verifier-2",
+        "on": "2026-11-23"
+      }
+    },
+    {
+      "id": "status-iucn",
+      "topic": "status",
+      "statement": "The IUCN lists the California sea lion as Least Concern (2014 assessment).",
+      "sources": [
+        "iucn"
+      ],
+      "quote": "Zalophus californianus is listed as Least Concern.",
+      "confidence": "high",
+      "collectedBy": "collector-sea-lion",
+      "value": {
+        "iucn": "Least Concern",
+        "assessed": 2014
+      },
+      "verified": {
+        "result": "yes",
+        "by": "verifier-2",
+        "on": "2026-11-23",
+        "note": "The page also shows Population trend: Increasing, and says this is not the latest assessment for this species. Statement repaired by second reader; was: \"The IUCN lists the California sea lion as Least Concern with a rising population (2014 assessment).\""
+      }
+    },
+    {
+      "id": "status-increasing",
+      "topic": "status",
+      "statement": "Their numbers have grown since at least 1975, after they were protected.",
+      "sources": [
+        "noaa"
+      ],
+      "quote": "Their population has been increasing since at least 1975, after protections were put in place under the MMPA.",
+      "confidence": "high",
+      "collectedBy": "collector-sea-lion",
+      "verified": {
+        "result": "yes",
+        "by": "verifier-2",
+        "on": "2026-11-23"
+      }
+    },
+    {
+      "id": "status-predators",
+      "topic": "status",
+      "statement": "Orcas and great white sharks eat sea lions.",
+      "sources": [
+        "tmmc"
+      ],
+      "quote": "sea lions are preyed upon by orca whales and great white sharks",
+      "confidence": "high",
+      "collectedBy": "collector-sea-lion",
+      "verified": {
+        "result": "yes",
+        "by": "verifier-2",
+        "on": "2026-11-23"
+      }
+    },
+    {
+      "id": "people-pup-leave",
+      "topic": "people",
+      "statement": "If you see a pup on the shore, leave it be.",
+      "sources": [
+        "noaa"
+      ],
+      "quote": "If you see a pup on the shore, please leave it be.",
+      "confidence": "high",
+      "collectedBy": "collector-sea-lion",
+      "verified": {
+        "result": "yes",
+        "by": "verifier-2",
+        "on": "2026-11-23",
+        "note": "Statement repaired by second reader; was: \"If you see a pup alone on the shore, leave it be; its mother is likely feeding at sea.\""
+      }
+    },
+    {
+      "id": "sound-recording",
+      "topic": "behaviour",
+      "statement": "The recording comes from a group of about 100 sea lions on a sandy beach at Channel Islands Harbor, Ventura County, California, in January 2023.",
+      "sources": [
+        "inat"
+      ],
+      "quote": "A colony of Sea Lions reaching approximately 100+ or more were gathering together on this sandy area of Kiddie Beach @ the S.E. end of Channel Islands Harbor.",
+      "confidence": "high",
+      "collectedBy": "collector-sea-lion",
+      "note": "Read through api.inaturalist.org/v1/observations/145868221 (the description field); the observation page itself is not reachable by curl. Observed 2023-01-03, research grade.",
+      "verified": {
+        "result": "yes",
+        "by": "verifier-2",
+        "on": "2026-11-23",
+        "note": "Read through api.inaturalist.org/v1/observations/145868221; www.inaturalist.org does not open by curl."
+      }
+    },
+    {
+      "id": "sound-recording-mix",
+      "topic": "behaviour",
+      "statement": "Males, females, pups and young sea lions were all in that group.",
+      "sources": [
+        "inat"
+      ],
+      "quote": "Both male & female, pups, juveniles & adults sleeping, resting, gregariously active & playing.",
+      "confidence": "high",
+      "collectedBy": "collector-sea-lion",
+      "note": "From the observation description via the iNaturalist API.",
+      "verified": {
+        "result": "yes",
+        "by": "verifier-2",
+        "on": "2026-11-23",
+        "note": "Read through api.inaturalist.org/v1/observations/145868221; www.inaturalist.org does not open by curl."
+      }
+    }
+  ],
+  "gaps": [
+    {
+      "topic": "senses",
+      "note": "No source opened here explains how the bark is made (larynx, air flow). The text says only that they bark."
+    },
+    {
+      "topic": "body",
+      "note": "No source gives exact proportions (flipper length to body length, head length). The model proportions are an estimate from the sources' words: long front flippers, torpedo body, dog-like head."
+    },
+    {
+      "topic": "behaviour",
+      "note": "No source describes how high or how far a porpoising leap goes. The animation height is our own choice."
+    },
+    {
+      "topic": "senses",
+      "note": "Animal Diversity Web says they echolocate; no agency or aquarium page opened here says so. Left out of the text."
+    }
+  ],
+  "conflicts": [
+    {
+      "facts": [
+        "size-length",
+        "size-tmmc",
+        "size-nps"
+      ],
+      "note": "Male length 7.5 ft (NOAA), 7 ft (TMMC), almost 8 ft (NPS); male weight 700 lb (NOAA), 600 to 850 lb (TMMC), more than 600 lb (NPS). Text uses the NOAA quick facts and says \"about\"."
+    },
+    {
+      "facts": [
+        "body-hindflipper-claws",
+        "body-hindflipper-claws-noaa"
+      ],
+      "note": "Three claws (Smithsonian) or three to five (NOAA). Text avoids a number."
+    },
+    {
+      "facts": [
+        "beh-dive-deepest",
+        "hab-depth-iucn"
+      ],
+      "note": "Deepest recorded dive 274 m / 900 ft (NPS, SeaWorld) but IUCN gives 400 m as the lower depth limit. animal.json max uses 274."
+    },
+    {
+      "facts": [
+        "beh-speed-smithsonian",
+        "beh-speed-tmmc"
+      ],
+      "note": "Top speed 25 to 30 mph (Smithsonian) or 25 mph (TMMC); SeaWorld says probably 21.6 km/h (13.4 mph). Text does not give a speed."
+    },
+    {
+      "facts": [
+        "life-lifespan",
+        "life-lifespan-nps"
+      ],
+      "note": "Lifespan 20 to 30 years (NOAA) vs up to 17 in the wild (NPS). Text does not give a lifespan."
+    },
+    {
+      "facts": [
+        "repro-maturity-noaa",
+        "repro-maturity-tmmc",
+        "life-crest-age",
+        "sex-crest-smithsonian"
+      ],
+      "note": "Female maturity 3 (TMMC) or 4 to 5 years (NOAA); crest starts at 4 (TMMC) or about 5 (Smithsonian). Text says \"as they grow up\"."
+    },
+    {
+      "facts": [
+        "size-pup-weight",
+        "size-pup-noaa",
+        "size-pup-length"
+      ],
+      "note": "Pup weight 13 to 20 lb (TMMC, NPS), about 16 lb (NOAA), about 18 lb (Smithsonian). All agree in range."
+    },
+    {
+      "facts": [
+        "colour-pup-dark",
+        "colour-pup-molt"
+      ],
+      "note": "NPS says the dark birth coat is shed by the end of the first month; NOAA says pups molt their dark brown coats at 4 to 5 months. Not in the text."
+    }
+  ]
+}
