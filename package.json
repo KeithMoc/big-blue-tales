@@ -1,0 +1,14 @@
+{
+  "name": "anchovy-story",
+  "version": "0.1.0",
+  "private": true,
+  "description": "A school of anchovies: one 3D sea story for ages 5 to 7. Plain ES modules, three.js r180 vendored, no bundler.",
+  "license": "SEE LICENSE IN NOTICE.md",
+  "engines": { "node": ">=22" },
+  "scripts": {
+    "serve": "python3 -m http.server 8765",
+    "smoke": "node tools/smoke.cjs http://localhost:8765/",
+    "three": "node tools/three-rules.mjs"
+  },
+  "devDependencies": { "playwright": "1.63.0" }
+}

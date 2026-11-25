@@ -1,0 +1,34 @@
+node_modules/
+dist/
+shots/
+check-report.json
+.ci-local/
+.DS_Store
+.narration-cache/
+.adopt.lock/
+
+# secrets and private files: never commit these (tools/secret-scan.mjs also refuses them by name)
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+*.jks
+*.keystore
+id_rsa*
+id_ed25519*
+.npmrc
+.netrc
+credentials.json
+service-account*.json
+secrets.json
+secrets.y*ml
+*.tfvars
+
+# editors, tools and agents
+.vscode/
+.idea/
+.claude/
+*.log

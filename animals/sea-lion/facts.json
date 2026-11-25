@@ -1,0 +1,906 @@
+{
+  "schema": 1,
+  "pack": "sea-lion",
+  "reviewedBy": null,
+  "reviewedOn": null,
+  "texts": {
+    "overview.title": {
+      "textHash": "2bbe21a54e18",
+      "split": true,
+      "note": "A title. Checked in the texts below it."
+    },
+    "overview.young": {
+      "textHash": "59f36fb0c793",
+      "split": true
+    },
+    "overview.older": {
+      "textHash": "40d7072be1b8",
+      "split": true
+    },
+    "hotspots.ears.title": {
+      "textHash": "5b9ef5230836",
+      "split": true,
+      "note": "A title. Checked in the texts below it."
+    },
+    "hotspots.ears.young": {
+      "textHash": "ed0270a30b0c",
+      "split": true
+    },
+    "hotspots.ears.older": {
+      "textHash": "4f7cbfced56b",
+      "split": true
+    },
+    "hotspots.crest.title": {
+      "textHash": "3e690ea2ac43",
+      "split": true,
+      "note": "A title. Checked in the texts below it."
+    },
+    "hotspots.crest.young": {
+      "textHash": "332b561b8faf",
+      "split": true
+    },
+    "hotspots.crest.older": {
+      "textHash": "49e90906c9be",
+      "split": true
+    },
+    "hotspots.body.title": {
+      "textHash": "7162ca76ef16",
+      "split": true,
+      "note": "A title. Checked in the texts below it."
+    },
+    "hotspots.body.young": {
+      "textHash": "5029f3d68789",
+      "split": true
+    },
+    "hotspots.body.older": {
+      "textHash": "1c73d0ca7b04",
+      "split": true
+    },
+    "hotspots.foreflippers.title": {
+      "textHash": "63096e18619c",
+      "split": true,
+      "note": "A title. Checked in the texts below it."
+    },
+    "hotspots.foreflippers.young": {
+      "textHash": "2d21ab20b7d3",
+      "split": true
+    },
+    "hotspots.foreflippers.older": {
+      "textHash": "5ce96ac36212",
+      "split": true
+    },
+    "hotspots.hindflippers.title": {
+      "textHash": "e7f107bccfbe",
+      "split": true,
+      "note": "A title. Checked in the texts below it."
+    },
+    "hotspots.hindflippers.young": {
+      "textHash": "be338530d2e7",
+      "split": true
+    },
+    "hotspots.hindflippers.older": {
+      "textHash": "7f9aad355c71",
+      "split": true
+    },
+    "size.title": {
+      "textHash": "2a2efdef0f3c",
+      "split": true,
+      "note": "A title. Checked in the texts below it."
+    },
+    "size.young": {
+      "textHash": "eecf29b2be97",
+      "split": true
+    },
+    "size.older": {
+      "textHash": "1137b722a401",
+      "split": true
+    },
+    "captions.porpoise.young": {
+      "textHash": "90a3431f14b6",
+      "split": true
+    },
+    "captions.porpoise.older": {
+      "textHash": "b615e6ae74c9",
+      "split": true
+    },
+    "captions.lightsOff.young": {
+      "textHash": "199d0265d95f",
+      "split": true
+    },
+    "captions.lightsOff.older": {
+      "textHash": "69d05f1f7591",
+      "split": true
+    },
+    "sound.young": {
+      "textHash": "6904872c7e40",
+      "split": true
+    },
+    "sound.older": {
+      "textHash": "2fcd39b90a19",
+      "split": true
+    }
+  },
+  "claims": [
+    {
+      "id": "ov-y-coast",
+      "where": "overview.young",
+      "claim": "Sea lions live along the west coast of North America.",
+      "sources": [
+        "noaa"
+      ],
+      "quote": "California sea lions are “eared seals” native to the West Coast of North America.",
+      "status": "supported",
+      "checkedBy": "agent",
+      "checkedOn": "2026-11-23"
+    },
+    {
+      "id": "ov-y-beaches",
+      "where": "overview.young",
+      "claim": "They swim in the sea and rest on beaches and docks.",
+      "sources": [
+        "noaa"
+      ],
+      "quote": "They live in coastal waters and on beaches, docks, buoys, and jetties.",
+      "status": "supported",
+      "checkedBy": "agent",
+      "checkedOn": "2026-11-23"
+    },
+    {
+      "id": "ov-y-bark",
+      "where": "overview.young",
+      "claim": "Grown males bark like dogs.",
+      "sources": [
+        "noaa"
+      ],
+      "quote": "California sea lion males bark like dogs to communicate with other males and females.",
+      "status": "supported",
+      "checkedBy": "agent",
+      "checkedOn": "2026-11-23"
+    },
+    {
+      "id": "ov-o-eared",
+      "where": "overview.older",
+      "claim": "California sea lions are eared seals from the West Coast of North America.",
+      "sources": [
+        "noaa"
+      ],
+      "quote": "California sea lions are “eared seals” native to the West Coast of North America.",
+      "status": "supported",
+      "checkedBy": "agent",
+      "checkedOn": "2026-11-23"
+    },
+    {
+      "id": "ov-o-range",
+      "where": "overview.older",
+      "claim": "They range from southeast Alaska to central Mexico.",
+      "sources": [
+        "noaa"
+      ],
+      "quote": "California sea lions range from southeast Alaska to the Pacific coast of central Mexico.",
+      "status": "supported",
+      "checkedBy": "agent",
+      "checkedOn": "2026-11-23"
+    },
+    {
+      "id": "ov-o-shallow",
+      "where": "overview.older",
+      "claim": "They live in shallow coastal water.",
+      "sources": [
+        "noaa"
+      ],
+      "quote": "California sea lions live in the shallow waters of the eastern North Pacific Ocean.",
+      "status": "supported",
+      "checkedBy": "agent",
+      "checkedOn": "2026-11-23"
+    },
+    {
+      "id": "ov-o-haul",
+      "where": "overview.older",
+      "claim": "They rest on beaches, docks, buoys and jetties.",
+      "sources": [
+        "noaa"
+      ],
+      "quote": "They live in coastal waters and on beaches, docks, buoys, and jetties.",
+      "status": "supported",
+      "checkedBy": "agent",
+      "checkedOn": "2026-11-23"
+    },
+    {
+      "id": "ov-o-playful",
+      "where": "overview.older",
+      "claim": "They are playful, clever and very noisy, and sound like barking dogs.",
+      "sources": [
+        "noaa"
+      ],
+      "quote": "California sea lions are playful, intelligent, and very vocal (sounding like barking dogs).",
+      "status": "supported",
+      "checkedBy": "agent",
+      "checkedOn": "2026-11-23"
+    },
+    {
+      "id": "ov-o-male-dark",
+      "where": "overview.older",
+      "claim": "Grown males are mostly dark brown.",
+      "sources": [
+        "noaa"
+      ],
+      "quote": "Adult males are generally larger than females and are mostly dark brown to black in color.",
+      "status": "supported",
+      "checkedBy": "agent",
+      "checkedOn": "2026-11-23"
+    },
+    {
+      "id": "ov-o-male-crest",
+      "where": "overview.older",
+      "claim": "Grown males have a raised bump on top of the head.",
+      "sources": [
+        "nps"
+      ],
+      "quote": "Mature adult males have a raised forehead called the sagittal crest which increases to about an inch and a half at ten years of age.",
+      "status": "supported",
+      "checkedBy": "agent",
+      "checkedOn": "2026-11-23"
+    },
+    {
+      "id": "ear-y-flaps",
+      "where": "hotspots.ears.young",
+      "claim": "Sea lions have small ear flaps you can see.",
+      "sources": [
+        "nps"
+      ],
+      "quote": "The species has visible ear pinnae (ear flaps) on either side of its head",
+      "status": "supported",
+      "checkedBy": "agent",
+      "checkedOn": "2026-11-23"
+    },
+    {
+      "id": "ear-y-seal-holes",
+      "where": "hotspots.ears.young",
+      "claim": "True seals have ear holes but no ear flaps.",
+      "sources": [
+        "noaaseal"
+      ],
+      "quote": "belong to a group of pinnipeds that have ear holes but lack an external ear flap",
+      "status": "supported",
+      "checkedBy": "agent",
+      "checkedOn": "2026-11-23"
+    },
+    {
+      "id": "ear-y-tell",
+      "where": "hotspots.ears.young",
+      "claim": "Ear flaps are how you tell a sea lion from a true seal.",
+      "sources": [
+        "smithsonian"
+      ],
+      "quote": "Their visible ear flaps distinguish them from true seals.",
+      "status": "supported",
+      "checkedBy": "agent",
+      "checkedOn": "2026-11-23"
+    },
+    {
+      "id": "ear-o-eared",
+      "where": "hotspots.ears.older",
+      "claim": "Sea lions are called eared seals because of their external ear flaps.",
+      "sources": [
+        "noaaseal"
+      ],
+      "quote": "belong to a group of pinnipeds that have external ear flaps—giving them the nickname “eared seals.”",
+      "status": "supported",
+      "checkedBy": "agent",
+      "checkedOn": "2026-11-23"
+    },
+    {
+      "id": "ear-o-seal-holes",
+      "where": "hotspots.ears.older",
+      "claim": "True seals have ear holes but no outer flap.",
+      "sources": [
+        "noaaseal"
+      ],
+      "quote": "belong to a group of pinnipeds that have ear holes but lack an external ear flap",
+      "status": "supported",
+      "checkedBy": "agent",
+      "checkedOn": "2026-11-23"
+    },
+    {
+      "id": "ear-o-hear",
+      "where": "hotspots.ears.older",
+      "claim": "The flaps are small, but sea lions hear well above and below water.",
+      "sources": [
+        "smithsonian"
+      ],
+      "quote": "Though the sea lion's ear flaps are small, it can hear quite well both above and below the surface.",
+      "status": "supported",
+      "checkedBy": "agent",
+      "checkedOn": "2026-11-23"
+    },
+    {
+      "id": "ear-o-close",
+      "where": "hotspots.ears.older",
+      "claim": "Their ears close under water.",
+      "sources": [
+        "smithsonian"
+      ],
+      "quote": "Its ears are also valvular and close underwater.",
+      "status": "supported",
+      "checkedBy": "agent",
+      "checkedOn": "2026-11-23"
+    },
+    {
+      "id": "crest-y-bump",
+      "where": "hotspots.crest.young",
+      "claim": "Grown males have a high bump on top of the head, called a crest.",
+      "sources": [
+        "smithsonian"
+      ],
+      "quote": "At about 5 years old, males develop a noticeable crest that runs lengthwise along the top of their skull creating a high, domed forehead.",
+      "status": "supported",
+      "checkedBy": "agent",
+      "checkedOn": "2026-11-23"
+    },
+    {
+      "id": "crest-y-light",
+      "where": "hotspots.crest.young",
+      "claim": "The hair on the crest often turns light.",
+      "sources": [
+        "noaa"
+      ],
+      "quote": "Subadult and adult males have pronounced forehead crests crowned with tufts of blonde or lighter hair.",
+      "status": "supported",
+      "checkedBy": "agent",
+      "checkedOn": "2026-11-23"
+    },
+    {
+      "id": "crest-y-female",
+      "where": "hotspots.crest.young",
+      "claim": "Females have no big crest.",
+      "sources": [
+        "nps"
+      ],
+      "quote": "Females lack a pronounced crest and have a thinner head that slopes more gently to the end of the muzzle.",
+      "status": "supported",
+      "checkedBy": "agent",
+      "checkedOn": "2026-11-23"
+    },
+    {
+      "id": "crest-o-grow",
+      "where": "hotspots.crest.older",
+      "claim": "As a male grows up, a crest grows along the top of his skull, giving a high, domed forehead.",
+      "sources": [
+        "smithsonian"
+      ],
+      "quote": "At about 5 years old, males develop a noticeable crest that runs lengthwise along the top of their skull creating a high, domed forehead.",
+      "status": "supported",
+      "checkedBy": "agent",
+      "checkedOn": "2026-11-23"
+    },
+    {
+      "id": "crest-o-bony",
+      "where": "hotspots.crest.older",
+      "claim": "The crest is a bony bump on top of the skull.",
+      "sources": [
+        "tmmc"
+      ],
+      "quote": "starting at 4 years old, males develop a bony bump on top of their skull known as a sagittal crest, which is fully developed by 7 years old.",
+      "status": "supported",
+      "checkedBy": "agent",
+      "checkedOn": "2026-11-23"
+    },
+    {
+      "id": "crest-o-lighter",
+      "where": "hotspots.crest.older",
+      "claim": "On most males the crest gets lighter with age.",
+      "sources": [
+        "nps"
+      ],
+      "quote": "On most males, especially darker individuals, the crest and a corresponding area on the muzzle and around the eyes lighten with age.",
+      "status": "supported",
+      "checkedBy": "agent",
+      "checkedOn": "2026-11-23"
+    },
+    {
+      "id": "crest-o-female",
+      "where": "hotspots.crest.older",
+      "claim": "Females have a thinner head that slopes gently down to the muzzle.",
+      "sources": [
+        "nps"
+      ],
+      "quote": "Females lack a pronounced crest and have a thinner head that slopes more gently to the end of the muzzle.",
+      "status": "supported",
+      "checkedBy": "agent",
+      "checkedOn": "2026-11-23"
+    },
+    {
+      "id": "crest-o-bigger",
+      "where": "hotspots.crest.older",
+      "claim": "Males are much bigger than females.",
+      "sources": [
+        "nps"
+      ],
+      "quote": "Adult males are substantially more robust and larger than females.",
+      "status": "supported",
+      "checkedBy": "agent",
+      "checkedOn": "2026-11-23"
+    },
+    {
+      "id": "body-y-torpedo",
+      "where": "hotspots.body.young",
+      "claim": "The body is smooth and shaped like a torpedo.",
+      "sources": [
+        "smithsonian"
+      ],
+      "quote": "They have strong, bulky shoulders and their streamlined, torpedo-shaped bodies taper to the tail.",
+      "status": "supported",
+      "checkedBy": "agent",
+      "checkedOn": "2026-11-23"
+    },
+    {
+      "id": "body-y-taper",
+      "where": "hotspots.body.young",
+      "claim": "It is big at the shoulders and thin at the tail.",
+      "sources": [
+        "smithsonian"
+      ],
+      "quote": "They have strong, bulky shoulders and their streamlined, torpedo-shaped bodies taper to the tail.",
+      "status": "supported",
+      "checkedBy": "agent",
+      "checkedOn": "2026-11-23"
+    },
+    {
+      "id": "body-y-blubber",
+      "where": "hotspots.body.young",
+      "claim": "A layer of blubber keeps it warm.",
+      "sources": [
+        "seaworld"
+      ],
+      "quote": "The blubber layer insulates the California sea lion and streamlines the body.",
+      "status": "supported",
+      "checkedBy": "agent",
+      "checkedOn": "2026-11-23"
+    },
+    {
+      "id": "body-o-torpedo",
+      "where": "hotspots.body.older",
+      "claim": "A sea lion has a streamlined, torpedo-shaped body with strong, bulky shoulders that tapers to the tail.",
+      "sources": [
+        "smithsonian"
+      ],
+      "quote": "They have strong, bulky shoulders and their streamlined, torpedo-shaped bodies taper to the tail.",
+      "status": "supported",
+      "checkedBy": "agent",
+      "checkedOn": "2026-11-23"
+    },
+    {
+      "id": "body-o-blubber",
+      "where": "hotspots.body.older",
+      "claim": "A thick layer of blubber lies under the skin.",
+      "sources": [
+        "seaworld"
+      ],
+      "quote": "California sea lions deposit most of their body fat into a thick layer of blubber just under the skin.",
+      "status": "supported",
+      "checkedBy": "agent",
+      "checkedOn": "2026-11-23"
+    },
+    {
+      "id": "body-o-warm",
+      "where": "hotspots.body.older",
+      "claim": "Blubber keeps the body warm and streamlined.",
+      "sources": [
+        "seaworld"
+      ],
+      "quote": "The blubber layer insulates the California sea lion and streamlines the body.",
+      "status": "supported",
+      "checkedBy": "agent",
+      "checkedOn": "2026-11-23"
+    },
+    {
+      "id": "body-o-male",
+      "where": "hotspots.body.older",
+      "claim": "Grown males are mostly dark brown.",
+      "sources": [
+        "noaa"
+      ],
+      "quote": "Adult males are generally larger than females and are mostly dark brown to black in color.",
+      "status": "supported",
+      "checkedBy": "agent",
+      "checkedOn": "2026-11-23"
+    },
+    {
+      "id": "body-o-female",
+      "where": "hotspots.body.older",
+      "claim": "Females and young sea lions are blonde to tan.",
+      "sources": [
+        "noaa"
+      ],
+      "quote": "Adult females and juveniles are slender-bodied and are blonde to tan in color.",
+      "status": "supported",
+      "checkedBy": "agent",
+      "checkedOn": "2026-11-23"
+    },
+    {
+      "id": "ff-y-swim",
+      "where": "hotspots.foreflippers.young",
+      "claim": "Sea lions swim with their long front flippers.",
+      "sources": [
+        "smithsonian"
+      ],
+      "quote": "Their front flippers are especially long and are used for propelling them through the water.",
+      "status": "supported",
+      "checkedBy": "agent",
+      "checkedOn": "2026-11-23"
+    },
+    {
+      "id": "ff-y-wings",
+      "where": "hotspots.foreflippers.young",
+      "claim": "They beat them up and down like wings.",
+      "sources": [
+        "seaworld"
+      ],
+      "quote": "Sea lions swim with up-and-down, wing-like strokes of their foreflippers.",
+      "status": "supported",
+      "checkedBy": "agent",
+      "checkedOn": "2026-11-23"
+    },
+    {
+      "id": "ff-y-seals",
+      "where": "hotspots.foreflippers.young",
+      "claim": "True seals swim with their back flippers instead.",
+      "sources": [
+        "smithsonian"
+      ],
+      "quote": "They also use their fore flippers to propel themselves through the water, whereas true seals rely primarily on their back flippers to swim.",
+      "status": "supported",
+      "checkedBy": "agent",
+      "checkedOn": "2026-11-23"
+    },
+    {
+      "id": "ff-o-long",
+      "where": "hotspots.foreflippers.older",
+      "claim": "The front flippers are long and shaped like wings.",
+      "sources": [
+        "nps"
+      ],
+      "quote": "A California sea lions fore flippers are large and winglike, with the skeletal structure of a land animal.",
+      "status": "supported",
+      "checkedBy": "agent",
+      "checkedOn": "2026-11-23"
+    },
+    {
+      "id": "ff-o-dark",
+      "where": "hotspots.foreflippers.older",
+      "claim": "The flippers are dark.",
+      "sources": [
+        "nps"
+      ],
+      "quote": "All ages and sexes have contrasting black flippers, naked except for a short stubble of dark fur partially covering the upper surface.",
+      "status": "supported",
+      "checkedBy": "agent",
+      "checkedOn": "2026-11-23"
+    },
+    {
+      "id": "ff-o-beat",
+      "where": "hotspots.foreflippers.older",
+      "claim": "Sea lions swim with up and down strokes of their front flippers.",
+      "sources": [
+        "seaworld"
+      ],
+      "quote": "Sea lions swim with up-and-down, wing-like strokes of their foreflippers.",
+      "status": "supported",
+      "checkedBy": "agent",
+      "checkedOn": "2026-11-23"
+    },
+    {
+      "id": "ff-o-steer",
+      "where": "hotspots.foreflippers.older",
+      "claim": "They paddle with the front flippers and steer with the back flippers.",
+      "sources": [
+        "noaaseal"
+      ],
+      "quote": "In the water, they propel themselves by paddling their front flippers and use their rear flippers to help steer, like a boat’s rudder.",
+      "status": "supported",
+      "checkedBy": "agent",
+      "checkedOn": "2026-11-23"
+    },
+    {
+      "id": "ff-o-seals",
+      "where": "hotspots.foreflippers.older",
+      "claim": "True seals swim by moving their back flippers back and forth, like a fish uses its tail.",
+      "sources": [
+        "noaaseal"
+      ],
+      "quote": "In the water, seals swim easily, moving their rear flippers back and forth, similar to how a fish uses its caudal fin (tail) to propel itself through the water.",
+      "status": "supported",
+      "checkedBy": "agent",
+      "checkedOn": "2026-11-23"
+    },
+    {
+      "id": "hf-y-rudder",
+      "where": "hotspots.hindflippers.young",
+      "claim": "In water the back flippers help steer, like a boat's rudder.",
+      "sources": [
+        "noaaseal"
+      ],
+      "quote": "In the water, they propel themselves by paddling their front flippers and use their rear flippers to help steer, like a boat’s rudder.",
+      "status": "supported",
+      "checkedBy": "agent",
+      "checkedOn": "2026-11-23"
+    },
+    {
+      "id": "hf-y-walk",
+      "where": "hotspots.hindflippers.young",
+      "claim": "On land he turns them under his body and walks on all four flippers.",
+      "sources": [
+        "smithsonian"
+      ],
+      "quote": "On land, these sea lions move by rotating their rear flippers under their bodies and supporting their body weight on all four flippers.",
+      "status": "supported",
+      "checkedBy": "agent",
+      "checkedOn": "2026-11-23"
+    },
+    {
+      "id": "hf-o-rudder",
+      "where": "hotspots.hindflippers.older",
+      "claim": "In the sea the back flippers help steer, like a boat's rudder.",
+      "sources": [
+        "noaaseal"
+      ],
+      "quote": "In the water, they propel themselves by paddling their front flippers and use their rear flippers to help steer, like a boat’s rudder.",
+      "status": "supported",
+      "checkedBy": "agent",
+      "checkedOn": "2026-11-23"
+    },
+    {
+      "id": "hf-o-walk",
+      "where": "hotspots.hindflippers.older",
+      "claim": "On land a sea lion turns its back flippers under its body and walks on all four flippers.",
+      "sources": [
+        "smithsonian"
+      ],
+      "quote": "On land, these sea lions move by rotating their rear flippers under their bodies and supporting their body weight on all four flippers.",
+      "status": "supported",
+      "checkedBy": "agent",
+      "checkedOn": "2026-11-23"
+    },
+    {
+      "id": "hf-o-seals",
+      "where": "hotspots.hindflippers.older",
+      "claim": "True seals move on land on their bellies, like a caterpillar.",
+      "sources": [
+        "noaaseal"
+      ],
+      "quote": "On land, seals use their bellies to move around in a caterpillar-like motion.",
+      "status": "supported",
+      "checkedBy": "agent",
+      "checkedOn": "2026-11-23"
+    },
+    {
+      "id": "hf-o-claws",
+      "where": "hotspots.hindflippers.older",
+      "claim": "The back flippers have claws used for grooming.",
+      "sources": [
+        "smithsonian"
+      ],
+      "quote": "Their back flippers are used as rudders and have three claws for grooming.",
+      "status": "supported",
+      "checkedBy": "agent",
+      "checkedOn": "2026-11-23"
+    },
+    {
+      "id": "size-y-male",
+      "where": "size.young",
+      "claim": "A grown male is about 2.3 metres (7.5 feet) long.",
+      "sources": [
+        "noaa"
+      ],
+      "quote": "6 feet (females) to 7.5 feet (males)",
+      "status": "supported",
+      "checkedBy": "agent",
+      "checkedOn": "2026-11-23"
+    },
+    {
+      "id": "size-y-female",
+      "where": "size.young",
+      "claim": "Females are smaller, about 1.8 metres (6 feet).",
+      "sources": [
+        "noaa"
+      ],
+      "quote": "6 feet (females) to 7.5 feet (males)",
+      "status": "supported",
+      "checkedBy": "agent",
+      "checkedOn": "2026-11-23"
+    },
+    {
+      "id": "size-o-male",
+      "where": "size.older",
+      "claim": "Males grow to about 7.5 feet and 700 pounds.",
+      "sources": [
+        "noaa"
+      ],
+      "quote": "240 pounds (females) to 700 pounds (males)",
+      "status": "supported",
+      "checkedBy": "agent",
+      "checkedOn": "2026-11-23",
+      "note": "NOAA quick facts: length \"6 feet (females) to 7.5 feet (males)\", weight \"240 pounds (females) to 700 pounds (males)\". Metric numbers are our conversion."
+    },
+    {
+      "id": "size-o-female",
+      "where": "size.older",
+      "claim": "Females grow to about 6 feet and 240 pounds.",
+      "sources": [
+        "noaa"
+      ],
+      "quote": "6 feet (females) to 7.5 feet (males)",
+      "status": "supported",
+      "checkedBy": "agent",
+      "checkedOn": "2026-11-23"
+    },
+    {
+      "id": "size-o-other",
+      "where": "size.older",
+      "claim": "Other sources give a little more or less.",
+      "sources": [
+        "tmmc"
+      ],
+      "quote": "male sea lions are much larger—reaching up to 600 to 850 pounds and 7 feet in length. Females grow to 200 to 250 pounds and up to 6 feet in length.",
+      "status": "supported",
+      "checkedBy": "agent",
+      "checkedOn": "2026-11-23"
+    },
+    {
+      "id": "size-o-pup-len",
+      "where": "size.older",
+      "claim": "A newborn pup is about 75 centimetres long.",
+      "sources": [
+        "smithsonian"
+      ],
+      "quote": "Pups are about 2.5 feet (75 centimeters) long, nose to tail tip, and weigh about 18 pounds (8 kilograms) at birth.",
+      "status": "supported",
+      "checkedBy": "agent",
+      "checkedOn": "2026-11-23"
+    },
+    {
+      "id": "size-o-pup-wt",
+      "where": "size.older",
+      "claim": "A newborn pup weighs 13 to 20 pounds.",
+      "sources": [
+        "tmmc"
+      ],
+      "quote": "Newborn California sea lions weigh 13 to 20 pounds",
+      "status": "supported",
+      "checkedBy": "agent",
+      "checkedOn": "2026-11-23"
+    },
+    {
+      "id": "cap-p-y",
+      "where": "captions.porpoise.young",
+      "claim": "Sea lions jump out of the water as they swim; this is called porpoising.",
+      "sources": [
+        "tmmc"
+      ],
+      "quote": "They are sometimes seen porpoising, or jumping out of the water, presumably to speed up their swimming.",
+      "status": "supported",
+      "checkedBy": "agent",
+      "checkedOn": "2026-11-23"
+    },
+    {
+      "id": "cap-p-y-fast",
+      "where": "captions.porpoise.young",
+      "claim": "It may help them swim faster.",
+      "sources": [
+        "tmmc"
+      ],
+      "quote": "They are sometimes seen porpoising, or jumping out of the water, presumably to speed up their swimming.",
+      "status": "supported",
+      "checkedBy": "agent",
+      "checkedOn": "2026-11-23"
+    },
+    {
+      "id": "cap-p-o",
+      "where": "captions.porpoise.older",
+      "claim": "Sea lions are sometimes seen porpoising, leaping out of the water, probably to swim faster.",
+      "sources": [
+        "tmmc"
+      ],
+      "quote": "They are sometimes seen porpoising, or jumping out of the water, presumably to speed up their swimming.",
+      "status": "supported",
+      "checkedBy": "agent",
+      "checkedOn": "2026-11-23"
+    },
+    {
+      "id": "cap-p-o-front",
+      "where": "captions.porpoise.older",
+      "claim": "The front flippers make the thrust.",
+      "sources": [
+        "noaaseal"
+      ],
+      "quote": "In the water, they propel themselves by paddling their front flippers and use their rear flippers to help steer, like a boat’s rudder.",
+      "status": "supported",
+      "checkedBy": "agent",
+      "checkedOn": "2026-11-23"
+    },
+    {
+      "id": "cap-l-y",
+      "where": "captions.lightsOff.young",
+      "claim": "Its whiskers feel fish moving nearby, even in the dark.",
+      "sources": [
+        "smithsonian"
+      ],
+      "quote": "Their sensitive whiskers, called vibrissae, can rotate forward and detect the slight movements of fish swimming nearby, enabling California sea lions to find and capture prey in total darkness.",
+      "status": "supported",
+      "checkedBy": "agent",
+      "checkedOn": "2026-11-23"
+    },
+    {
+      "id": "cap-l-o-eyes",
+      "where": "captions.lightsOff.older",
+      "claim": "Sea lions have good eyes for dim water.",
+      "sources": [
+        "smithsonian"
+      ],
+      "quote": "Their eyesight is well developed, because they spend a lot of time underwater with reduced light levels.",
+      "status": "supported",
+      "checkedBy": "agent",
+      "checkedOn": "2026-11-23"
+    },
+    {
+      "id": "cap-l-o-whisk",
+      "where": "captions.lightsOff.older",
+      "claim": "In total darkness their whiskers can turn forward and feel the movements of nearby fish.",
+      "sources": [
+        "smithsonian"
+      ],
+      "quote": "Their sensitive whiskers, called vibrissae, can rotate forward and detect the slight movements of fish swimming nearby, enabling California sea lions to find and capture prey in total darkness.",
+      "status": "supported",
+      "checkedBy": "agent",
+      "checkedOn": "2026-11-23"
+    },
+    {
+      "id": "snd-y-real",
+      "where": "sound.young",
+      "claim": "These are real sea lions on a beach in California.",
+      "sources": [
+        "inat"
+      ],
+      "quote": "A colony of Sea Lions reaching approximately 100+ or more were gathering together on this sandy area of Kiddie Beach @ the S.E. end of Channel Islands Harbor.",
+      "status": "supported",
+      "checkedBy": "agent",
+      "checkedOn": "2026-11-23"
+    },
+    {
+      "id": "snd-y-bark",
+      "where": "sound.young",
+      "claim": "Sea lions bark like dogs.",
+      "sources": [
+        "noaa"
+      ],
+      "quote": "California sea lion males bark like dogs to communicate with other males and females.",
+      "status": "supported",
+      "checkedBy": "agent",
+      "checkedOn": "2026-11-23"
+    },
+    {
+      "id": "snd-o-where",
+      "where": "sound.older",
+      "claim": "The recording is of about 100 California sea lions on a sandy beach at Channel Islands Harbor, California.",
+      "sources": [
+        "inat"
+      ],
+      "quote": "A colony of Sea Lions reaching approximately 100+ or more were gathering together on this sandy area of Kiddie Beach @ the S.E. end of Channel Islands Harbor.",
+      "status": "supported",
+      "checkedBy": "agent",
+      "checkedOn": "2026-11-23"
+    },
+    {
+      "id": "snd-o-bark",
+      "where": "sound.older",
+      "claim": "Male sea lions bark like dogs to communicate with other males and females.",
+      "sources": [
+        "noaa"
+      ],
+      "quote": "California sea lion males bark like dogs to communicate with other males and females.",
+      "status": "supported",
+      "checkedBy": "agent",
+      "checkedOn": "2026-11-23"
+    }
+  ]
+}
