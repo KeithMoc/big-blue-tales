@@ -27,3 +27,4 @@ secrets.y*ml
 .idea/
 .claude/
 *.log
+_site/

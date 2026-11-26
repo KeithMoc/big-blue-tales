@@ -129,6 +129,12 @@ first and does not publish if that fails, then copies only the files the page ne
 paths in the page are relative, so it works under `/big-blue-tales/`. Pages has to be switched on once in the
 repository settings (Settings > Pages > Source: GitHub Actions).
 
+**Private demo on Render.** `render.yaml` runs the same checks and `tools/site.sh`, then serves the site with
+`tools/demo-server.mjs`: one shared password (the `DEMO_PASSWORD` setting on Render; any user name works) and strict
+security headers (a content security policy, no framing, no search-engine listing). With no password set it shows
+nothing. To start it: Render dashboard > New > Blueprint > this repository, and enter a password when asked. The
+free plan sleeps when nobody visits, so the first visit after a quiet spell takes about a minute.
+
 ### Rules every story keeps
 
 - **One age group:** ages 5 to 7. There is no age choice in Settings.
