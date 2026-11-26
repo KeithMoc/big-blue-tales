@@ -1,5 +1,5 @@
-// Opens the story in headless Chromium, walks every part, time of day, Listen, Music, Play, a drawn line and
-// Just the fish, and fails on any page error, failed request or line with no recording.
+// Opens the first story in headless Chromium, walks every part, time of day, Listen, Music, Play, a drawn line and
+// Just the fish, then opens every story in scenes/index.json by its address, and fails on any page error, failed request or line with no recording.
 // Usage: node tools/smoke.cjs [url] [screenshot folder]. Numbers from headless Chromium are not real frame rates.
 // Licence: MIT.
 const { chromium } = require('playwright');
@@ -30,8 +30,8 @@ const url = process.argv[2] || 'http://localhost:8765/', out = process.argv[3] |
       await page.waitForTimeout(2500);
       await page.screenshot({ path: `${out}/${name}-sea-lion.png` });
       const missing = await page.evaluate(async () => {
-        const { storyLines } = await import('./ui/story-lines.js'), { lineKey } = await import('./ui/line-key.js'), { STORIES } = await import('./sounds/index.js');
-        const S = window.__sea.storyView.current, lines = STORIES['anchovy-school'].levels.young.lines;
+        const { storyLines } = await import('./ui/story-lines.js'), { lineKey } = await import('./ui/line-key.js'), { loadVoice } = await import('./scenes/links.js');
+        const S = window.__sea.storyView.current, lines = (await loadVoice(S.id))?.levels.young.lines || {};
         return storyLines(S, 'young').filter(l => !lines[lineKey(l.text)]).map(l => l.where);
       });
       if (missing.length) errors.push('no recording for ' + missing.join(', '));
@@ -54,6 +54,17 @@ const url = process.argv[2] || 'http://localhost:8765/', out = process.argv[3] |
       await page.screenshot({ path: `${out}/${name}-just-the-fish.png` });
       const s = await page.evaluate(() => ({ ...window.__sea.engine.stats(), tier: window.__sea.device.tier }));
       console.log('headless (not a real frame rate):', JSON.stringify({ tier: s.tier, triangles: s.triangles, calls: s.calls }));
+    }
+    if (name === 'desktop') {
+      // every story opens by its address (#<id>), and an unknown address falls back to a story
+      const ids = await page.evaluate(async () => (await (await fetch('./scenes/index.json')).json()).scenes);
+      for (const id of [...ids, 'no-such-story']) {
+        await page.goto(url.replace(/#.*$/, '') + '#' + id);
+        await page.waitForFunction(() => window.__sea?.storyView?.runner?.current?.scene, null, { timeout: 90000 });
+        const got = await page.evaluate(() => window.__sea.storyView.current?.id);
+        console.log(`#${id} opened ${got}`);
+        if (id !== 'no-such-story' && got !== id) errors.push(`#${id} opened ${got}`);
+      }
     }
     await page.close();
   }

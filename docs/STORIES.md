@@ -1,5 +1,9 @@
 # Building a story from the story kit
 
+> Copied from the Sea Monsters A to Z book. In this repo there is one reading level (ages 5 to 7, the `young` words),
+> a story links to other stories but not to animal pages, and the checks are `tools/story-voice.mjs`,
+> `tools/three-rules.mjs` and `tools/smoke.cjs` (see the README).
+
 A story is a scene about animals living together: `scenes/<id>/scene.json` (words, sources, cast) and
 `scenes/<id>/scene.js` (the 3D). The contract is the comment at the top of `scenes/runner.js`. This page is the
 short way to a new one. It was written when the anchovy story's sea, sky and light were lifted out into
@@ -72,7 +76,7 @@ export async function create(ctx) {
 ## Budget
 
 A story fits `low` 60,000 / `mid` 120,000 / `high` 200,000 triangles (40 / 60 / 100 draw calls) at its biggest:
-the biggest group picked **and** the guest in the picture (`tools/stories-test.cjs` measures exactly that). A
+the biggest group picked **and** the guest in the picture (in the book, `tools/stories-test.cjs` measured exactly that; here `tools/smoke.cjs` prints the headless count for the first story). A
 guest needs room: let far scenery give way while it is there (`fishRoom()` in the anchovy scene) rather than
 keeping the room empty all the time. Nothing here has been timed on a real phone.
 

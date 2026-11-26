@@ -1,17 +1,18 @@
-// Story view: the anchovy story on the stage, its words in the panel beside it, and under the words who is in
-// it, what big idea it shows and where it happens. Taken from the Sea Monsters A to Z book (main df4fd65); the
-// links to the book's animal pages and other stories are left out. One reading level: ages 5 to 7. Licence: MIT.
+// Story view: one story from scenes/ on the stage, its words in the panel beside it, and under the words who is
+// in it, what big idea it shows, where it happens and the other stories (each with its reason). Taken from the Sea
+// Monsters A to Z book (main df4fd65); links to the book's animal pages are left out. One reading level: ages 5 to 7.
+// Licence: MIT.
 import * as THREE from 'three';
 import { $, h, calm, store } from '../ui/dom.js';
 import { createSceneRunner } from '../scenes/runner.js';
-import { loadStories } from '../scenes/links.js';
+import { loadStories, loadVoice } from '../scenes/links.js';
 import { playSfx, loopSfx, hasSfx } from '../ui/sfx.js';
-import { OPTIONS, STORIES } from '../sounds/index.js';
+import { OPTIONS } from '../sounds/index.js';
 import { canSpeak, speak, stopSpeaking, setStoryNarration, warmNarration } from '../ui/speech.js';
 import { beatLine } from '../ui/story-lines.js';
 import { label } from '../ui/words.js';
 
-export function createStoryView({ engine, env, settings }) {
+export function createStoryView({ engine, env, settings, go }) {
   const tags = $('storytags'), spot = new THREE.Vector3();
   let active = false, stories = null, S = null, beat = null, seq = 0, tagTimer = 0;
   // a scene may name a sound for something that just happened in it (a splash): heard only with "Tap sounds" on, and only if that sound exists
@@ -55,6 +56,7 @@ export function createStoryView({ engine, env, settings }) {
   }
   $('story-why').addEventListener('click', () => { const open = $('storywhy').hidden; why(open); if (open && settings.show.voice) read('story-listen-why'); });
   $('story-listen').addEventListener('click', () => read(reading === 'story-listen' ? null : 'story-listen'));
+  const storyBtn = (o, why) => h('button', { class: 'slink', onclick: () => go(o.id) }, h('b', { text: o.title }), h('span', { text: why }));
   const group = (title, ...kids) => { const k = kids.flat().filter(Boolean); return k.length ? h('section', { class: 'sgroup' }, h('h3', { text: title }), ...k) : null; };
 
   function render() {
@@ -72,6 +74,7 @@ export function createStoryView({ engine, env, settings }) {
       group('Who is in this story', L.cast.map(c => h('p', { class: 'splain' }, h('b', { text: c.name }), ' ' + text(L.next.find(l => l.animal === c.animal) || { young: `${c.role[0].toUpperCase()}${c.role.slice(1)}.` })))),
       group('The big idea', L.ideas.map(i => h('p', { class: 'splain' }, h('b', { text: i.name }), ' ' + text(i)))),
       group('Where it happens', h('p', { class: 'splain' }, h('b', { text: L.habitat.name }), ' ' + text(L.habitat))),
+      group('More stories', L.more.map(m => storyBtn(m.scene, m.why))),
     ].filter(Boolean));
     $('storysources').replaceChildren(...Object.values(S.sources).map(s => h('li', {}, h('a', { href: s.url, target: '_blank', rel: 'noopener', text: s.name }))));
     $('storyleft').replaceChildren(...(S.notMadeUp || []).map(t => h('li', { text: t })));
@@ -210,7 +213,8 @@ export function createStoryView({ engine, env, settings }) {
       document.title = S.title;
       document.documentElement.dataset.env = 'bright';
       beat = null; playing = false; noted = ''; timeNote(''); syncTurn(); tags.replaceChildren();
-      setStoryNarration(STORIES[S.id] || null); if (settings.show.voice) warmNarration(settings.level);
+      const voice = await loadVoice(S.id); if (mine !== seq) return;
+      setStoryNarration(voice); if (settings.show.voice) warmNarration(settings.level);
       $('story-listen').hidden = !canSpeak; render();
       if (!runner) return;
       engine.canvas.setAttribute('aria-label', `${S.title}. Drag or use the arrow keys to look around. Plus and minus zoom.`);

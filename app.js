@@ -1,4 +1,6 @@
-// A school of anchovies: the page's entry. One story on one engine with one set of settings.
+// Big Blue Tales: the page's entry. One engine, one set of settings, and the story the address names:
+//   #<story id>   that story (a folder in scenes/, listed in scenes/index.json)
+//   no address    the first story in scenes/index.json, or the one opened last on this device
 // Taken from the Sea Monsters A to Z book (main df4fd65): the same engine, story kit and story view, without the
 // book's animal pages, alphabet, shared sea, depth chart, phonics or speed test. Licence: MIT.
 import { $, h } from './ui/dom.js';
@@ -19,9 +21,12 @@ if (!engine) stage.append(h('p', { class: 'nogl', text: 'This device cannot show
 const env = engine ? createEnvironment(engine) : null;
 const device = initDevice(engine);          // the quality tier, and the step the engine starts on
 
-const storyView = createStoryView({ engine, env, settings });
-engine?.resize();
-storyView.open('anchovy-school');
+const go = (id) => { if (location.hash.slice(1) === id) route(); else location.hash = id; };
+const storyView = createStoryView({ engine, env, settings, go });
+const wanted = () => location.hash.slice(1).replace(/^story\//, '');   // #story/<id> from the book still works
+function route() { storyView.close(); engine?.resize(); storyView.open(wanted()); }
+addEventListener('hashchange', route);
+route();
 
 // A lost GPU context: say so kindly, and open the story again when it returns. A tablet short of memory can take the
 // context away at any time; most give it back within a second. After 4 seconds, offer a tap that reloads the page.
@@ -34,7 +39,7 @@ if (engine) {
     clearTimeout(waiting);
     waiting = setTimeout(() => { again.hidden = false; }, 4000);
   });
-  engine.onRestored(() => { clearTimeout(waiting); paused.hidden = true; storyView.open('anchovy-school'); });
+  engine.onRestored(() => { clearTimeout(waiting); paused.hidden = true; storyView.open(wanted()); });
   again.addEventListener('click', () => location.reload());
 }
 

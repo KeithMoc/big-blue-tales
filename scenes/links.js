@@ -48,3 +48,14 @@ function api(index, scenes) {
     },
   };
 }
+
+/** A story's recorded voice, from scenes/<id>/audio/narration.json: { levels: { young: { url, lines } } }, or null when
+ *  the story has none yet (the browser's own voice then reads its lines). Only the ages 5 to 7 level is used. */
+export async function loadVoice(id) {
+  try {
+    const at = new URL(`./${id}/`, import.meta.url), r = await fetch(new URL('audio/narration.json', at));
+    if (!r.ok) return null;
+    const L = (await r.json()).levels?.young;
+    return L ? { levels: { young: { url: new URL(L.file, at).href, lines: L.lines } } } : null;
+  } catch { return null; }
+}
