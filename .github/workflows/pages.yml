@@ -31,10 +31,7 @@ jobs:
       - name: Check the stories (sources, tone, recordings, three.js rules)
         run: npm run check
       - name: Gather the site
-        run: |
-          mkdir _site
-          cp -r index.html app.js animals core fonts kit scenes sounds ui vendor views LICENSE NOTICE.md _site/
-          touch _site/.nojekyll
+        run: sh tools/site.sh
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
