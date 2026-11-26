@@ -223,7 +223,7 @@ export async function create(ctx) {
     /** Times of day a visitor can pick, and the one showing. The whole picture moves there over a few seconds. */
     times: sea.times,
     get time() { return sea.time; },
-    setTime(id) { return sea.setTime(id); },
+    setTime(id, seconds) { return sea.setTime(id, seconds); },
     /** A name tag for the sea lion while it is in the picture. */
     labels: () => (visit.on && lionLook.uVeil.value < 0.6 ? [{ id: 'sea-lion', at: lion.root.position, lift: 0.7, when: 'poke' }] : []),
     /** Play colours: 'real' (the default, and the only true one) or a pretend set. */

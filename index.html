@@ -187,11 +187,17 @@ h1, h2, p { margin: 0; }
   .round, .round .ico { width: 50px; height: 50px; } .round.toggle[aria-checked="false"]::after { width: 56px; }
   .storyfoot { padding-right: 58px; }
 }
-/* a phone on its side: the five round buttons get a little smaller and closer, so they clear Grown-ups at the top */
+/* a phone on its side: the round buttons get a little smaller and closer, so they clear Grown-ups at the top */
 @container stage (max-height: 500px) {
   .cornerbtns { gap: 6px; }
   .round, .round .ico { width: 44px; height: 44px; } .round.toggle[aria-checked="false"]::after { width: 50px; height: 4px; }
   .storyfoot { padding-right: 52px; }
+}
+/* the shortest screens (a small phone on its side): six round buttons no longer fit in one column under Grown-ups,
+   so they stand in two columns of three */
+@container stage (max-height: 360px) {
+  .cornerbtns { grid-template-rows: repeat(3, 44px); grid-auto-flow: column; }
+  .storyfoot { padding-right: 102px; }
 }
 /* Just the fish: only the + until it is pressed; then the corner buttons roll out above it with the tray */
 .just-play .corner:not(.open) .cornerbtns > :not(#story-more) { display: none; }
@@ -201,8 +207,8 @@ h1, h2, p { margin: 0; }
 }
 /* while the name is in the sky and while the introduction is read, only Music shows in the corner */
 .entering .corner, .intro .corner { opacity: 1 !important; pointer-events: none; }
-.entering #story-voice, .entering #story-captions, .entering #story-more, .entering #story-home, .entering #story-just, .entering .justtray,
-.intro #story-more, .intro #story-home, .intro #story-just, .intro .justtray { display: none; }
+.entering #story-voice, .entering #story-captions, .entering #story-time, .entering #story-more, .entering #story-home, .entering #story-just, .entering .justtray,
+.intro #story-time, .intro #story-more, .intro #story-home, .intro #story-just, .intro .justtray { display: none; }
 .entering .corner .round:not([hidden]), .intro .corner .round:not([hidden]) { pointer-events: auto; }
 .justnote { position: absolute; left: 16px; top: 16px; max-width: min(calc(100% - 32px), 420px); animation: justnote 7s ease-in forwards; }
 @keyframes justnote { 0%, 75% { opacity: 1; } 100% { opacity: 0; } }
@@ -359,7 +365,6 @@ h1, h2, p { margin: 0; }
           <div class="seg" id="storytrails" role="radiogroup" hidden></div>
           <button class="pill" id="story-move" aria-pressed="false" hidden><i data-icon="move"></i><span>Move the view</span></button>
         </div>
-        <div class="storyplay" id="storyday"><div class="seg" id="storytimes" role="radiogroup" hidden></div></div>
       </div>
       <button class="entryskip introskip" id="introskip"><i data-icon="skip"></i><span>Skip</span></button>
       <p class="storynote justnote" id="storyjustnote" hidden></p>
@@ -373,6 +378,7 @@ h1, h2, p { margin: 0; }
           <button class="round toggle" id="story-music" role="switch" aria-checked="false" aria-label="Music" title="Music" hidden><i data-icon="music"></i></button>
           <button class="round toggle" id="story-captions" role="switch" aria-checked="true" aria-label="Captions" title="Captions"><i data-icon="captions"></i></button>
           <button class="round toggle" id="story-voice" role="switch" aria-checked="false" aria-label="Read aloud" title="Read aloud" hidden><i data-icon="listen"></i></button>
+          <button class="round" id="story-time" aria-label="Time of day" title="Time of day" hidden><i data-icon="day"></i></button>
           <button class="round" id="story-home" aria-label="Find the fish" title="Find the fish"><i data-icon="find"></i></button>
           <button class="round" id="story-just" aria-label="Just the fish" title="Just the fish"><i data-icon="just"></i></button>
           <button class="round" id="story-more" aria-expanded="false" aria-controls="justtray" aria-label="More" title="More" hidden><i data-icon="more"></i></button>
