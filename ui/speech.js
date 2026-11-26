@@ -31,7 +31,7 @@ function find(text) {
 }
 /** The recorded lines of the animal in view: { levels: { young: { url, lines: { key: [start, seconds] } }, older } }, or null. */
 export function setNarration(n) { stopSpeaking(); pack = canPlay && n ? n : null; const own = new Set([SHELL, story].flatMap(s => Object.values(s?.levels || {})).map(l => l.url)); for (const u of [...buffers.keys()]) if (!own.has(u)) buffers.delete(u); }
-/** The recorded lines of the story that is open (sounds/index.js STORIES), or null when no story is. */
+/** The recorded lines of the story that is open (scenes/<id>/audio/narration.json via scenes/links.js loadVoice), or null when no story is. */
 export function setStoryNarration(n) { stopSpeaking(); story = canPlay && n ? n : null; }
 /** Fetch a reading level's audio ahead of the first tap. */
 export function warmNarration(level) { try { const L = (story || pack)?.levels?.[level]; if (L && canPlay) load(L.url).catch(() => {}); } catch { /* the stand-in will do */ } }
