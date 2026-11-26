@@ -13,5 +13,5 @@ export const SFX = {
   "sea-bubbles": { url: u('./shell/sfx.sea-bubbles.mp3'), on: {} },
   "story-music": { url: u('./shell/sfx.story-music.mp3'), on: {}, bed: true },
   "switch": { url: u('./shell/sfx.switch.mp3'), on: {"click":".sw, .pill"} },
-  "tap": { url: u('./shell/sfx.tap.mp3'), on: {"click":".act, .tool"} },
+  "tap": { url: u('./shell/sfx.tap.mp3'), on: {"click":".act, .tool, .round"} },
 };
