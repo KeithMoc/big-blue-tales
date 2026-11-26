@@ -39,10 +39,11 @@ const TIER_BUDGET = { low: { triangles: 60000, calls: 40 }, mid: { triangles: 12
         title: document.title, level: window.__sea.settings.level,
         parts: [...document.querySelectorAll('#storyacts .act')].map(b => b.textContent),
         times: [...document.querySelectorAll('#storytimes button')].map(b => b.textContent),
-        ageButtons: document.querySelectorAll('[data-level]').length, fact: document.querySelector('#storyfact').textContent,
+        ageButtons: document.querySelectorAll('[data-level]').length, panel: !!document.querySelector('.storypanel'), caption: !document.querySelector('#storycaption').hidden,
       }));
       console.log(JSON.stringify(info, null, 1));
       if (info.level !== 'young' || info.ageButtons) errors.push('age group is not fixed at ages 5 to 7');
+      if (info.panel) errors.push('a word panel is back on the kids\' screen: only a caption while a line is spoken');
       for (const b of await page.$$('#storyacts .act')) { await b.click(); await page.waitForTimeout(1500); }
       await page.waitForTimeout(2500);
       await page.screenshot({ path: `${out}/${name}-sea-lion.png` });

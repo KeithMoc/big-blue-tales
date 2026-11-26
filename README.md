@@ -14,7 +14,7 @@ desktop Chromium only (see "Not checked").
 **A school of anchovies.** Hundreds of little silver fish swim together, turn in a ring, and squeeze into a ball.
 Then a California sea lion swims by and loops up through them!
 
-- Tap the parts of the story, or **Why?** to hear why the fish do what they do. **Listen** reads the story aloud.
+- Tap the parts of the story. **Listen** reads what the fish are doing, and the words show on the picture while they are read.
 - Lost the fish? **Find the fish** brings them back to the middle.
 - Watch at sunrise, in the day, at sunset or at night.
 - Pick a school, a big school or a huge school.
@@ -70,7 +70,7 @@ line with no recording, or a count over budget. Headless Chromium draws in softw
 ```mermaid
 flowchart LR
   index["scenes/index.json<br/>the list of stories, big ideas, places"] --> app["app.js<br/>#story-id picks the story"]
-  app --> view["views/story.js<br/>buttons, panel, voice, sound, Play"]
+  app --> view["views/story.js<br/>buttons, caption, voice, sound, Play"]
   view --> runner["scenes/runner.js"]
   runner --> story["scenes/&lt;id&gt;/<br/>scene.json + scene.js + audio/"]
   story --> kit["scenes/kit/<br/>sea, sky, time of day, school, splash, guest"]

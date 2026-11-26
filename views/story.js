@@ -1,6 +1,7 @@
-// Story view: one story from scenes/ on the stage, its words in the panel beside it, and under the words who is
-// in it, what big idea it shows, where it happens and the other stories (each with its reason). One reading level:
-// ages 5 to 7. Licence: MIT.
+// Story view: one story from scenes/ on the stage with its buttons over it. A child reads no panel: the only words
+// on the picture are a caption, shown while a line is spoken (the maintainer's call, 2026-11-26). Who is in the
+// story, its big idea, where it happens, the other stories and the sources are in the Grown-ups card. One reading
+// level: ages 5 to 7. Licence: MIT.
 import * as THREE from 'three';
 import { $, h, calm, store } from '../ui/dom.js';
 import { createSceneRunner } from '../scenes/runner.js';
@@ -27,16 +28,27 @@ export function createStoryView({ engine, env, settings, go }) {
   // a button's picture (an emoji from scene.json, "icon") and its word; the picture is for the eye only
   const withIcon = (o) => (o.icon ? [h('span', { class: 'emo', 'aria-hidden': 'true', text: o.icon }), h('span', { text: o.label })] : [o.label]);
   const listenBtn = (id) => h('button', { class: 'pill listen', id, hidden: !canSpeak, text: label('story.listen'), onclick: () => read(reading === id ? null : id) });
+  // The caption: the words being spoken, shown only while they are spoken, and gone when the voice stops.
+  // (each line gets a number, so a stopped line that ends late cannot take away the caption of the next one)
+  let captioned = '', said = 0;
+  function hideCaption() { captioned = ''; $('storycaption').hidden = true; }
+  function say(words, done) {
+    const n = $('storycaption'), mine = ++said; captioned = words; n.textContent = words; n.hidden = !words;
+    const ok = !!words && speak(words, () => { if (mine === said) hideCaption(); done?.(); });
+    if (!ok) hideCaption();
+    return ok;
+  }
+  function hush() { said++; stopSpeaking(); hideCaption(); }
   function read(id) {
     const b = S?.beats.find(x => x.id === beat);
-    stopSpeaking(); reading = null;
-    if (id && b && speak(beatLine(b, settings.level), () => { if (reading === id) { reading = null; syncListen(); } })) reading = id;
+    hush(); reading = null;
+    if (id && b && say(beatLine(b, settings.level), () => { if (reading === id) { reading = null; syncListen(); } })) reading = id;
     syncListen();
   }
   function syncListen() { for (const el of document.querySelectorAll('.listen')) { const on = el.id === reading; (el.querySelector('.lbl') || el).textContent = label(on ? 'story.stop' : 'story.listen'); el.setAttribute('aria-pressed', String(on)); } }
   // a note for a play mode is read once, when it comes up, and only with "Read aloud on tap" on
   let noted = '';
-  function sayNote(textNow) { if (textNow && textNow !== noted && settings.show.voice && active) { read(null); speak(textNow); } noted = textNow; }
+  function sayNote(textNow) { if (textNow && textNow !== noted && settings.show.voice && active) { read(null); say(textNow); } noted = textNow; }
 
   function showBeat(id) {
     if (!S) return;
@@ -44,7 +56,6 @@ export function createStoryView({ engine, env, settings, go }) {
     if (id !== beat && reading) read(null);     // the voice never runs on into the next part
     if (id !== beat) timeNote('');
     beat = id;
-    $('storyfact').textContent = beatLine(b, settings.level);
     for (const el of $('storyacts').children) if (el.dataset.beat) el.setAttribute('aria-pressed', String(el.dataset.beat === id));
   }
   $('story-listen').addEventListener('click', () => read(reading === 'story-listen' ? null : 'story-listen'));
@@ -54,10 +65,9 @@ export function createStoryView({ engine, env, settings, go }) {
   function render() {
     if (!S || !stories) return;
     const L = stories.forScene(S.id);
-    $('storykicker').textContent = `Story · ${L.habitat.name}`;
-    $('storytitle').textContent = S.title; $('storyhead-title').textContent = S.title;
+    $('storyhead-title').textContent = S.title;
     $('storyhead-kicker').textContent = `Story · ${L.habitat.name}`;
-    // the parts of the story, as big buttons on the stage (the one place they are: the panel tells, the buttons choose)
+    // the parts of the story, as big buttons on the stage
     $('storyacts').replaceChildren($('story-listen'), ...S.beats.map(b => h('button', { class: 'act', 'data-beat': b.id, 'aria-pressed': 'false', onclick: () => { runner?.beat(b.id); showBeat(b.id); if (settings.show.voice) read('story-listen'); } }, ...withIcon(b))));
     showBeat(beat || S.beats[0].id);
     renderPlay();
@@ -80,14 +90,11 @@ export function createStoryView({ engine, env, settings, go }) {
     box.hidden = opts.length < 2; box.setAttribute('aria-label', cfg?.label || '');
     box.replaceChildren(...opts.map(o => h('button', { role: 'radio', 'data-pick': o.id, 'aria-checked': String(o.id === current), onclick: () => { pick(o.id); renderPlay(); } }, ...withIcon(o))));
   }
-  // Time of day: the whole picture moves to another light. The line for the time picked shows for a while (and is
-  // read once with "Read aloud on tap" on); where it says what the animals do then, scene.json names its source.
-  let timeTimer = 0;
+  // Time of day: the whole picture moves to another light. With "Read each part aloud" on, the line for the time
+  // picked is read once, with its caption; where it says what the animals do then, scene.json names its source.
   function timeNote(words) {
-    const n = $('storytime'); clearTimeout(timeTimer);
-    n.textContent = words; n.hidden = !words;
-    if (words) { timeTimer = setTimeout(() => timeNote(''), 12000); if (settings.show.voice && active) { read(null); speak(words); } }
-    if (just) justNote(words);                                  // the line below the picture is hidden in Just the fish
+    if (!words) { if (captioned && S?.times?.options.some(o => text(o) === captioned)) hush(); return; }
+    if (settings.show.voice && active) { read(null); say(words); }
   }
   function renderPlay() {
     const sc = sceneNow(), P = S?.play || {};
@@ -205,7 +212,7 @@ export function createStoryView({ engine, env, settings, go }) {
     clearTimeout(entryTimer); const was = entered; entered = true;
     // the introduction (scene.json entry.intro, recorded): read once, as the camera reaches the school
     const intro = arrived && !was ? text(S?.entry?.intro || {}) : '';
-    if (intro) { const n = $('storytime'); n.textContent = intro; n.hidden = false; read(null); speak(intro, () => { if (n.textContent === intro) n.hidden = true; }); }
+    if (intro) { read(null); say(intro); }
     $('entry').hidden = true; $('entryskip').hidden = true;
     runner?.hold(false); $('app').classList.remove('entering');
   }
@@ -239,7 +246,6 @@ export function createStoryView({ engine, env, settings, go }) {
 
   async function open(id) {
     const mine = ++seq; active = true;
-    $('storyfact').textContent = 'The story is on its way.';
     try {
       stories = await loadStories();
       if (mine !== seq) return;
@@ -258,7 +264,7 @@ export function createStoryView({ engine, env, settings, go }) {
       renderPlay(); syncSound();
       clearInterval(tagTimer); tagTimer = setInterval(placeTags, 50);
       entry();
-    } catch (e) { console.error(e); if (mine === seq) { $('storyfact').textContent = 'This story could not be opened.'; endEntry(); } }
+    } catch (e) { console.error(e); if (mine === seq) { $('entryload').querySelector('p').textContent = 'This story could not be opened.'; $('entry').hidden = false; $('entryload').hidden = false; } }
   }
   function close() {
     if (!active) return;
