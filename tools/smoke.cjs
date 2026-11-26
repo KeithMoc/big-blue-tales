@@ -1,9 +1,14 @@
-// Opens the first story in headless Chromium, walks every part, time of day, Listen, Music, Play, a drawn line and
-// Just the fish, then opens every story in scenes/index.json by its address, and fails on any page error, failed request or line with no recording.
+// Opens the page in headless Chromium at a desktop and a phone size. At the desktop size it walks the first story's
+// parts, times of day, Listen, Music, Play, a drawn line and Just the fish; opens every story in scenes/index.json by
+// its address; and measures every story on the low, mid and high tiers against its budget (every group size, and the
+// biggest group with its guest in the picture). At the phone size it only opens the page and takes a picture.
+// Fails on any page error, failed request, line of the first story with no recording, or count over budget.
 // Usage: node tools/smoke.cjs [url] [screenshot folder]. Numbers from headless Chromium are not real frame rates.
 // Licence: MIT.
 const { chromium } = require('playwright');
 const url = process.argv[2] || 'http://localhost:8765/', out = process.argv[3] || '.';
+// what a story may draw on each device tier; a story may raise one in its scene.json "budget" (docs/THREEJS.md rule 16)
+const TIER_BUDGET = { low: { triangles: 60000, calls: 40 }, mid: { triangles: 120000, calls: 60 }, high: { triangles: 200000, calls: 100 } };
 (async () => {
   const browser = await chromium.launch({ args: ['--use-gl=angle', '--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--autoplay-policy=no-user-gesture-required'] });
   const errors = [], requests = [];
@@ -65,11 +70,36 @@ const url = process.argv[2] || 'http://localhost:8765/', out = process.argv[3] |
         console.log(`#${id} opened ${got}`);
         if (id !== 'no-such-story' && got !== id) errors.push(`#${id} opened ${got}`);
       }
+      // the budget (docs/THREEJS.md rule 16): every story on every device tier, at every group size, and with the
+      // biggest group while its guest is in the picture. Counts are real in headless Chromium; frame rates are not.
+      for (const id of ids) for (const tier of ['low', 'mid', 'high']) {
+        const S = await page.evaluate(async (id) => (await fetch(`./scenes/${id}/scene.json`)).json(), id);
+        const B = { ...TIER_BUDGET[tier], ...(S.budget?.[tier] || {}) }, who = `${id} on ${tier}`;
+        await page.evaluate(async ([id, tier]) => { const v = window.__sea.storyView; v.close(); window.__sea.device.tier = tier; await v.open(id); }, [id, tier]);
+        const step = (sec) => page.evaluate((sec) => { const E = window.__sea.engine; E.run(false); for (let i = 0; i < sec * 30; i++) E.stepOnce(1 / 30); E.renderOnce(); E.run(true); return { ...E.stats(), guest: window.__sea.storyView.runner.stats().guest }; }, sec);
+        const over = (s, what) => { if (s.triangles > B.triangles || s.calls > B.calls) errors.push(`${who}${what}: ${s.triangles} triangles, ${s.calls} calls; allowed ${B.triangles}, ${B.calls}`); };
+        const sizes = S.play?.sizes?.options.map(o => o.id) || [null];
+        for (const size of sizes) {
+          if (size) await page.evaluate((size) => window.__sea.storyView.runner.current.scene.setSize(size), size);
+          const s = await step(2); over(s, size ? `, size ${size}` : '');
+          console.log(`${who}${size ? `, ${size}` : ''}: ${s.triangles} triangles, ${s.calls} calls (allowed ${B.triangles}, ${B.calls})`);
+        }
+        if (!(S.cast || []).some(c => c.animal)) continue;
+        let worst = null;
+        for (const b of S.beats) {
+          await page.evaluate((b) => window.__sea.storyView.runner.beat(b), b.id);
+          for (let k = 0; k < 30; k++) { const s = await step(0.5); if (s.guest) { if (!worst || s.triangles > worst.triangles) worst = s; } else if (worst || k > 8) break; }
+          if (worst) break;
+        }
+        if (!worst) { errors.push(`${who}: the guest never came into the picture`); continue; }
+        over(worst, `, biggest group with the guest`);
+        console.log(`${who}, ${sizes.at(-1)} with the guest: ${worst.triangles} triangles, ${worst.calls} calls`);
+      }
     }
     await page.close();
   }
   await browser.close();
   const bad = [...new Set(errors)];
-  console.log(bad.length ? 'FAIL\n' + bad.join('\n') : 'PASS: no errors, every line has an ages 5 to 7 recording');
+  console.log(bad.length ? 'FAIL\n' + bad.join('\n') : 'PASS: no errors, every line of the first story has a recording, every story fits its budget on every tier');
   process.exit(bad.length ? 1 : 0);
 })();

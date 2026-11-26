@@ -1,8 +1,7 @@
 // Big Blue Tales: the page's entry. One engine, one set of settings, and the story the address names:
 //   #<story id>   that story (a folder in scenes/, listed in scenes/index.json)
 //   no address    the first story in scenes/index.json, or the one opened last on this device
-// Taken from the Sea Monsters A to Z book (main df4fd65): the same engine, story kit and story view, without the
-// book's animal pages, alphabet, shared sea, depth chart, phonics or speed test. Licence: MIT.
+// Licence: MIT.
 import { $, h } from './ui/dom.js';
 import { createSettings } from './ui/settings.js';
 import { createEngine } from './core/engine.js';
@@ -23,7 +22,7 @@ const device = initDevice(engine);          // the quality tier, and the step th
 
 const go = (id) => { if (location.hash.slice(1) === id) route(); else location.hash = id; };
 const storyView = createStoryView({ engine, env, settings, go });
-const wanted = () => location.hash.slice(1).replace(/^story\//, '');   // #story/<id> from the book still works
+const wanted = () => location.hash.slice(1).replace(/^story\//, '');   // #story/<id> is read as #<id> too
 function route() { storyView.close(); engine?.resize(); storyView.open(wanted()); }
 addEventListener('hashchange', route);
 route();

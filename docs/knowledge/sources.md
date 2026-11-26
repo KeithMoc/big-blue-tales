@@ -17,7 +17,7 @@ why. This page is the index by topic, and it also lists sources that were only n
 
 ## Read for facts in a story (not techniques)
 
-These back what animals do in a story. They are quoted in the story's `scene.json`, which the gate reads.
+These back what animals do in a story. They are quoted in the story's `scene.json`, which `tools/story-check.mjs` reads.
 
 | Story | Source | Licence | What the story takes from it |
 | --- | --- | --- | --- |

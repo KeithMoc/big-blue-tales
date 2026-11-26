@@ -1,4 +1,4 @@
-// Small pieces of shader text every new shader on the platform starts from, so the safe way is the short way.
+// Small pieces of shader text every new shader in this repo starts from, so the safe way is the short way.
 // Both come from the anchovy story: its first version drew black blocks and flickered on an iPhone, because
 // pow() of a slightly negative number is "not a number" on Apple GPUs and the bloom pass spreads one such
 // pixel over its neighbours. Rules and reasons: docs/THREEJS.md. Checked by tools/three-rules.mjs. Licence: MIT.

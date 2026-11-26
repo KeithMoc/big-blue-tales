@@ -1,5 +1,5 @@
 // Kit skin: build an animal as a few closed parametric surfaces gathered into one mesh, and bend it on
-// the CPU with exact normals. First written inside the hammerhead pack, moved here for letters L to Z.
+// the CPU with exact normals. The sea lion's model (animals/sea-lion/model/) is built with it.
 //   surfaceNormal  - a normal from the surface itself, never zero
 //   Skin           - collects surfaces, strips and flat triangles into one geometry (position, normal, colour, uv)
 //   finSurface     - a thin closed blade between a leading and a trailing edge (fins, flukes, flippers)

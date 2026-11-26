@@ -1,14 +1,14 @@
 // Loader: brings one animal pack in, checks it keeps the contract, and takes it out again cleanly.
-// A pack is loaded only when someone opens it, so the size of the book does not slow the first screen.
+// A pack is loaded only when a story mounts it (ctx.mount), so guests that are not on screen cost nothing.
 // Licence: MIT.
 import * as THREE from 'three';
 import * as kit from 'creature-kit';
 import { device } from './device.js';
 
-// What one animal may cost. tools/check.mjs fails the build above these; the page warns in the console.
-// triangles and drawCalls are counted at rest: what is drawn every frame. peakTriangles and peakDrawCalls are the most
-// an animal may reach for the seconds an action plays (a prey fish, bubbles, sparks); tools/check.cjs measures both.
-// The shared sea holds 4 animals, so these are a quarter of what one phone frame may cost: 200,000 triangles, 100 draw calls.
+// What one animal may cost. mount() below warns in the console above triangles and drawCalls (counted at rest: what
+// is drawn every frame); no tool in this repo fails on it. peakTriangles, peakDrawCalls and textureBytes are the
+// limits for the seconds an action plays and for textures; nothing here measures them. A story's own budget per
+// device tier is in docs/THREEJS.md (rule 16) and is measured by tools/smoke.cjs.
 export const BUDGET = { triangles: 50000, drawCalls: 25, textureBytes: 16 * 1024 * 1024, peakTriangles: 60000, peakDrawCalls: 32 };
 /** A pack may carry a written exception in animal.json: "model": { "budget": { "drawCalls": 31, "why": "..." } } */
 export const budgetFor = (animal) => {

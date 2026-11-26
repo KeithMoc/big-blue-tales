@@ -1,4 +1,4 @@
-// The key a read-aloud line is filed under: the page (ui/speech.js) and the recording tools (tools/) both
+// The key a read-aloud line is filed under: the page (ui/speech.js) and tools/story-voice.mjs both
 // take it from here, so a recorded line and the words asking for it can never drift apart. Licence: MIT.
 /** FNV-1a, 32 bit, over the text's UTF-16 units: small, fast and the same in Node and the browser. */
 export function lineKey(text) {

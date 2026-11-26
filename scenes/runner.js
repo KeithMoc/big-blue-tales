@@ -1,4 +1,4 @@
-// Scene runner: opens one scene on the book's engine and water, and closes it again cleanly.
+// Scene runner: opens one scene on the page's one engine and water (core/), and closes it again cleanly.
 // A scene is a folder: scenes/<id>/scene.json (words, sources, cast, camera, water) and scene.js (the 3D).
 //
 //   scene.js:  export async function create(ctx) -> { root, update(t, dt), beats, ground?, follow?, rehome?, clear?, dry?, bodies?, stats?, dispose?,
@@ -9,10 +9,10 @@
 //              is never close to the eye on a weak device; a pack that has no coarser skin ignores it. The scene moves
 //              creature.root and calls creature.update(t, dt) itself; scenes/kit/guest.js gives it the story's light.
 //   cue      = the scene heard something happen that has a sound (a splash): the page plays that sound if it exists and
-//              the visitor has sounds on. The ids are `sfx` entries of sounds/shell.en.json.
+//              the visitor has sounds on. The ids are keys of SFX in sounds/index.js.
 //   beats    = { <beat id>: () => void }   jump to that part of the story; the scene calls ctx.beat(id) as its own
 //              clock moves from one part to the next, so the words on the page follow the picture
-//   ground   = (x, z) -> lowest height the camera may be at there (sand, the animal's home); the engine keeps it above
+//   ground   = (x, z) -> lowest height the camera may be at there (a sea floor); the engine keeps it above
 //   sizes    = ids of the group sizes on offer, setSize(id) picks one; every size must fit the tier's budget
 //   colours  = ids of the colour sets ('real' first; the others are pretend and only offered with Play on), setColours(id)
 //   touch    = (origin, direction) -> the visitor tapped the water along this ray (Play on only)
@@ -29,7 +29,7 @@
 //              where the story opens. The view goes back to its opening angle around follow(), so nothing jumps.
 //   dry      = () -> true while the camera is out of the water (a scene with a sea surface): the drifting specks
 //              of the water are then not drawn
-//   clear    = (camera position) -> moves it out of anything else that is solid (a coral), once a frame
+//   clear    = (camera position) -> moves it out of anything else that is solid, once a frame
 // A scene gets no DOM and no camera, like a pack. The page around it shows the words. Licence: MIT.
 import * as THREE from 'three';
 import * as kit from 'creature-kit';
@@ -45,7 +45,7 @@ export function loadScene(id) {
   return data.get(id);
 }
 
-export function createSceneRunner({ engine, env, onBeat = () => {}, onCue = () => {}, calm = false }) {
+export function createSceneRunner({ engine, env, onBeat = () => {}, onCue = () => {}, calm = false, specks = () => true }) {
   let live = null, t = 0, token = 0;
   const offset = new THREE.Vector3();
 
@@ -93,7 +93,7 @@ export function createSceneRunner({ engine, env, onBeat = () => {}, onCue = () =
       scene.update(t, d);
       if (scene.follow && !calm) engine.shift(offset.subVectors(scene.follow(), engine.controls.target).multiplyScalar(1 - Math.exp(-1.4 * d)));
       scene.clear?.(engine.camera.position);
-      env.update({ lit: 1, t, dt: d, bodies: scene.bodies?.() || [], lens: engine.lens, calm, specks: S.environment.specks !== false && !scene.dry?.() });
+      env.update({ lit: 1, t, dt: d, bodies: scene.bodies?.() || [], lens: engine.lens, calm, specks: S.environment.specks !== false && !scene.dry?.() && specks() });   // specks(): Settings > Drifting specks
     });
     engine.retry(); engine.run(true);
     return live;

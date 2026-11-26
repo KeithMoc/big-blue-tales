@@ -23,8 +23,8 @@ in most detail (NOAA, NPS, Smithsonian, The Marine Mammal Center). The fact doss
 
 ## Known departures from life
 
-- The height and length of the porpoising leaps are our guess. No source gives them. The caption says so.
-- The porpoise action shows two leaps; the sources say only that sea lions are "sometimes seen porpoising".
+- The model has a porpoise action (two leaps). Its height and length are our guess, and the sources say only that
+  sea lions are "sometimes seen porpoising". No story uses it yet: the anchovy story only swims the sea lion.
 - The exact place and shape of the ear flaps, the number and length of the whiskers and the size of the eyes
   are judgements from the words "small", "visible" and "dog-like"; no source gives measurements.
 - The hind flippers are one smooth paddle each; real ones have separate toes and small claws (three, or three to
@@ -35,10 +35,12 @@ in most detail (NOAA, NPS, Smithsonian, The Marine Mammal Center). The fact doss
 ## Open questions
 
 - Top swimming speed differs by source (25 to 30 mph, 25 mph, 13.4 mph). Not used in the text.
-- Deepest dive: 274 m (NPS, SeaWorld) against a 400 m lower depth limit (IUCN). The depth chart uses 274 m.
+- Deepest dive: 274 m (NPS, SeaWorld) against a 400 m lower depth limit (IUCN).
 - Animal Diversity Web says they echolocate; no agency source opened here says so. Left out.
 
 ## Review
 
 - 2026-11-23: built by an agent from the dossier. Facts collected, not yet verified by a second reader.
   No review by a person yet.
+- 2026-11-23, later: every fact in `dossier.json` (88 of 88) was confirmed by a second reader, and the dossier was
+  signed (`signedBy`, `signedOn`). There is no written record of a person reviewing the model.

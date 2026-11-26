@@ -1,5 +1,5 @@
-// Short sounds for taps. Which sound, which taps and how loud all come from sounds/index.js (generated from
-// sounds/shell.en.json and sounds/sounds.config.json): this file names none of them. Licence: MIT.
+// Short sounds for taps, and the looping sea and music. Which sound, which taps and how loud all come from
+// sounds/index.js (SFX and OPTIONS): this file names none of them. Licence: MIT.
 import { SFX, OPTIONS } from '../sounds/index.js';
 import { canPlay, audio, decode } from './audio.js';
 const buffers = new Map();

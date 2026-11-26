@@ -3,7 +3,7 @@
 // it takes THREE and numbers, and hands back { root, update, setMode, poke, stats, dispose }, the same
 // shape a pack's create(ctx) returns, so it can later sit behind a pack or a habitat. Licence: MIT.
 //
-// Cost (measured numbers are in labs/README.md): 35 triangles a fish (63 with detail = 1). The tail beat and
+// Cost (measured story numbers: docs/knowledge/budgets-and-devices.md): 35 triangles a fish (63 with detail = 1). The tail beat and
 // the whole look (paint, mirror sides, sun ripples) are done in the shader; the CPU only writes one matrix
 // and one float per fish per frame.
 

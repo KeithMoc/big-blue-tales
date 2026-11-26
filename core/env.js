@@ -12,14 +12,15 @@ import { PRESET_IDS } from './preset-ids.js';
 import { createWater } from '../scenes/kit/water.js';
 import { createShafts } from '../scenes/kit/shafts.js';
 
-// ---- the dive look (docs/ART-DIRECTION.md, principles 1 and 2). It rolls out in waves: a pack that has it says
-// "looks": { "dive": { "on": true } }. In the address, ?look=dive previews it anywhere and ?look=classic shows the old picture.
+// ---- the dive look: the water's colour set by the depth an animal lives at. A pack that wears it says
+// "looks": { "dive": { "on": true } }; ?look=dive in the address asks for it and ?look=classic turns it off. In a story
+// the runner passes no depth, so the only thing ?look=dive changes there is the opening camera (scene.json looks.dive).
 const ASKED = typeof location !== 'undefined' ? new URLSearchParams(location.search).get('look') : null;
 export const DIVE = ASKED === 'dive';
 /** Does this pack (animal.json or scene.json) wear the dive look right now? */
 export const wearsDive = (pack) => ASKED === 'dive' || (ASKED !== 'classic' && pack?.looks?.dive?.on === true);
 // How fast clear ocean water takes each colour out of sunlight, per metre: red, green, blue. The order (red goes
-// first, blue goes deepest) is the sourced fact (NOAA, docs/ART-DIRECTION.md section 5). The three numbers are
+// first, blue goes deepest) is the sourced fact (NOAA). The three numbers are
 // rounded from the absorption of pure water and are NOT yet checked against their paper; they shape a picture.
 const TAKEN = [0.34, 0.065, 0.022];
 const hex = (r, g, b) => '#' + new THREE.Color().setRGB(Math.min(1, r), Math.min(1, g), Math.min(1, b), THREE.SRGBColorSpace).getHexString();
@@ -29,10 +30,10 @@ export function waterAt(depth, coastal = false) {
   // The eye gets used to dim water, so most of the dimming is divided back out and the lost colours are kept as a
   // trace (real water at 60 m is dimmer and bluer than this). Shallow is turquoise-blue, deeper is a green-leaning navy.
   // Green is held at about half of blue in deep water: a real photograph of open water away from the sun measures
-  // green at 0.55 of blue with almost no red (docs/ART-DIRECTION.md, section 5). With less green it read violet.
+  // green at 0.55 of blue with almost no red (the photograph is not in this repo). With less green it read violet.
   const B = 0.7 * Math.pow(Math.max(b, 1e-4), 0.3), keep = (x, floor, k) => B * (floor + k * Math.sqrt(Math.max(x, 0) / Math.max(b, 1e-4)));
   // Coastal water carries plankton and stirred-up sediment, so it is greener than the open sea (a real photograph of
-  // green water measures green above blue: docs/ART-DIRECTION.md, section 5). A light tint, only for a pack whose
+  // green water measures green above blue; not in this repo). A light tint, only for a pack whose
   // dossier says the animal lives mainly near the coast (looks.dive.water = "coastal").
   return coastal ? hex(keep(r, 0.13, 0.4), keep(g, 0.46, 0.36) * 1.04, B * 0.92 * 0.88) : hex(keep(r, 0.13, 0.4), keep(g, 0.46, 0.36), B * 0.92);
 }
@@ -132,7 +133,7 @@ export function createEnvironment({ scene, camera }) {
         bloom: Math.min(env.bloom, 0.18), fog: env.fog * (green ? 1.6 : 1.25) };   // coastal water is murkier too
       if (env.floor === true) {
         // Sand takes the colour of the water above it: grey-blue with no warm tint in the shallows, the water's own
-        // blue-green further down (measured on real photographs, docs/ART-DIRECTION.md section 5). Light lines, the
+        // blue-green further down (measured on real photographs that are not in this repo). Light lines, the
         // moving net the waves focus on the sand, only where it is shallow enough for them (none by about 25 m).
         const pale = new THREE.Color('#8e9b9e'), far = new THREE.Color(level);
         E.sand = '#' + pale.lerp(far, 1 - Math.exp(-dive / 45)).multiplyScalar(0.25 + 0.75 * Math.exp(-dive / 110)).getHexString();

@@ -1,4 +1,4 @@
-// The platform's three.js rules that a program can read from the source, with no browser (docs/THREEJS.md, ADR-0033).
+// The three.js rules that a program can read from the source, with no browser (docs/THREEJS.md).
 //   node tools/three-rules.mjs            check every runtime file; exits 1 on a problem
 //   node tools/three-rules.mjs --list     print the rules
 // A line may opt out of one rule with a comment on the same line that says why:   // three-rules: ok <rule> <reason>
@@ -39,7 +39,7 @@ function walk(dir, out = []) {
 /** The runtime files the rules cover: everything the page can load that we wrote. */
 export function files(base = root) {
   const all = [];
-  for (const d of ['kit', 'core', 'scenes', 'labs', 'views', 'ui']) walk(join(base, d), all);
+  for (const d of ['kit', 'core', 'scenes', 'views', 'ui']) walk(join(base, d), all);
   const animals = join(base, 'animals');
   if (existsSync(animals)) for (const id of readdirSync(animals)) walk(join(animals, id, 'model'), all);
   return all.map(p => relative(base, p).split('\\').join('/')).sort();

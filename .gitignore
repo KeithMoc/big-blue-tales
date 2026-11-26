@@ -1,13 +1,8 @@
 node_modules/
-dist/
 shots/
-check-report.json
-.ci-local/
 .DS_Store
-.narration-cache/
-.adopt.lock/
 
-# secrets and private files: never commit these (tools/secret-scan.mjs also refuses them by name)
+# secrets and private files: never commit these
 .env
 .env.*
 !.env.example
