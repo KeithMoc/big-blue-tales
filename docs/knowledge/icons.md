@@ -1,0 +1,49 @@
+# Icons
+
+The story's buttons use one icon set drawn for Big Blue Tales: `ui/icons.js` (inline SVG, a name per icon,
+`icon(name)` draws it, `ICON_CSS` sizes and moves it). No emoji, no icon font, no outside icon files.
+
+## Rules
+
+- 32 x 32 grid, chunky filled shapes, round ends, at most three colours from the page palette, readable at 24 px.
+- Every icon sits in the same deep-sea bubble, so the set reads on the dark button and on the gold "on" button.
+- Things a 5 to 7 year old knows (fish, book, beach ball, present, magnifying glass), not adult symbols.
+- Keep the shapes kids already know from tablets: play triangle (Start), speaker (Listen), full-screen corners.
+- The word stays on every button; the picture never carries the meaning alone.
+- Motion only on the button that is on, hovered or pressed, only under `prefers-reduced-motion: no-preference`,
+  only transform and opacity. Inline SVG, because the media query does not run inside `<img>`.
+- Never put an animated class on an element that has a `transform` attribute: the CSS animation replaces it.
+  Wrap it in a `<g>` instead. Never give every element a `transform-origin`: on an element with a transform
+  attribute it shifts the drawing (the first board had fish and sun rays flying out of their bubbles).
+
+## Outside guides read (2026-11-26), taken and turned down
+
+| Source | Taken | Turned down |
+| --- | --- | --- |
+| NN/g, children's UX (nngroup.com/articles/childrens-websites-usability-issues) | narrow age band, big targets, kids know play/volume/full screen | |
+| UX Collective, designing apps for young kids | concrete things, no adult metaphors | "labels are useless": we keep a word on every button |
+| Smart Interface Design Patterns, design for children | one consistent picture language | |
+| Tabler, Lucide, Atlas (MIT), Fluent Emoji (MIT) | grid, round ends, inline SVG technique | their icons: adult line style or emoji, no sea animals |
+| svg-animation.com and WCAG 2.3.3 on reduced motion | still icon complete, motion opt-in, transform/opacity only | |
+
+## Choices the maintainer made (2026-11-26)
+
+- No shine mark on the bubble: at button size it read as a scratch.
+- Learn is our anchovy in a school cap and glasses; Play is the same fish leaping out of a wave. One fish learns,
+  then plays, and the pair still looks different at a glance. Turned down: an open book (a grown-up idea of
+  learning), a light bulb (many 5 year olds do not read it as "an idea"), a beach ball and a crayon.
+- "Surprise colours" (renamed from "Surprise") is a dice with a different colour on each dot: a gift box did not
+  say "colour". Turned down: two odd-coloured fish with a question mark, a paint splash (read as a flower).
+- Words on screen for kids are subtitles only, 1 or 2 lines at a time, timed to the recording
+  (`ui/captions.js`, `tools/caption-cues.mjs`); no word panel.
+
+2026-11-26, the corner: Music, Captions (a speech bubble with two lines) and Read aloud (the speaker) are round buttons
+with no word, in every mode, at the maintainer's call; each keeps its name for a screen reader. New drawings: `skip`
+(two arrows), `draw` (a crayon and its wavy line), `captions`. On a phone the Play and time-of-day choices show their
+pictures only (`tools/fit.cjs`), so every choice needs a picture that stands on its own.
+
+Later the same day (the maintainer's review of the corner): icons are bigger (2.2em; the corner buttons are the icon,
+56 px, with no frame of their own), the bubble's rim is thinner (0.7 of 32). Music, Captions and Read aloud show
+"off" as the picture greyed with a white slash from top left to bottom right; "on" is a thin gold ring. Find the fish
+and Just the fish are round buttons in the corner from the start; the + shows only in Just the fish. New drawing:
+`move` (a fish inside a curved arrow) for Move the view; Play has no Draw switch: picking a trail draws.

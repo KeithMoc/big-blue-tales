@@ -3,6 +3,7 @@
 //   no address    the first story in scenes/index.json, or the one opened last on this device
 // Licence: MIT.
 import { $, h } from './ui/dom.js';
+import { paintIcons } from './ui/icons.js';
 import { createSettings } from './ui/settings.js';
 import { createEngine } from './core/engine.js';
 import { createEnvironment } from './core/env.js';
@@ -11,6 +12,7 @@ import { loadFonts } from './core/fonts.js';
 import { createStoryView } from './views/story.js';
 import { bindSfx } from './ui/sfx.js';
 
+paintIcons();                                 // the sea bubble icons, before anything else shows (ui/icons.js)
 loadFonts();
 const stage = $('stage');
 const settings = createSettings();
@@ -41,14 +43,6 @@ if (engine) {
   engine.onRestored(() => { clearTimeout(waiting); paused.hidden = true; storyView.open(wanted()); });
   again.addEventListener('click', () => location.reload());
 }
-
-// Speed numbers (Settings > Speed numbers)
-const perf = $('perf');
-setInterval(() => {
-  if (!engine || !settings.show.perf) return;
-  const s = engine.stats();
-  perf.textContent = `${s.fps} fps   quality ${5 - s.step}/5\n${s.triangles.toLocaleString('en')} triangles\n${s.calls} draw calls\n${s.geometries} shapes, ${s.textures} textures in memory`;
-}, 500);
 
 // handles for checking the page from a test script (tools/smoke.cjs)
 window.__sea = { engine, env, settings, device, storyView };

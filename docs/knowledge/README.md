@@ -30,6 +30,7 @@ flowchart LR
 | [pitfalls.md](pitfalls.md) | write any shader at all: every bug that cost a round with the maintainer |
 | [sources.md](sources.md) | look for a technique: every outside source, read or only named |
 | [stories-next.md](stories-next.md) | plan a new story: open questions and ideas for the story section |
+| [icons.md](icons.md) | draw or change a button icon: the sea bubble set, its motion rules, the guides read |
 
 ## How a page is written
 

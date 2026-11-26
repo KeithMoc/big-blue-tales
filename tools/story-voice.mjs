@@ -7,6 +7,7 @@
 import { readFileSync, existsSync } from 'node:fs';
 import { storyLines } from '../ui/story-lines.js';
 import { lineKey } from '../ui/line-key.js';
+import { chunks } from '../ui/captions.js';
 
 const root = new URL('../scenes/', import.meta.url);
 const ids = process.argv.slice(2).length ? process.argv.slice(2) : JSON.parse(readFileSync(new URL('index.json', root))).scenes;
@@ -14,13 +15,17 @@ let missing = 0;
 for (const id of ids) {
   const scene = JSON.parse(readFileSync(new URL(`${id}/scene.json`, root)));
   const voiceAt = new URL(`${id}/audio/narration.json`, root);
-  const have = existsSync(voiceAt) ? JSON.parse(readFileSync(voiceAt)).levels?.young?.lines || {} : {};
+  const young = existsSync(voiceAt) ? JSON.parse(readFileSync(voiceAt)).levels?.young || {} : {};
+  const have = young.lines || {}, cues = young.cues || {};
   const lines = storyLines(scene, 'young');
   console.log(`\n${id}: ${lines.length} lines`);
   for (const l of lines) {
     const key = lineKey(l.text), ok = !!have[key];
     if (!ok) missing++;
     console.log(`  ${ok ? 'recorded' : 'MISSING '}  ${key}  ${l.where.padEnd(14)} ${l.text}`);
+    // its subtitles are timed against the recording, and cut the way the page cuts them (tools/caption-cues.mjs)
+    const want = chunks(l.text), got = (cues[key] || []).map(c => c[1]);
+    if (ok && want.join('|') !== got.join('|')) { missing++; console.log(`  SUBTITLES NOT TIMED  ${key}: run node tools/caption-cues.mjs ${id}`); }
   }
 }
 // every recorded line and every sound file has its entry in sounds/manifest.json (maker, licence, credit), and back

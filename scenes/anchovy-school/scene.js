@@ -56,9 +56,11 @@ const LEAP = { seconds: 14, along: 2.6, up: 1.5, down: 2.6 };
 // The sea lion's visit (source "loop" in scene.json: it comes in on a level, straight line 0.5 to 1 m deeper than the
 // school, then turns its head up and loops through it). under = how far below the middle of the school it comes in
 // (the school is about half a unit thick, so 1.4 is 0.7 m under its underside); radius = of the loop; from = how far off it
-// is first seen, in the haze; speeds in units a second (4.1 and 3.2 m/s; its sourced top speed is about 11 m/s).
+// is first seen, in the haze; speeds in units a second: 3.0 m/s on the way in and out and 3.3 m/s round the loop, inside
+// the 2.7 to 3.5 m/s measured for swimming California sea lions (scene.json "lion-speed"). clap = how long the quick
+// clap-like stroke under the school lasts, in seconds (source "loop").
 // Not sourced, and our choice: the side it comes from, the size of the loop, and that it swims on afterwards.
-const VISIT = { wait: 0.8, under: 1.4, radius: 1.7, from: 24, speed: 5.5, loop: 4.2, reach: 1.3, veil: 1.4 };
+const VISIT = { wait: 0.8, under: 1.4, radius: 1.7, from: 24, speed: 4.0, loop: 4.4, reach: 1.3, veil: 1.4, clap: 1.2 };
 // The slow drift of a school that swims together: a wide, flat figure it takes about nine minutes to go round, at most
 // a quarter of a fish's own speed. It stays in the upper water (anchovies school near the surface, NOAA).
 const DRIFT = (s, out) => out.set(13 * Math.sin(s * 0.012), 1.2 * Math.sin(s * 0.017), 8 * Math.sin(s * 0.019));
@@ -155,7 +157,7 @@ export async function create(ctx) {
     // the pack's head is at +x and its back at +y
     V.side.crossVectors(V.tan, V.up).normalize();
     lion.root.setRotationFromMatrix(V.m.makeBasis(V.tan, V.up, V.side)); lion.root.position.copy(V.at);
-    lion.update(t, dt);
+    lion.update(t, dt, { swim: 1, clap: V.phase === 2 && V.turn * VISIT.radius / VISIT.loop < VISIT.clap ? 1 : 0 });
     // it comes out of the haze and goes back into it
     lionLook.uVeil.value = V.phase === 1 ? 1 - Math.min(1, V.t / VISIT.veil) : V.phase === 3 ? Math.max(0, Math.min(1, (V.t - (VISIT.from / VISIT.speed - VISIT.veil)) / VISIT.veil)) : 0;
     // the fish near it give way (the school's own rule for something big)
@@ -263,8 +265,9 @@ export async function create(ctx) {
     /** The point the camera keeps in the middle of the picture: the middle of the near school. */
     follow: () => {
       school.centre(eye); if (leaping) eye.y = SURFACE + 1.3;
-      // while the sea lion is close, the view leans toward it, so its loop stays in the picture
-      if (visit.on) { const d = lion.root.position.distanceTo(eye); if (d < 7) eye.lerp(lion.root.position, 0.45 * Math.min(1, (7 - d) / 3)); }
+      // while the sea lion is close, the view leans a little toward it, so its loop stays in the picture. Only a little:
+      // a view that follows the sea lion keeps it the same size on the screen while the fish slide past
+      if (visit.on) { const d = lion.root.position.distanceTo(eye); if (d < 7) eye.lerp(lion.root.position, 0.2 * Math.min(1, (7 - d) / 3)); }
       return eye;
     },
     /** Once a frame the runner hands over the camera's place; the sea keeps it out of the waterline. While the fish leap,
