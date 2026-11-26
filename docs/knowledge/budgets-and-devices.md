@@ -1,18 +1,18 @@
 # Budgets and devices
 
-Rules: `docs/THREEJS.md` rules 15 and 16. Check: `node tools/stories-test.cjs` (gate step `stories`).
+Rules: `docs/THREEJS.md` rules 15, 16 and 34. Check: `node tools/smoke.cjs` (the budget pass, every story on every tier).
 
 | Tier | Story budget | Anchovy story today | Known how |
 | --- | --- | --- | --- |
-| `low` | 60,000 triangles, 40 calls | 31,558 (45,558 with the huge school; 56,624 and 27 calls with the sea lion in the picture), 21 calls | measured |
-| `mid` | 120,000, 60 | 89,328 (116,628; 119,337 and 26 calls with the sea lion), 21 | measured |
-| `high` | 200,000, 100. The anchovy story has its own: 450,000 (KM, 2026-11-24) | 323,684 (447,904; 447,901 and 27 calls with the sea lion: far fish give way while it is there), 21 | measured |
+| `low` | 60,000 triangles, 40 calls | 31,558 (45,558 with the huge school; 56,624 and 27 calls with the sea lion in the picture), 21 calls | measured, `tools/smoke.cjs`, 2026-11-26 |
+| `mid` | 120,000, 60 | 89,328 (116,628; 119,337 and 26 calls with the sea lion), 21 | measured, same run |
+| `high` | 200,000, 100. The anchovy story has its own: 450,000 (KM, 2026-11-24) | 323,684 (447,904; 447,901 and 27 calls with the sea lion: far fish give way while it is there), 21 | measured, same run |
 
 ## What we know and do not know
 
 | Claim | Status |
 | --- | --- |
-| Triangle and draw call counts | Measured, every tier, every school size, in the gate |
+| Triangle and draw call counts | Measured, every tier, every school size and with the guest, by `tools/smoke.cjs` |
 | Frame rate on any phone, tablet or laptop | **Not measured.** Headless Chromium with software rendering is not a device. |
 | Safari and iPhone | **Not looked at** since the flicker fix. The `pow()` guard is the only protection. |
 | Cost of the pixel shaders (sky with 5 noise layers, surface, fish) | **Not measured.** Triangles are not the whole cost: a full-screen sky is paid per pixel. |
@@ -24,7 +24,7 @@ Rules: `docs/THREEJS.md` rules 15 and 16. Check: `node tools/stories-test.cjs` (
   number.
 - **Raise a budget only where it was asked for and only on the tier that can take it.** `high` only; phones
   stay until one is measured.
-- **A per-story budget is data** (`budget` in `scene.json`), read by the test.
+- **A per-story budget is data** (`budget` in `scene.json`), read by `tools/smoke.cjs`.
 
 ## Open questions
 

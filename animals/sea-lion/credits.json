@@ -15,9 +15,8 @@
       "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
       "covers": [
         "animal.json",
-        "content.en.json",
-        "notes.md",
-        "images/art/"
+        "dossier.json",
+        "notes.md"
       ]
     }
   },

@@ -2,7 +2,7 @@
 
 Code: `scenes/kit/sky.js`. Shader text (`SKY`) that other materials include, so the backdrop draws the sky and
 the sea mirrors the very same one. Times of day: `scenes/kit/daylight.js`, carried into the picture by
-`scenes/kit/place.js` (ADR-0037).
+`scenes/kit/place.js` (`docs/adr/0001-story-kit.md`).
 
 ## How ours is built
 
@@ -50,7 +50,7 @@ None of the four is measured against a photograph, and none has been seen on a r
 
 ## Open questions
 
-1. **Is time of day a platform setting or a story's own?** Today it is the story's: it opens at the time its
+1. **Is time of day a site-wide setting or a story's own?** Today it is the story's: it opens at the time its
    `scene.json` names (`times.opens`) and the visitor picks another on the picture. Nothing is remembered.
 5. **The moon is the sun's disc in a pale colour.** No phases, no moon path on the water beyond the sun's own glint.
 2. **Weather.** Rain, wind, fog and storm are not built. Wind would have to drive the waves and the clouds

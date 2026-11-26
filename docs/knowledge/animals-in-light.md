@@ -15,7 +15,7 @@ Code: `fishMaterial` and `fishGeometry` in `scenes/kit/school.js`. One material 
 
 ## Lessons
 
-- **Colours come from the dossier** (art direction). The anchovy's back, stripe and belly follow NOAA's
+- **Colours come from the sources.** The anchovy's back, stripe and belly follow NOAA's
   description quoted in `scene.json`.
 - **A standard material keeps taking the scene's lights.** In the air those are the wrong lights. The fix was to
   turn the lit colour down above the surface and add our own light there.

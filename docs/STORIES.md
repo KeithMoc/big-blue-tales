@@ -1,14 +1,11 @@
 # Building a story from the story kit
 
-> Copied from the Sea Monsters A to Z book. In this repo there is one reading level (ages 5 to 7, the `young` words),
-> a story links to other stories but not to animal pages, and the checks are `tools/story-voice.mjs`,
-> `tools/three-rules.mjs` and `tools/smoke.cjs` (see the README).
-
 A story is a scene about animals living together: `scenes/<id>/scene.json` (words, sources, cast) and
 `scenes/<id>/scene.js` (the 3D). The contract is the comment at the top of `scenes/runner.js`. This page is the
 short way to a new one. It was written when the anchovy story's sea, sky and light were lifted out into
-`scenes/kit/` so the next story does not write them again (ADR-0037). The rules a gate checks are in
-`docs/THREEJS.md`; what the kit has learned is in `docs/knowledge/`.
+`scenes/kit/` so the next story does not write them again (`docs/adr/0001-story-kit.md`). There is one reading
+level: ages 5 to 7, the `young` words. The three.js rules are in `docs/THREEJS.md`; what the kit has learned is in
+`docs/knowledge/`.
 
 ```mermaid
 flowchart LR
@@ -25,7 +22,7 @@ flowchart LR
   school --> scene
   guest --> scene
   splash --> scene
-  packs[animals/&lt;id&gt;<br/>the book's own models] -- ctx.mount --> guest
+  packs[animals/&lt;id&gt;<br/>guest animal packs] -- ctx.mount --> guest
   scene --> runner[scenes/runner.js<br/>camera, words, sound cues]
 ```
 
@@ -39,7 +36,7 @@ flowchart LR
 | A crowd | `createSchool` (steered, modes, `poke`, `setLoose` for a spread-out school, `watch` to hear fish cross a height) and `createFarSchools`. | 1 draw call each | `scenes/kit/school.js`, `far-school.js` |
 | A guest | `const a = await ctx.mount('<animal id>', { lod })`, then `sea.wear(wearWater(THREE, a.root))`. The scene moves `a.root` and calls `a.update(t, dt)`. `look.uVeil` (0 to 1) brings it in and out through the haze. | the pack's own; `lod` asks for a coarser skin where the pack offers one | `scenes/kit/guest.js` |
 | A splash | `createSplash(THREE, { max })`, `burst(x, y, z, going)` where something crosses the surface. | 1 draw call while drops are in flight, 0 triangles | `scenes/kit/splash.js` |
-| A sound for something that happened | `ctx.cue('<sfx id>')`. Played only if that sound exists and the visitor has sounds on. | none | `scenes/runner.js`, `sounds/shell.en.json` |
+| A sound for something that happened | `ctx.cue('<sfx id>')`. Played only if that sound exists and the visitor has "Tap sounds" on. | none | `scenes/runner.js`, `SFX` in `sounds/index.js` |
 | A name tag | `labels()` in the scene, the words in `scene.json` `labels`. | none | `views/story.js` |
 
 ## The smallest story
@@ -67,16 +64,17 @@ export async function create(ctx) {
 
 | Step | What | Checked by |
 | --- | --- | --- |
-| 1 | Every part of the story has a source with a quote, or a fact in a signed dossier (`docs/FACTS.md`). | gate `scenes` |
-| 2 | A guest animal is in `cast` with its pack id, and something it does in the picture has a source. What the source does not say (the side it comes from, how far it goes) is listed in `notMadeUp` as our choice. | gate `scenes`, review |
-| 3 | A time of day is a look unless it names a source in `times.options[].sources`. Say in `notMadeUp` which parts of the story the sources do not tie to a time of day. | gate `scenes`, review |
-| 4 | Pretend things (Play) say they are pretend on the picture. | gate `stories` |
-| 5 | Words pass the tone check at both reading levels, and every line a child reads has a recorded voice. | gates `scenes`, `sounds` |
+| 1 | Every part of the story has a source with a quote, or a fact in a guest animal's signed dossier (`animals/<id>/dossier.json`, confirmed by a second reader). | `tools/story-check.mjs` |
+| 2 | A guest animal is in `cast` with its pack id, and something it does in the picture has a source. What the source does not say (the side it comes from, how far it goes) is listed in `notMadeUp` as our choice. | `story-check` (the pack exists), review |
+| 3 | A time of day is a look unless it names a source in `times.options[].sources`. Say in `notMadeUp` which parts of the story the sources do not tie to a time of day. | `story-check` (the source is listed), review |
+| 4 | Pretend things (Play) say they are pretend on the picture. | `story-check` (pretend colours have a note), review |
+| 5 | Words pass the tone check, and every line a child reads has a recorded voice. | `tools/story-check.mjs`, `tools/story-voice.mjs` |
 
 ## Budget
 
 A story fits `low` 60,000 / `mid` 120,000 / `high` 200,000 triangles (40 / 60 / 100 draw calls) at its biggest:
-the biggest group picked **and** the guest in the picture (in the book, `tools/stories-test.cjs` measured exactly that; here `tools/smoke.cjs` prints the headless count for the first story). A
+the biggest group picked **and** the guest in the picture. `tools/smoke.cjs` measures exactly that, on every tier, and
+fails over budget; a story may raise a tier's budget in its `scene.json` (`budget`), as the anchovy story does on `high`. A
 guest needs room: let far scenery give way while it is there (`fishRoom()` in the anchovy scene) rather than
 keeping the room empty all the time. Nothing here has been timed on a real phone.
 
@@ -84,7 +82,7 @@ keeping the room empty all the time. Nothing here has been timed on a real phone
 
 | Missing | Note |
 | --- | --- |
-| A sea floor for stories | `ground` in the scene contract exists; no kit piece draws sand or reef for a story. The parked reef scene has one. |
+| A sea floor for stories | `ground` in the scene contract exists; no kit piece draws sand or reef for a story. |
 | Weather | Wind, rain and fog are not built. Waves and clouds are fixed at "calm". |
 | Rings on the surface where something went in | Drops and bubbles only. |
 | A guest that leaves the water | The guest look has no air lighting; the fish look has. |

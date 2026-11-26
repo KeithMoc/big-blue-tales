@@ -1,10 +1,9 @@
-// The links between stories, animals, big ideas and places. Nothing is stored twice: a story's own
-// scene.json says who is in it (cast), what it shows (ideas), where it is (habitat) and which animals to
-// meet next and why (links, each pointing at a fact in that animal's signed dossier). This file reads
-// them all once and answers the two questions a page asks:
-//   forAnimal(id)  -> [{ scene, why: { young, older } }]   stories to offer on an animal's page
-//   forScene(id)   -> { cast, ideas, habitat, next, more }  what to show beside a story
-// Every link carries its reason, so the page never says "related" without saying why. Licence: MIT.
+// The links between stories, the animals in them, big ideas and places. Nothing is stored twice: a story's own
+// scene.json says who is in it (cast), what it shows (ideas), where it is (habitat) and what to say about an animal
+// in it (links, each pointing at a fact in that animal's signed dossier, animals/<id>/dossier.json). This file reads
+// them all once and answers what the story view shows beside a story:
+//   forScene(id)   -> { cast, ideas, habitat, next, more }
+// Every link to another story carries its reason, so the page never says "related" without saying why. Licence: MIT.
 import { loadScene } from './runner.js';
 
 let ready = null;
@@ -22,18 +21,8 @@ export function loadStories() {
 
 function api(index, scenes) {
   const byId = new Map(scenes.map(s => [s.id, s]));
-  const both = (text) => ({ young: text, older: text });
   return {
     index, scenes, get: (id) => byId.get(id),
-    forAnimal(animal) {
-      const out = [];
-      for (const S of scenes) {
-        const cast = S.cast.find(c => c.animal === animal), link = (S.links || []).find(l => l.animal === animal);
-        if (link) out.push({ scene: S, why: { young: link.young, older: link.older }, fact: link.fact, inCast: !!cast });
-        else if (cast) out.push({ scene: S, why: both(`${cast.name}: ${cast.role}.`), inCast: true });
-      }
-      return out.sort((a, b) => b.inCast - a.inCast);
-    },
     forScene(id) {
       const S = byId.get(id), others = scenes.filter(o => o !== S);
       const ideas = S.shows.map(k => ({ id: k, ...index.ideas[k], also: others.filter(o => o.shows.includes(k)) }));

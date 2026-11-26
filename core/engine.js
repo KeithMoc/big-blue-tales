@@ -1,5 +1,5 @@
 // Engine: the one renderer, camera, orbit controls and bloom pipeline the whole site shares.
-// There is exactly one WebGL context however many animals the book holds. Views borrow the engine;
+// There is exactly one WebGL context however many animals a story holds. Views borrow the engine;
 // they never create a renderer of their own. Licence: MIT.
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';

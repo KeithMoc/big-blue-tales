@@ -7,11 +7,3 @@ export function audio() { ctx ||= new AC(); if (ctx.state === 'suspended') ctx.r
 export function decode(url) {
   return fetch(url).then(r => { if (!r.ok) throw new Error(r.status); return r.arrayBuffer(); }).then(b => new Promise((ok, no) => audio().decodeAudioData(b, ok, no)));
 }
-/** A longer clip (an animal's call), streamed rather than decoded whole. -> { stop() }; `ended` runs when it finishes or fails. */
-export function playClip(url, ended) {
-  const a = new Audio(url); let over = false;
-  const end = () => { if (!over) { over = true; ended?.(); } };
-  a.addEventListener('ended', end); a.addEventListener('error', end);
-  a.play().catch(end);
-  return { stop() { over = true; a.pause(); } };
-}

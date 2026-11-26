@@ -1,7 +1,6 @@
 // Story view: one story from scenes/ on the stage, its words in the panel beside it, and under the words who is
-// in it, what big idea it shows, where it happens and the other stories (each with its reason). Taken from the Sea
-// Monsters A to Z book (main df4fd65); links to the book's animal pages are left out. One reading level: ages 5 to 7.
-// Licence: MIT.
+// in it, what big idea it shows, where it happens and the other stories (each with its reason). One reading level:
+// ages 5 to 7. Licence: MIT.
 import * as THREE from 'three';
 import { $, h, calm, store } from '../ui/dom.js';
 import { createSceneRunner } from '../scenes/runner.js';
@@ -16,13 +15,13 @@ export function createStoryView({ engine, env, settings, go }) {
   const tags = $('storytags'), spot = new THREE.Vector3();
   let active = false, stories = null, S = null, beat = null, seq = 0, tagTimer = 0;
   // a scene may name a sound for something that just happened in it (a splash): heard only with "Tap sounds" on, and only if that sound exists
-  const runner = engine ? createSceneRunner({ engine, env, calm, onBeat: (id) => showBeat(id), onCue: (id) => { if (active && settings.show.sfx && hasSfx(id)) playSfx(id); } }) : null;
+  const runner = engine ? createSceneRunner({ engine, env, calm, specks: () => settings.show.snow, onBeat: (id) => showBeat(id), onCue: (id) => { if (active && settings.show.sfx && hasSfx(id)) playSfx(id); } }) : null;
   const text = (o) => o[settings.level] || o.young;
 
   // The voice. A story is never read out by itself and never again each time a part is picked: it is read when
   // the reader asks. Asking is the ? on the picture (with "Read aloud on tap" on, it speaks as the card opens)
   // or a Listen button, on the card and beside the words in the panel, which works whatever the switch says.
-  // What is said is what is shown, at the reading level the book is set to (ui/story-lines.js, recorded ahead).
+  // What is said is what is shown, in the ages 5 to 7 words (ui/story-lines.js, recorded ahead).
   let reading = null;
   const listenBtn = (id) => h('button', { class: 'pill listen', id, hidden: !canSpeak, text: label('story.listen'), onclick: () => read(reading === id ? null : id) });
   function read(id) {
@@ -115,7 +114,7 @@ export function createStoryView({ engine, env, settings, go }) {
   }
   const syncTurn = () => { if (engine) engine.controls.enableRotate = !(active && playing && sceneNow()?.draw); };
   // Sound: the sea is heard while a story is open (it follows the "Tap sounds" switch), and music plays only when the
-  // visitor switches it on. Which sounds, and how loud, are data: sounds/shell.en.json and sounds/sounds.config.json.
+  // visitor switches it on. Which sounds, and how loud, are data: sounds/index.js (SFX and OPTIONS.story).
   const SOUND = OPTIONS.story || {}; let sea = null, music = null;
   const wantMusic = () => store.get('sm-music') === '1' && hasSfx('story-music');
   function syncSound() {
@@ -129,7 +128,7 @@ export function createStoryView({ engine, env, settings, go }) {
   $('story-music').addEventListener('click', () => { store.set('sm-music', wantMusic() ? '0' : '1'); syncSound(); });
   document.addEventListener('visibilitychange', syncSound);
   // Just the fish: Play fills the screen and every other button goes away but one, in the corner. It opens a small
-  // tray with the Play choices (trail, colours, time of day) and the way back to the story (KM, 2026-11-25). The choices
+  // tray with the Play choices (trail, colours, time of day) and the way back to the story. The choices
   // are the same buttons as below the picture, moved into the tray and back, so there is one of each. A wide screen
   // starts with the tray open; a narrow one (a phone) starts with only the button. The line that says what is
   // pretend still shows for a few seconds on the way in.
@@ -203,7 +202,6 @@ export function createStoryView({ engine, env, settings, go }) {
 
   async function open(id) {
     const mine = ++seq; active = true;
-    settings.hush();
     $('storyfact').textContent = 'The story is on its way.';
     try {
       stories = await loadStories();
@@ -228,7 +226,7 @@ export function createStoryView({ engine, env, settings, go }) {
     if (!active) return;
     justPlay(false); active = false; playing = false; timeNote(''); syncTurn(); syncSound(); seq++;
     clearInterval(tagTimer); tags.replaceChildren();
-    runner?.close(); settings.hush(); read(null); setStoryNarration(null);
+    runner?.close(); read(null); setStoryNarration(null);
   }
   settings.onChange(() => { if (just && !settings.exploring) justPlay(false); if (active) { if (reading) read(null); render(); syncSound(); } });   // Esc out of full screen leaves Just the fish too
   $('story-home').addEventListener('click', () => runner?.home());

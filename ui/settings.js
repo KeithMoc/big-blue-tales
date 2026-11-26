@@ -1,16 +1,16 @@
-// Settings for the story, all in one Settings card on the stage: voice, sounds and captions, what is on the screen,
+// Settings for the story, all in one Settings card on the stage: voice and sounds, what is on the screen,
 // full screen. There is one age group, ages 5 to 7 ("young"), so it is not a choice. Remembered on this device only. Licence: MIT.
 import { $, h, store } from './dom.js';
-import { canSpeak, speak, stopSpeaking } from './speech.js';
+import { canSpeak, stopSpeaking } from './speech.js';
 import { canPlay } from './audio.js';
 
 // [key, label, the Settings section it sits in]
-const PARTS = [['voice', 'Read aloud on tap', 'sound'], ['sfx', 'Tap sounds', 'sound'], ['captions', 'Captions', 'sound'],
+const PARTS = [['voice', 'Read aloud on tap', 'sound'], ['sfx', 'Tap sounds', 'sound'],
   ['panel', 'Story panel', 'screen'], ['actions', 'Buttons', 'screen'], ['words', 'Words on buttons', 'screen'], ['snow', 'Drifting specks', 'screen'],
   ['perf', 'Speed numbers', 'grown']];
 const OFF_BY_DEFAULT = ['voice', 'perf'];
 const EVERYTHING = Object.fromEntries(PARTS.map(([k]) => [k, !OFF_BY_DEFAULT.includes(k)]));
-const JUST_ANIMAL = { ...EVERYTHING, panel: false, words: false, captions: false, voice: true };
+const JUST_FISH = { ...EVERYTHING, panel: false, words: false, voice: true };
 const ICON_FULL = 'M4 9V4h5M15 4h5v5M20 15v5h-5M9 20H4v-5', ICON_LEAVE = 'M9 4v5H4M15 4v5h5M20 15h-5v5M4 15h5v5';
 
 export function createSettings() {
@@ -45,20 +45,20 @@ export function createSettings() {
     b.addEventListener('click', () => { show[k] = !show[k]; applyShow(); });
     $('set-' + group).append(b);
   }
-  // the two shortcuts sit under "On the screen" and change only that section: voice, sounds and captions stay as chosen
+  // the two shortcuts sit under "On the screen" and change only that section: voice and sounds stay as chosen
   const others = () => Object.fromEntries(PARTS.filter(([, , g]) => g !== 'screen').map(([k]) => [k, show[k]]));
-  $('preset-fish').addEventListener('click', () => { show = { ...JUST_ANIMAL, ...others() }; applyShow(); });
+  $('preset-fish').addEventListener('click', () => { show = { ...JUST_FISH, ...others() }; applyShow(); });
   $('preset-all').addEventListener('click', () => { show = { ...EVERYTHING, ...others() }; applyShow(); });
   const openShow = (open) => { $('showcard').hidden = !open; $('btn-show').setAttribute('aria-expanded', open); };
   $('btn-show').addEventListener('click', () => openShow($('showcard').hidden));
   document.addEventListener('pointerdown', (e) => { if (!e.target.closest('#showcard, #btn-show')) openShow(false); });
 
-  // Full screen is a shortcut: it remembers the current switches, flips to "just the animal", and puts
+  // Full screen is a shortcut: it remembers the current switches, flips to "Just the fish", and puts
   // everything back when you leave.
   function setExplore(on) {
     if (on === explore) return;
     explore = on;
-    if (on) { saved = { ...show }; show = { ...JUST_ANIMAL, perf: show.perf }; }
+    if (on) { saved = { ...show }; show = { ...JUST_FISH, perf: show.perf }; }
     else { show = saved ? { ...EVERYTHING, ...saved } : { ...EVERYTHING }; saved = null; }
     applyShow(); openShow(false);
     // real full screen where the browser allows it; the stripped-back layout works either way
@@ -80,22 +80,6 @@ export function createSettings() {
     if (nativeFull && !(document.fullscreenElement || document.webkitFullscreenElement)) setExplore(false);
   });
 
-  // one caption line, shared by every view
-  let captionTimer = 0;
-  function say(text, ms = 3600, { voice = true } = {}) {
-    if (!text) return;
-    if (voice && show.voice) speak(text);
-    const c = $('caption');
-    c.textContent = text; c.classList.add('show');
-    c.classList.toggle('long', text.length > 60);       // a whole fact, not a shout: smaller words on a dark plate
-    clearTimeout(captionTimer);
-    captionTimer = setTimeout(() => c.classList.remove('show'), ms);
-  }
-  /** Words on the stage only: for a line that something else is already reading aloud. */
-  const caption = (text, ms) => say(text, ms, { voice: false });
-
-  /** Clear the caption and stop the voice: called whenever the animal or the view changes, so one animal's line never shows on the next. */
-  function hush() { clearTimeout(captionTimer); const c = $('caption'); c.classList.remove('show'); c.textContent = ''; }
 
   applyLevel(); applyShow();
   return {
@@ -103,8 +87,6 @@ export function createSettings() {
     get show() { return show; },
     get exploring() { return explore; },
     onChange(fn) { listeners.add(fn); return () => listeners.delete(fn); },
-    /** words that depend on the animal in view */
-    name({ noun, depthLabel }) { $('preset-fish').textContent = `Just the ${noun}`; const s = document.querySelector('#sw-depth span'); if (s) s.textContent = depthLabel; },
-    say, caption, hush, setExplore, openShow,
+    setExplore, openShow,
   };
 }

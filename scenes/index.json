@@ -1,5 +1,5 @@
 {
-  "about": "The stories in the book and the words that tie them to the animals. Each scene folder holds its own words and sources; this file lists the scenes in reading order and names the big ideas and places they share. A link from a story to an animal lives in that story's scene.json and must point at a fact in the animal's signed dossier.",
+  "about": "The stories in reading order, and the big ideas and places they share. Each story's folder (scenes/<id>/) holds its own words and sources. What a story says about an animal in it lives in that story's scene.json (links) and must point at a fact in the animal's signed dossier (animals/<id>/dossier.json).",
   "scenes": [
     "anchovy-school"
   ],

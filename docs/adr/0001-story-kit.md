@@ -1,4 +1,4 @@
-# ADR-0037: A story kit: one sea, one light for the time of day, guests from the book's own animals
+# ADR-0001: A story kit: one sea, one light for the time of day, guest animals from their own packs
 
 | Status | Date | Supersedes | Superseded by |
 | --- | --- | --- | --- |
@@ -6,8 +6,8 @@
 
 ## Context
 
-The anchovy story (pull requests 26 and 29) grew a sea surface, a sky, an evening light and a swim area, all
-wired together inside its own `scene.js`. KM wants more stories about sea animals living together, and asked
+The anchovy story grew a sea surface, a sky, an evening light and a swim area, all wired together inside its own
+`scene.js`. KM wants more stories about sea animals living together, and asked
 for the sea, the surface, the sky and the time of day as reusable parts first (2026-11-25), with the anchovy
 story as their first user: a splash with a sound, sunrise and night, and a real hunter. Three questions were
 open in `docs/knowledge/stories-next.md`: what the contract of a story kit is, whether a pack animal can
@@ -25,13 +25,13 @@ appear in a story wearing the story's light, and whether a time of day is a look
    at a time of day is written in the story's `times` block with its sources, and `notMadeUp` says which parts
    of the story no source ties to a time. In the anchovy story the loose school at night is sourced; the ring,
    the ball and the sea lion are shown the same at every time, and the page says so.
-4. **Guests come from the book.** A story shows a hunter or a neighbour by mounting that animal's own pack
-   (`ctx.mount`), never a second model. `wearWater` (`scenes/kit/guest.js`) gives its materials the sea's tint
-   and haze. A pack may honour `ctx.lod` (0.3 to 1) with a coarser skin; one that does not is drawn as it is.
+4. **A guest is its own pack.** A story shows a hunter or a neighbour by mounting that animal's own pack
+   (`animals/<id>/`) with `ctx.mount`, never a second model. `wearWater` (`scenes/kit/guest.js`) gives its
+   materials the sea's tint and haze. A pack may honour `ctx.lod` (0.3 to 1) with a coarser skin; one that does not is drawn as it is.
    What the guest does must have a source; what the source leaves open is listed as our choice.
-5. **The budget holds at the worst moment.** The stories test measures each tier with the biggest group picked
+5. **The budget holds at the worst moment.** `tools/smoke.cjs` measures each tier with the biggest group picked
    and the guest in the picture. Far scenery gives way while a guest is there.
-6. **A sound for an event is a cue, not a call.** A scene says `ctx.cue(id)`; the page plays that `sfx` entry
+6. **A sound for an event is a cue, not a call.** A scene says `ctx.cue(id)`; the page plays that `SFX` entry (`sounds/index.js`)
    only if it exists and the visitor has sounds on. A sound that was never made is silence, not an error.
 
 ## Consequences
@@ -46,4 +46,4 @@ if a second story needs a sea that does not fit `createSeaPlace` (a reef in shal
 
 `scenes/kit/place.js`, `daylight.js`, `guest.js`, `splash.js`, additions to `school.js`, `sky.js`, `water.js`,
 `shafts.js`, `surface.js`; `scenes/runner.js` (contract: `times`, `labels`, `ctx.cue`, `ctx.mount` with
-`lod`); `scenes/anchovy-school/`; `tools/stories-test.cjs`, `tools/scenes.mjs`; `docs/STORIES.md`.
+`lod`); `scenes/anchovy-school/`; `tools/smoke.cjs` (budget), `tools/story-check.mjs` (sources); `docs/STORIES.md`.

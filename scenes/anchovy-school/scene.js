@@ -8,7 +8,7 @@
 //   room         - the school has a home (the middle of its loop, ring or ball) that can be anywhere in AREA. While
 //                  the fish swim together the home drifts slowly, and in Play a drawn line leads it somewhere new.
 //                  The camera, the shafts and the far schools come along; the water dims a little on the way down.
-//   the sea lion - in the last part a California sea lion (the book's own pack, as a guest) comes in level and a little
+//   the sea lion - in the last part a California sea lion (its own pack in animals/sea-lion/, as a guest) comes in level and a little
 //                  deeper than the school, loops up through it and swims on: the "loop attack" filmed off Mexico
 //                  (scene.json, source "loop"). No fish is caught in the picture. The way the fish give way is the
 //                  school's own rule for anything big; how a school answers a loop from below has had little study.
@@ -29,7 +29,7 @@ const LOOK = {
   // grow: how many times the school for "a school", "a big school", "a huge school". room: the most triangles the
   // near and far fish and a guest may use together on this tier; far fish give way as the near school grows, and
   // again while the sea lion is in the picture.
-  // guest: how fine the sea lion's skin is (1 = as on its own page). splash: points for drops and bubbles.
+  // guest: how fine the sea lion's skin is (1 = the pack's full detail). splash: points for drops and bubbles.
   // watch: every n-th fish is watched for crossing the surface.
   high: { fish: 1350, detail: 2, far: 2500, ripples: true, grow: [1, 1.5, 2], room: 394000, guest: 0.8, splash: 192, watch: 6 },      // 182,250 + 87,500 fish, + 51,200 sea (this story's own budget on high: scene.json)
   mid: { fish: 900, detail: 1, far: 700, ripples: true, grow: [1, 1.4, 1.75], room: 108500, guest: 0.4, splash: 128, watch: 8 },       // 56,700 + 24,500, + 5,408
@@ -73,7 +73,7 @@ export async function create(ctx) {
   sea.wear(school.look); sea.wear(far.look);
   const splash = createSplash(THREE, { max: L.splash });
   root.add(sea.root, far.root, school.root, splash.root);
-  // the sea lion: the book's own pack as a guest, in the story's light, out of the picture until the last part
+  // the sea lion: its own pack (animals/sea-lion/) as a guest, in the story's light, out of the picture until the last part
   const lion = await ctx.mount('sea-lion', { lod: L.guest }), lionLook = sea.wear(wearWater(THREE, lion.root));
   lion.root.visible = false; root.add(lion.root);
   const visit = { on: false, t: 0, phase: 0, turn: 0, at: new THREE.Vector3(), way: new THREE.Vector3(1, 0, 0), foot: new THREE.Vector3(), nose: new THREE.Vector3(), tan: new THREE.Vector3(), up: new THREE.Vector3(), side: new THREE.Vector3(), m: new THREE.Matrix4() };

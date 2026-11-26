@@ -1,4 +1,4 @@
-// Kit parts for big, smooth animals (first written for the blue whale, then the great white shark). Licence: MIT.
+// Kit parts for big, smooth animals. Licence: MIT.
 //   surface        - any parametric surface, with normals taken from the surface itself
 //   wing           - a flat, tapering blade (flukes, flippers, dorsal fins)
 //   makeSpine      - a chain of bones along x, and skinByX to bind a mesh to it

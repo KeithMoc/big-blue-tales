@@ -31,7 +31,7 @@ Code: `scenes/kit/surface.js`, `scenes/kit/sky.js` (`seaFar`), used by `scenes/a
 | FFT ocean (JONSWAP spectrum, several cascades) | Float render targets and several passes a frame; phones not measured | A story that needs a rough sea, and a measured phone |
 | Screen-space reflection and refraction | Needs the scene drawn to a picture first | A story with something above the water to mirror |
 | Foam from the wave Jacobian | Needs a buffer that keeps state between frames | A splash or a breaking wave in a story |
-| WebGPU and TSL water libraries | We ship WebGL on three.js r180 | A platform decision, not a story's |
+| WebGPU and TSL water libraries | We ship WebGL on three.js r180 | A decision for the whole repo, not one story's |
 
 ## Open questions
 
