@@ -135,12 +135,12 @@ export function createStoryView({ engine, env, settings, go }) {
   // Time of day: the whole picture moves to another light. With "Read each part aloud" on, the line for the time
   // picked is read once, with its caption; where it says what the animals do then, scene.json names its source.
   // A new time of day is shown as a caption only, never read aloud: the sky changes with a sound of its own, and a
-  // voice on top of it was too much (KM, 2026-11-26). A part being read aloud is left to finish.
+  // voice on top of it was too much (the maintainer, 2026-11-26). A part being read aloud is left to finish.
   function timeNote(words) {
     if (!words) { if (quiet && S?.times?.options.some(o => text(o) === quiet.text)) hush(); return; }
     if (active && !speaking()) show(words);
   }
-  // Time of day is one setting for the whole book, like Music, Captions and Read aloud (KM, 2026-11-26): a round
+  // Time of day is one setting for the whole book, like Music, Captions and Read aloud (the maintainer, 2026-11-26): a round
   // button in the corner, in every mode, that moves on to the next time of day with each tap and is remembered.
   // Its picture is the time of day now. Learn and Play no longer hold it.
   const savedTime = () => store.get('bbt-time');
@@ -343,7 +343,7 @@ export function createStoryView({ engine, env, settings, go }) {
     $('entryname').textContent = E.title || S.title;
     $('entrygo-label').textContent = E.start || 'Start';
     $('entryload').hidden = true; $('entrytitle').hidden = false; $('entrytitle').classList.remove('going');
-    // under the water, below the school, looking up at it and the sunlit surface (the concept KM shared, 2026-11-26)
+    // under the water, below the school, looking up at it and the sunlit surface (the maintainer's concept, 2026-11-26)
     const at = sc.follow().clone(), [below, back, look] = E.view || [10, 5, -4];
     const aim = new THREE.Vector3(0, look + (innerWidth > innerHeight ? 2.5 : 0), 0);   // a wide screen sees less sky: aim nearer the school
     runner.hold(aim);                                // the camera swims along under the school while the title shows

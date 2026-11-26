@@ -19,11 +19,12 @@ Then a California sea lion swims by and loops up through them!
 - **Play**: pick a school, a big school or a huge school, rainbow fish and a line of light. Tap the water to make the
   fish dart. Drag to draw a line for them to follow, in the trail you picked, or tap **Move the view** to look around. Draw up to the top of the
   sea and they jump out with a splash! (That part is pretend, and the story says so.)
-- In both: watch at sunrise, in the day, at sunset or at night.
-- Bottom right, always there, pictures only: music, captions and the speaker (grey with a slash when off), **Find
+- In both: watch at sunrise, in the day, at sunset or at night (the round sun button in the corner; the page remembers it).
+- Bottom right, always there, pictures only: music, captions, the speaker (grey with a slash when off), the time of day, **Find
   the fish** and **Just the fish**, which fills the screen with only the water; there **+** holds the story's
   parts (Learn) or the Play choices, and the way back.
-- The sea is alive: soft music from Start, quieter while a line is read, and now and then a swell or a few bubbles.
+- The sea is alive: soft music from the first screen (it fades in on the first tap, because browsers keep a page
+  silent until then), quieter while a line is read, and now and then a swell or a few bubbles.
 
 ## For grown-ups
 
@@ -31,8 +32,7 @@ Every line a child reads or hears is tied to a quoted source, and anything prete
 listed under "What the picture leaves out". The words are written in a gentle tone for ages 5 to 7. Non-commercial
 and educational. Licences are in `NOTICE.md`.
 
-The buttons a child uses sit under the picture by mode: Learn or Play first, then only that mode's buttons, then the
-time of day. Music, captions and the speaker are round picture buttons in the corner in every mode (the maintainer's
+The buttons a child uses sit under the picture by mode: Learn or Play first, then only that mode's buttons. Music, captions and the speaker are round picture buttons in the corner in every mode (the maintainer's
 call: ages 5 to 7 know a note, a speech bubble and a speaker); every other button has a word, and on a phone the
 choices show their pictures only, so no word is ever cut off (`tools/fit.cjs` checks it). Grown-ups holds only two
 switches: sounds when you tap, and reading each part aloud when it is tapped.
@@ -40,7 +40,7 @@ switches: sounds when you tap, and reading each part aloud when it is tapped.
 ## For contributors
 
 One story per folder on a shared story kit. Plain ES modules and three.js r180 in `vendor/`, with no bundler and
-no build step. Coding agents: start with `AGENTS.md`.
+no build step. How to send a change: `CONTRIBUTING.md`. Coding agents: start with `AGENTS.md`.
 
 ### Run it
 
@@ -66,8 +66,10 @@ node tools/smoke.cjs http://localhost:8765/ shots    # with the server running: 
 through the first story's parts, times of day, Read aloud, Music, Play, Draw and a drawn line and Just the fish, opens every
 story by its address, and counts triangles and draw calls for every story on the `low`, `mid` and `high` tiers
 (every group size, and the biggest group with the guest animal in the picture) against the story's budget. At the
-phone size it only opens the page and saves a picture. It fails on any page error, failed request, a first-story
-line with no recording, or a count over budget. Headless Chromium draws in software, so it gives no real frame rate.
+phone size it only opens the page and saves a picture. It also checks that no tap or key gets
+through the opening screens to the buttons under them, and, with sound held back the way a phone does, that the
+first tap lets the music out. It fails on any page error, failed request, a first-story line with no recording, or
+a count over budget. Headless Chromium draws in software, so it gives no real frame rate.
 
 `node tools/fit.cjs --files` (`npm run fit`) opens the story at eight phone sizes, upright and on its side, in Learn,
 Play, Play with Move the view on, and Just the fish in Play and in Learn with its tray open, and fails if any button or word is cut off, smaller than 44 px, or on top
@@ -94,7 +96,7 @@ flowchart LR
 | `animals/<id>/` | Guest animals a story mounts. Today that is the California sea lion: `pack.js`, `model/`, its signed fact `dossier.json`, `notes.md`, `credits.json` |
 | `views/`, `ui/`, `core/`, `kit/` | The story view; settings, voice and sound playback; engine, water presets, quality tiers, pack loader; the model kit |
 | `sounds/` | Sounds every story shares (`index.js`), and the maker, prompt and licence of every sound and recorded line (`manifest.json`) |
-| `tools/` | The four checks above |
+| `tools/` | The checks above, and `site.sh` (gathers the site for GitHub Pages) |
 | `AGENTS.md` | The short rules and checks for a coding agent (or a person) working in this repo |
 | `docs/` | Story guide (`STORIES.md`), three.js standard (`THREEJS.md`), tone guide (`TONE.md`), the story kit decision (`adr/`), what was learned (`knowledge/`) |
 
@@ -128,12 +130,6 @@ Read `docs/STORIES.md` first. In short:
 first and does not publish if that fails, then copies only the files the page needs (no `docs/` or `tools/`). All
 paths in the page are relative, so it works under `/big-blue-tales/`. Pages has to be switched on once in the
 repository settings (Settings > Pages > Source: GitHub Actions).
-
-**Private demo on Render.** `render.yaml` runs the same checks and `tools/site.sh`, then serves the site with
-`tools/demo-server.mjs`: one shared password (the `DEMO_PASSWORD` setting on Render; any user name works) and strict
-security headers (a content security policy, no framing, no search-engine listing). With no password set it shows
-nothing. To start it: Render dashboard > New > Blueprint > this repository, and enter a password when asked. The
-free plan sleeps when nobody visits, so the first visit after a quiet spell takes about a minute.
 
 ### Rules every story keeps
 

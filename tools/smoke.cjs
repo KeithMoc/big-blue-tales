@@ -83,7 +83,7 @@ const TIER_BUDGET = { low: { triangles: 60000, calls: 40 }, mid: { triangles: 12
         return storyLines(S, 'young').filter(l => !lines[lineKey(l.text)]).map(l => l.where);
       });
       if (missing.length) errors.push('no recording for ' + missing.join(', '));
-      // Time of day is one round button in the corner for the whole book (KM, 2026-11-26): each tap moves to the next
+      // Time of day is one round button in the corner for the whole book (the maintainer, 2026-11-26): each tap moves to the next
       // time, and a new time is never read aloud, only shown as a caption (a part may still be read from before)
       const timeLines = await page.evaluate(() => window.__sea.storyView.current.times.options.map(o => o.young));
       const talking = () => page.evaluate(async () => (await import('./ui/speech.js')).nowSpeaking()?.text || '');
