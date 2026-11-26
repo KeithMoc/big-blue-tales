@@ -36,3 +36,8 @@ The story's buttons use one icon set drawn for Big Blue Tales: `ui/icons.js` (in
   say "colour". Turned down: two odd-coloured fish with a question mark, a paint splash (read as a flower).
 - Words on screen for kids are subtitles only, 1 or 2 lines at a time, timed to the recording
   (`ui/captions.js`, `tools/caption-cues.mjs`); no word panel.
+
+2026-11-26, the corner: Music, Captions (a speech bubble with two lines) and Read aloud (the speaker) are round buttons
+with no word, in every mode, at the maintainer's call; each keeps its name for a screen reader. New drawings: `skip`
+(two arrows), `draw` (a crayon and its wavy line), `captions`. On a phone the Play and time-of-day choices show their
+pictures only (`tools/fit.cjs`), so every choice needs a picture that stands on its own.

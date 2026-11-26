@@ -73,6 +73,15 @@ const DRAW = {
   more: () => `<path class="pulse" d="M16 9 V23 M9 16 H23" stroke="${C.gold}" stroke-width="4" stroke-linecap="round"/>`,
   back: () => `<g class="bob"><path d="M22.6 22.4 C24.6 15.6 20 10.6 13.4 11.4" fill="none" stroke="${C.gold}" stroke-width="3" stroke-linecap="round"/>
     <path d="M15.6 6.8 L10.4 11.6 L15.8 15.8" fill="none" stroke="${C.gold}" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></g>`,
+  // Captions: a speech bubble with two lines of words in it
+  captions: () => `<g class="bob"><path d="M7 10.4 Q7 8 9.4 8 H22.6 Q25 8 25 10.4 V18.6 Q25 21 22.6 21 H14.6 L10 25 V21 H9.4 Q7 21 7 18.6 Z" fill="${C.white}"/>
+    <path d="M10.6 12.8 H21.4 M10.6 16.6 H18" stroke="${C.seaDeep}" stroke-width="2.2" stroke-linecap="round"/></g>`,
+  // Skip: two arrows, a fish's dash ahead
+  skip: () => `<g class="bob"><path d="M9.4 10 L15.4 16 L9.4 22 M16.6 10 L22.6 16 L16.6 22" fill="none" stroke="${C.gold}" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/></g>`,
+  // Draw: a crayon leaving a wavy path for the fish to follow
+  draw: () => `<path d="M6.4 24.6 C9 21.4 11 25.8 13.6 22.8" fill="none" stroke="${C.rim}" stroke-width="2.2" stroke-linecap="round"/>
+    <g class="bob"><path d="M13.6 22.4 L15 17.4 L22.4 10 L25.8 13.4 L18.4 20.8 Z" fill="${C.gold}"/><path d="M13.6 22.4 L15 17.4 L18.4 20.8 Z" fill="${C.belly}"/>
+    <path d="M22.4 10 L23.8 8.6 L27.2 12 L25.8 13.4 Z" fill="${C.coral}"/></g>`,
 
   // ---- what the fish do ----
   together: () => `<g class="swim">${fish(11.6, 10.6, 0.56)}${fish(21.2, 16, 0.56)}${fish(11.6, 21.4, 0.56)}</g>`,

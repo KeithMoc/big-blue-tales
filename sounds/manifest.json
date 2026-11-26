@@ -1,8 +1,58 @@
 {
  "schema": 1,
  "about": "Every sound this story carries, one entry each: what it is, how it was made, its licence and credit. Only an ages 5 to 7 voice is carried.",
- "count": 18,
+ "count": 20,
  "sounds": [
+  {
+   "id": "shell/sfx/sea-swell",
+   "kind": "sfx",
+   "scope": "shell",
+   "where": "sea-swell",
+   "prompt": "One slow, soft underwater swell rolling past, heard from inside calm warm sea water: a deep gentle whoosh that rises and fades away, muffled and smooth, no hiss, no rumble, no voices, no music, 6 seconds",
+   "seconds": 3.03,
+   "influence": 0.3,
+   "provider": "elevenlabs-sfx",
+   "model": "eleven_text_to_sound_v2",
+   "voice": null,
+   "voiceName": null,
+   "provenance": "generated",
+   "file": "sounds/shell/sfx.sea-swell.mp3",
+   "hash": "4429fe158b415171",
+   "fileHash": "08ef82e4412c6e8f",
+   "licence": "CC BY 4.0",
+   "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
+   "credit": {
+    "title": "A soft swell rolls past",
+    "author": "ElevenLabs sound effects",
+    "sourceUrl": "https://elevenlabs.io/sound-effects"
+   },
+   "note": "Generated on a paid ElevenLabs plan at the maintainer's request (2026-11-26), one take, and released under CC BY 4.0 as the other sound effects are. Cleaned with ffmpeg: high-pass 110 Hz twice (the take held most of its energy below 110 Hz, the rumble that buzzed before), low-pass 2.8 kHz (no hiss), fades in 0.6 s and out 0.9 s, loudness -24 LUFS, mono. A sea sound, not an animal's voice."
+  },
+  {
+   "id": "shell/sfx/sea-bubbles",
+   "kind": "sfx",
+   "scope": "shell",
+   "where": "sea-bubbles",
+   "prompt": "A few small soft bubbles rising underwater in calm sea water, gentle round bloops and tiny plinks, close and clean, no hiss, no voices, no music, 3 seconds",
+   "seconds": 1.04,
+   "influence": 0.3,
+   "provider": "elevenlabs-sfx",
+   "model": "eleven_text_to_sound_v2",
+   "voice": null,
+   "voiceName": null,
+   "provenance": "generated",
+   "file": "sounds/shell/sfx.sea-bubbles.mp3",
+   "hash": "3ef2686a22a1e759",
+   "fileHash": "026924300751657f",
+   "licence": "CC BY 4.0",
+   "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
+   "credit": {
+    "title": "A few bubbles rise",
+    "author": "ElevenLabs sound effects",
+    "sourceUrl": "https://elevenlabs.io/sound-effects"
+   },
+   "note": "Generated on a paid ElevenLabs plan at the maintainer's request (2026-11-26), one take, and released under CC BY 4.0 as the other sound effects are. Cleaned with ffmpeg: high-pass 180 Hz twice, low-pass 5 kHz, short fades, loudness -24 LUFS, mono. A sea sound, not an animal's voice."
+  },
   {
    "id": "shell/sfx/story-dart",
    "kind": "sfx",

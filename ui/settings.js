@@ -79,5 +79,7 @@ export function createSettings() {
     get exploring() { return explore; },
     onChange(fn) { listeners.add(fn); return () => listeners.delete(fn); },
     setExplore, openShow,
+    /** one switch, as its button in the Grown-ups card would set it */
+    set(k, v) { if (show[k] !== !!v) { show[k] = !!v; applyShow(); } },
   };
 }

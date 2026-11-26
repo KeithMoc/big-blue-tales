@@ -45,6 +45,7 @@ h1, h2, p { margin: 0; }
 /* Settings: every part of the screen has its own switch; full screen flips them all at once */
 .tools { position: absolute; right: 16px; top: 16px; display: flex; gap: 8px; z-index: 3; }
 .tool { min-width: 48px; min-height: 48px; padding: 0 16px; display: inline-flex; align-items: center; justify-content: center; gap: 8px; border-radius: 999px; border: 1px solid var(--line); background: rgba(3, 7, 12, 0.72); color: var(--ink); font-weight: 700; font-size: 15px; }
+.moretray { display: contents; } .moretray[hidden] { display: none; }
 .tool:hover, .tool[aria-expanded="true"], .tool[aria-pressed="true"] { border-color: var(--lamp); color: var(--lamp); }
 .showcard { position: absolute; right: 16px; top: 76px; z-index: 3; width: min(400px, calc(100% - 32px)); max-height: calc(100% - 92px); overflow-y: auto; padding: 14px 16px 16px; border-radius: 16px; border: 1px solid var(--line); display: grid; gap: 12px;
   background: linear-gradient(var(--panel) 40%, transparent) top / 100% 44px no-repeat local, linear-gradient(transparent, var(--panel) 60%) bottom / 100% 44px no-repeat local,
@@ -123,30 +124,67 @@ h1, h2, p { margin: 0; }
 .story > * { pointer-events: auto; }
 .storyfoot { pointer-events: none; align-self: stretch; display: grid; gap: 8px; margin-top: auto; min-width: 0; }
 .storyfoot > * { pointer-events: auto; }
-.storyacts, .storyplay { display: flex; gap: 8px; align-items: center; overflow-x: auto; scrollbar-width: none; padding: 2px; }
+/* Rows wrap instead of scrolling sideways: a phone never cuts a word off at its edge. */
+.storyacts, .storyplay { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; padding: 2px; min-width: 0; }
+.storyplay .seg { flex-wrap: wrap; max-width: 100%; border-radius: 26px; }
 .storyacts .act { flex: 0 0 auto; min-height: 44px; padding: 8px 16px; font-size: 15px; white-space: nowrap; }
 /* With "Words on buttons" off, the story's parts keep their words: they have no picture to show instead. */
 .storyplay > * { flex: 0 0 auto; }
 /* Just the fish: Play with nothing else on the screen. The water fills the window; one button leads back. */
 .just-play .tools, .just-play .storyhead, .just-play .storyfoot, .just-play #storytags { display: none !important; }
 .just-play .app { grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(0, 1fr); }
-/* One round button in the corner. It opens a small tray of the Play choices (trail, colours, time of day) and the
-   way back. Wide screens open it to the left in a row; narrow ones open it upwards, and start with only the button. */
-.justmenu { position: absolute; right: 16px; bottom: 16px; display: flex; align-items: flex-end; gap: 8px; max-width: calc(100% - 32px); pointer-events: none; }
-.justmenu > * { pointer-events: auto; }
-.justbtn { flex: 0 0 auto; min-height: 48px; padding: 0 18px; justify-content: center; opacity: 0.9; }
-.justbtn[aria-expanded="true"] { opacity: 1; background: var(--lamp); color: #1a1204; }
-.justtray { display: flex; flex-wrap: wrap; justify-content: flex-end; align-items: center; gap: 6px; padding: 6px; border-radius: 18px; border: 1px solid var(--line); background: rgba(3, 7, 12, 0.82); }
+/* The corner, bottom right in every mode: Music, Read aloud and More stacked as round picture buttons (no words:
+   ages 5 to 7 know a note and a speaker; each has its name for a screen reader). More opens the tray to its left. */
+.corner { position: absolute; right: 16px; bottom: 16px; z-index: 3; display: flex; align-items: flex-end; gap: 8px; max-width: calc(100% - 32px); pointer-events: none; }
+.corner > * { pointer-events: auto; }
+.cornerbtns { display: grid; gap: 10px; flex: 0 0 auto; }
+.cornerbtns[hidden], .round[hidden] { display: none; }
+.round { width: 56px; height: 56px; padding: 0; display: grid; place-items: center; border-radius: 50%; border: 2px solid var(--line); background: rgba(3, 7, 12, 0.72); }
+.round .ico { width: 40px; height: 40px; }
+.round:hover { border-color: var(--lamp); }
+.round[aria-checked="true"], .round[aria-pressed="true"], .round[aria-expanded="true"] { border-color: var(--lamp); background: var(--lamp); }
+.justtray { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; padding: 6px; border-radius: 18px; border: 1px solid var(--line); background: rgba(3, 7, 12, 0.86); min-width: 0; max-width: 100%; max-height: calc(100cqh - 32px); overflow-y: auto; }
 .justtray[hidden] { display: none; }
-.justtray .seg { padding: 3px; gap: 2px; align-items: center; }
-.justtray .seg::before { content: attr(aria-label); padding: 0 4px 0 8px; font-size: 12px; font-weight: 700; color: var(--mute); white-space: nowrap; }
+.justtray .seg { padding: 3px; gap: 2px; align-items: center; flex-wrap: wrap; justify-content: flex-end; max-width: 100%; border-radius: 22px; }
+.justtray .seg::before { content: attr(aria-label); flex: 1 0 100%; padding: 4px 8px 0; text-align: right; font-size: 12px; font-weight: 700; color: var(--mute); }
 .justtray .seg button { min-height: 44px; padding: 0 10px; font-size: 13px; }
-.justtray .pill { min-height: 40px; padding: 0 14px; font-size: 14px; }
-@container stage (max-width: 640px) {
-  .justmenu { flex-direction: column; right: 12px; bottom: 12px; max-width: calc(100% - 24px); }
-  .justtray { flex-direction: column; align-items: flex-end; border-radius: 16px; }
-  .justtray .seg { max-width: 100%; overflow-x: auto; scrollbar-width: none; }
+.justtray .pill { min-height: 44px; padding: 0 14px; font-size: 14px; }
+/* The words for kids are spoken, with a caption while they are said: the note line (what is pretend, how to play)
+   is read aloud, not left on the screen. It stays for a screen reader. */
+#storynote, #storyjustnote { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+/* A phone, upright or on its side: the choices show their pictures only (each keeps its word as its name for a screen
+   reader and as a hint on hover), so no word is ever cut off; the story's name gives the picture its room. */
+@container stage (max-width: 560px) {
+  .storyfoot .seg:not(.modes) button > span { display: none; }
+  .storyfoot .seg:not(.modes) button { min-width: 48px; padding: 0 6px; justify-content: center; }
+  .storyfoot .seg:not(.modes) button .ico { margin: 0; }
+  .modes button { min-height: 48px; font-size: 16px; padding: 0 14px; }
 }
+@container stage (max-height: 500px) {
+  .storyfoot .seg:not(.modes) button > span { display: none; }
+  .storyfoot .seg:not(.modes) button { min-width: 48px; padding: 0 6px; justify-content: center; }
+  .storyfoot .seg:not(.modes) button .ico { margin: 0; }
+  .storyhead { display: none; }
+  .justtray { flex-direction: row; flex-wrap: wrap; justify-content: flex-end; align-items: center; }
+  .justtray .seg::before { flex: 0 0 auto; padding: 0 4px 0 8px; }
+  .justtray .seg { flex-wrap: nowrap; }
+  .justtray .seg button > span { display: none; }
+  .justtray .seg button { min-width: 44px; padding: 0 4px; justify-content: center; }
+  .justtray .seg button .ico { margin: 0; }
+  .modes button { min-height: 46px; font-size: 16px; padding: 0 14px; }
+  .storyfoot { gap: 6px; }
+}
+/* the buttons below the picture keep clear of the corner */
+.storyfoot { padding-right: 68px; }
+@container stage (max-width: 640px) {
+  .corner { right: 10px; bottom: 10px; max-width: calc(100% - 20px); }
+  .round { width: 50px; height: 50px; } .round .ico { width: 36px; height: 36px; }
+  .storyfoot { padding-right: 58px; }
+}
+/* while the name is in the sky and while the introduction is read, only Music shows in the corner */
+.entering .corner, .intro .corner { opacity: 1 !important; pointer-events: none; }
+.entering #story-voice, .entering #story-captions, .entering #story-more, .entering .justtray, .intro #story-more, .intro .justtray { display: none; }
+.entering .corner .round:not([hidden]), .intro .corner .round:not([hidden]) { pointer-events: auto; }
 .justnote { position: absolute; left: 16px; top: 16px; max-width: min(calc(100% - 32px), 420px); animation: justnote 7s ease-in forwards; }
 @keyframes justnote { 0%, 75% { opacity: 1; } 100% { opacity: 0; } }
 @media (prefers-reduced-motion: reduce) { .justnote { animation: none; } }
@@ -190,8 +228,6 @@ h1, h2, p { margin: 0; }
 .modes button[aria-checked="true"] { background: var(--lamp); color: #1a1204; }
 .storyfoot .toys { flex-wrap: wrap; overflow: visible; }
 .seg button .ico { margin-right: 2px; }
-.storyacts .listen { border: 2px solid var(--glow); color: var(--glow); }
-.storyacts .listen[aria-pressed="true"] { background: #bfe6f5; color: #04121c; }
 .tool i { flex: 0 0 auto; width: 34px; height: 20px; border-radius: 10px; background: #23333f; position: relative; }
 .tool i::after { content: ''; position: absolute; left: 3px; top: 3px; width: 14px; height: 14px; border-radius: 50%; background: var(--mute); transition: translate 0.2s; }
 .tool[aria-checked="true"] i { background: var(--lamp); }
@@ -214,7 +250,10 @@ h1, h2, p { margin: 0; }
 .entrytitle h1 { font-family: var(--display); font-weight: 700; font-size: clamp(40px, 9cqw, 88px); line-height: 1.02; color: #fff; text-wrap: balance; text-shadow: 0 4px 24px rgba(30, 10, 40, 0.55), 0 0 2px rgba(30, 10, 40, 0.5); }
 .entrygo { min-height: 72px; padding: 0 36px; border-radius: 999px; border: 0; background: var(--lamp); color: #1a1204; font-size: 26px; font-weight: 700; display: inline-flex; align-items: center; gap: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.35); }
 .entrygo:hover { filter: brightness(1.06); }
-.entryskip { position: absolute; right: 16px; bottom: 16px; min-height: 48px; padding: 0 20px; border-radius: 999px; border: 1px solid var(--line); background: rgba(3, 7, 12, 0.6); color: var(--ink); font-weight: 700; }
+.entryskip { position: absolute; right: 16px; top: 16px; min-height: 48px; padding: 0 20px 0 8px; display: inline-flex; align-items: center; gap: 8px; border-radius: 999px; border: 1px solid var(--line); background: rgba(3, 7, 12, 0.6); color: var(--ink); font-weight: 700; font-size: 16px; }
+.entryskip[hidden] { display: none; }
+/* Skip the introduction: only while it is read */
+.introskip { display: none; z-index: 2; } .intro .introskip { display: inline-flex; }
 .entering .tools, .entering .storyfoot, .entering .storyhead, .entering #storytags { opacity: 0; pointer-events: none; }
 .app.entering { grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(0, 1fr) auto; }   /* the picture has the whole page */
 .tools, .storyfoot, .storyhead { transition: opacity 0.8s; }
@@ -227,9 +266,6 @@ h1, h2, p { margin: 0; }
   <main class="stage" id="stage">
     <div id="view"></div>
     <div class="tools">
-      <button class="tool" id="story-music" role="switch" aria-checked="false" hidden><i data-icon="music"></i><span>Music</span><i></i></button>
-      <button class="tool" id="story-home"><i data-icon="find"></i><span>Find the fish</span></button>
-      <button class="tool" id="story-just"><i data-icon="just"></i><span>Just the fish</span></button>
       <button class="tool" id="btn-show" aria-expanded="false" aria-controls="showcard"><i data-icon="grownups"></i><span>Grown-ups</span></button>
     </div>
     <div class="showcard" id="showcard" role="group" aria-label="For grown-ups" hidden>
@@ -261,7 +297,7 @@ h1, h2, p { margin: 0; }
         <h1 id="entryname"></h1>
         <button class="entrygo" id="entrygo"><i data-icon="start"></i><span id="entrygo-label">Start</span></button>
       </div>
-      <button class="entryskip" id="entryskip" hidden>Skip</button>
+      <button class="entryskip" id="entryskip" hidden><i data-icon="skip"></i><span>Skip</span></button>
     </div>
     <div class="paused" id="paused" role="status" hidden><p>One moment…</p><button id="btn-again" hidden>Tap to try again</button></div>
     <div class="story" id="story">
@@ -275,21 +311,32 @@ h1, h2, p { margin: 0; }
           <button role="radio" aria-checked="false" data-mode="play" id="story-play"><i data-icon="play"></i><span>Play</span></button>
         </div>
         <div class="storymain" id="storymain">
-          <div class="storyacts" id="storyacts" role="group" aria-label="The story"><button class="pill listen" id="story-listen" aria-pressed="false" hidden><i data-icon="listen"></i><span class="lbl">Listen</span></button></div>
-          <div class="storyplay" id="storyday"><div class="seg" id="storytimes" role="radiogroup" hidden></div></div>
+          <div class="storyacts" id="storyacts" role="group" aria-label="The story"></div>
         </div>
         <div class="storyplay toys" id="storytoys" hidden>
           <div class="seg" id="storysizes" role="radiogroup" hidden></div>
           <div class="seg" id="storycolours" role="radiogroup" hidden></div>
           <div class="seg" id="storytrails" role="radiogroup" hidden></div>
+          <button class="pill" id="story-draw" aria-pressed="false" hidden><i data-icon="draw"></i><span>Draw</span></button>
         </div>
+        <div class="storyplay" id="storyday"><div class="seg" id="storytimes" role="radiogroup" hidden></div></div>
       </div>
+      <button class="entryskip introskip" id="introskip"><i data-icon="skip"></i><span>Skip</span></button>
       <p class="storynote justnote" id="storyjustnote" hidden></p>
-      <div class="justmenu" id="justmenu" hidden>
-        <div class="justtray" id="justtray" role="group" aria-label="Play choices" hidden>
-          <button class="pill" id="story-exit"><i data-icon="back"></i><span>Back to the story</span></button>
+      <!-- bottom right, in every mode: Music and Read aloud as round picture buttons, and More, which opens a tray.
+           The tray holds Find the fish and Just the fish; in Just the fish it holds the Play choices and the way back. -->
+      <div class="corner" id="corner">
+        <div class="justtray" id="justtray" role="group" aria-label="More" hidden>
+          <button class="pill" id="story-home"><i data-icon="find"></i><span>Find the fish</span></button>
+          <button class="pill" id="story-just"><i data-icon="just"></i><span>Just the fish</span></button>
+          <button class="pill" id="story-exit" hidden><i data-icon="back"></i><span>Back to the story</span></button>
         </div>
-        <button class="pill justbtn" id="story-more" aria-expanded="false" aria-controls="justtray"><i data-icon="more"></i><span>More</span></button>
+        <div class="cornerbtns">
+          <button class="round" id="story-music" role="switch" aria-checked="false" aria-label="Music" title="Music" hidden><i data-icon="music"></i></button>
+          <button class="round" id="story-captions" aria-pressed="true" aria-label="Captions" title="Captions"><i data-icon="captions"></i></button>
+          <button class="round" id="story-voice" aria-pressed="false" aria-label="Read aloud" title="Read aloud" hidden><i data-icon="listen"></i></button>
+          <button class="round" id="story-more" aria-expanded="false" aria-controls="justtray" aria-label="More" title="More"><i data-icon="more"></i></button>
+        </div>
       </div>
     </div>
   </main>

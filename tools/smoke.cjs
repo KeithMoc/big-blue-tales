@@ -1,5 +1,5 @@
 // Opens the page in headless Chromium at a desktop and a phone size. At the desktop size it walks the first story's
-// parts, times of day, Listen, Music, Play, a drawn line and Just the fish; opens every story in scenes/index.json by
+// parts, times of day, Read aloud, Music, Play, Draw and a drawn line, and Just the fish; opens every story in scenes/index.json by
 // its address; and measures every story on the low, mid and high tiers against its budget (every group size, and the
 // biggest group with its guest in the picture). At the phone size it only opens the page and takes a picture.
 // Fails on any page error, failed request, line of the first story with no recording, or count over budget.
@@ -31,6 +31,9 @@ const TIER_BUDGET = { low: { triangles: 60000, calls: 40 }, mid: { triangles: 12
     await page.screenshot({ path: `${out}/${name}-entry.png` });
     await page.click('#entrygo'); await page.waitForTimeout(1500);
     if (await page.isVisible('#entryskip')) await page.click('#entryskip');
+    await page.waitForTimeout(300);
+    if (await page.isVisible('#introskip')) await page.click('#introskip');     // Skip ends the introduction at once
+    if (await page.evaluate(() => document.getElementById('app').classList.contains('intro'))) errors.push(`${name}: Skip did not end the introduction`);
     if (await page.evaluate(() => document.getElementById('app').classList.contains('entering'))) errors.push(`${name}: the buttons did not come in after the entry`);
     await page.waitForTimeout(1500);
     await page.screenshot({ path: `${out}/${name}-open.png` });
@@ -57,16 +60,18 @@ const TIER_BUDGET = { low: { triangles: 60000, calls: 40 }, mid: { triangles: 12
         await page.click(`#storytimes [data-pick="${t}"]`); await page.waitForTimeout(1500);
         if (t === 'night') await page.screenshot({ path: `${out}/${name}-night.png` });
       }
-      await page.click('#story-listen'); await page.waitForTimeout(1500);
-      if (!requests.some(u => u.endsWith('narration.young.mp3'))) errors.push('Listen did not fetch narration.young.mp3');
+      await page.click('#story-voice'); await page.waitForTimeout(1500);
+      if (!requests.some(u => u.endsWith('narration.young.mp3'))) errors.push('Read aloud did not fetch narration.young.mp3');
       await page.click('#story-play'); await page.waitForTimeout(500);
-      await page.click('#story-music'); await page.waitForTimeout(1500);
-      if (!requests.some(u => u.endsWith('sfx.story-music.mp3'))) errors.push('Music did not fetch sfx.story-music.mp3');
+      // music is on from Start
+      if (!requests.some(u => u.endsWith('sfx.story-music.mp3'))) errors.push('Music did not start with the story (sfx.story-music.mp3 not fetched)');
+      await page.click('#story-draw'); await page.waitForTimeout(300);
       const [cx, cy] = await page.$eval('#view canvas', c => { const r = c.getBoundingClientRect(); return [r.left + r.width / 2, r.top + r.height / 2]; });
       await page.mouse.move(cx - 150, cy); await page.mouse.down();
       for (let i = 0; i <= 20; i++) await page.mouse.move(cx - 150 + i * 15, cy - Math.sin(i / 3) * 60);
       await page.mouse.up(); await page.waitForTimeout(3000);
       await page.screenshot({ path: `${out}/${name}-play-line.png` });
+      await page.click('#story-more'); await page.waitForTimeout(300);
       await page.click('#story-just'); await page.waitForTimeout(1500);
       await page.screenshot({ path: `${out}/${name}-just-the-fish.png` });
       const s = await page.evaluate(() => ({ ...window.__sea.engine.stats(), tier: window.__sea.device.tier }));

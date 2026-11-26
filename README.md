@@ -14,14 +14,15 @@ desktop Chromium only (see "Not checked").
 **A school of anchovies.** Hundreds of little silver fish swim together, turn in a ring, and squeeze into a ball.
 Then a California sea lion swims by and loops up through them!
 
-- Tap the parts of the story. **Listen** reads what the fish are doing, and the words show on the picture while they are read.
-- Lost the fish? **Find the fish** brings them back to the middle.
-- Watch at sunrise, in the day, at sunset or at night.
-- Pick a school, a big school or a huge school.
-- Switch on **Play** for rainbow fish and a line of light. Tap the water to make the fish dart, or draw a line and
-  they follow it. Draw up to the top of the sea and they jump out with a splash! (That part is pretend, and the
-  story says so.)
-- **Just the fish** fills the screen with only the water.
+- **Learn**: tap the parts of the story and watch the school swim into each shape. Turn on the speaker to hear what
+  the fish are doing; the words show on the picture while they are read.
+- **Play**: pick a school, a big school or a huge school, rainbow fish and a line of light. Tap the water to make the
+  fish dart. Drag to look around, or turn on **Draw** and draw a line for them to follow. Draw up to the top of the
+  sea and they jump out with a splash! (That part is pretend, and the story says so.)
+- In both: watch at sunrise, in the day, at sunset or at night.
+- Bottom right, always there: music, captions and the speaker (pictures only), and **+** for **Find the fish** and
+  **Just the fish**, which fills the screen with only the water.
+- The sea is alive: soft music from Start, quieter while a line is read, and now and then a swell or a few bubbles.
 
 ## For grown-ups
 
@@ -29,9 +30,11 @@ Every line a child reads or hears is tied to a quoted source, and anything prete
 listed under "What the picture leaves out". The words are written in a gentle tone for ages 5 to 7. Non-commercial
 and educational. Licences are in `NOTICE.md`.
 
-Every button has a word on it, and the buttons a child uses sit together under the picture: the parts of the story
-first, then Listen, Play, Music and Find the fish, then the time of day and the size of the school. Settings holds
-only two switches for a grown-up: sounds when you tap, and reading each part aloud when it is tapped.
+The buttons a child uses sit under the picture by mode: Learn or Play first, then only that mode's buttons, then the
+time of day. Music, captions and the speaker are round picture buttons in the corner in every mode (the maintainer's
+call: ages 5 to 7 know a note, a speech bubble and a speaker); every other button has a word, and on a phone the
+choices show their pictures only, so no word is ever cut off (`tools/fit.cjs` checks it). Grown-ups holds only two
+switches: sounds when you tap, and reading each part aloud when it is tapped.
 
 ## For contributors
 
@@ -59,11 +62,15 @@ node tools/smoke.cjs http://localhost:8765/ shots    # with the server running: 
 ```
 
 `tools/smoke.cjs` opens the page in headless Chromium at a desktop and a phone size. At the desktop size it steps
-through the first story's parts, times of day, Listen, Music, Play, a drawn line and Just the fish, opens every
+through the first story's parts, times of day, Read aloud, Music, Play, Draw and a drawn line and Just the fish, opens every
 story by its address, and counts triangles and draw calls for every story on the `low`, `mid` and `high` tiers
 (every group size, and the biggest group with the guest animal in the picture) against the story's budget. At the
 phone size it only opens the page and saves a picture. It fails on any page error, failed request, a first-story
 line with no recording, or a count over budget. Headless Chromium draws in software, so it gives no real frame rate.
+
+`node tools/fit.cjs --files` (`npm run fit`) opens the story at eight phone sizes, upright and on its side, in Learn,
+Play, with More open and in Just the fish, and fails if any button or word is cut off, smaller than 44 px, or on top
+of another button.
 
 ### How it fits together
 
