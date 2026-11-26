@@ -30,7 +30,7 @@ const TIER_BUDGET = { low: { triangles: 60000, calls: 40 }, mid: { triangles: 12
     await page.waitForSelector('#entrygo', { state: 'visible', timeout: 30000 });
     await page.screenshot({ path: `${out}/${name}-entry.png` });
     await page.click('#entrygo'); await page.waitForTimeout(1500);
-    if (await page.isVisible('#entryskip')) await page.click('#entryskip');
+    await page.evaluate(() => { const b = document.getElementById('entryskip'); if (!b.hidden) b.click(); });   // the glide may end on its own just now
     await page.waitForTimeout(300);
     if (await page.isVisible('#introskip')) await page.click('#introskip');     // Skip ends the introduction at once
     if (await page.evaluate(() => document.getElementById('app').classList.contains('intro'))) errors.push(`${name}: Skip did not end the introduction`);
