@@ -6,7 +6,7 @@ Rules: `docs/THREEJS.md` rules 15, 16 and 34. Check: `node tools/smoke.cjs` (the
 | --- | --- | --- | --- |
 | `low` | 60,000 triangles, 40 calls | 31,558 (45,558 with the huge school; 56,624 and 27 calls with the sea lion in the picture), 21 calls | measured, `tools/smoke.cjs`, 2026-11-26 |
 | `mid` | 120,000, 60 | 89,328 (116,628; 119,337 and 26 calls with the sea lion), 21 | measured, same run |
-| `high` | 200,000, 100. The anchovy story has its own: 450,000 (KM, 2026-11-24) | 323,684 (447,904; 447,901 and 27 calls with the sea lion: far fish give way while it is there), 21 | measured, same run |
+| `high` | 200,000, 100. The anchovy story has its own: 450,000 (the maintainer, 2026-11-24) | 323,684 (447,904; 447,901 and 27 calls with the sea lion: far fish give way while it is there), 21 | measured, same run |
 
 ## What we know and do not know
 

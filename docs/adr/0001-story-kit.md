@@ -7,7 +7,7 @@
 ## Context
 
 The anchovy story grew a sea surface, a sky, an evening light and a swim area, all wired together inside its own
-`scene.js`. KM wants more stories about sea animals living together, and asked
+`scene.js`. The maintainer wants more stories about sea animals living together, and asked
 for the sea, the surface, the sky and the time of day as reusable parts first (2026-11-25), with the anchovy
 story as their first user: a splash with a sound, sunrise and night, and a real hunter. Three questions were
 open in `docs/knowledge/stories-next.md`: what the contract of a story kit is, whether a pack animal can

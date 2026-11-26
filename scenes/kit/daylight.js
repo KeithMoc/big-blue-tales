@@ -1,5 +1,5 @@
 // Time of day for a story: one table, one light. A time of day is not a sky colour. It is one light that has to be
-// carried through everything in the picture (KM, 2026-11-24): the sky and where the sun or moon stands in it, the sea
+// carried through everything in the picture (the maintainer, 2026-11-24): the sky and where the sun or moon stands in it, the sea
 // seen from the air, the water's colours just under the surface and further down, the shafts, and the tint and the
 // mirror sides of every animal. Each row of TIMES fills in all of those, so a new time of day is one row here and
 // nothing anywhere else. createDaylight() holds the row that shows now and moves smoothly to another one.
@@ -42,7 +42,7 @@ export const TIMES = {
     animalTop: [1.05, 1.05, 1.02], animalDeep: [0.7, 0.86, 1.0], mirrorTop: '#7fd0ee', mirrorDown: '#2f8fc4',
     bright: '#63c8ea', wash: 0.4,
   },
-  // the evening the anchovy story was first given (KM approved this look, 2026-11-24)
+  // the evening the anchovy story was first given (the maintainer approved this look, 2026-11-24)
   sunset: {
     sun: [-0.3, 0.15, -0.94],
     sky: { top: '#27447e', mid: '#e9a57c', glow: '#ff8a4a', sun: '#ffd2a0', sea: '#0c3a5c' }, stars: 0,

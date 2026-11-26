@@ -105,7 +105,7 @@ Read `docs/STORIES.md` first. In short:
 6. **Record the voice.** `node tools/story-voice.mjs <new-id>` lists the lines and their keys. The recordings go in
    `scenes/<new-id>/audio/narration.young.mp3`, with one `[start, seconds]` per key in `audio/narration.json`, and
    one entry per line in `sounds/manifest.json`. Recording is paid (ElevenLabs, voice Bronwyn, model eleven_v4,
-   the same voice as every line so far), so ask KM first. Until the recordings exist, the browser's own voice reads
+   the same voice as every line so far), so ask the maintainer first. Until the recordings exist, the browser's own voice reads
    the lines.
 7. **Check it** with the four commands above, and add what you learned to `docs/knowledge/`.
 

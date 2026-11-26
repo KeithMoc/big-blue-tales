@@ -18,7 +18,7 @@ the sea mirrors the very same one. Times of day: `scenes/kit/daylight.js`, carri
 ## What a time of day has to change
 
 A sunset is not a sky colour. It is one light, and it has to be carried through everything
-(KM, 2026-11-24). Since 2026-11-25 the list is one row of `TIMES` in `scenes/kit/daylight.js`, and
+(the maintainer, 2026-11-24). Since 2026-11-25 the list is one row of `TIMES` in `scenes/kit/daylight.js`, and
 `createSeaPlace` carries it into every layer, so a new time of day is one new row:
 
 | Layer | Field of the row | Carried by |
@@ -34,7 +34,7 @@ A sunset is not a sky colour. It is one light, and it has to be carried through 
 
 | Row | What was chosen | Known how |
 | --- | --- | --- |
-| `sunset` | The evening KM approved on 2026-11-24, moved here unchanged (same triangles, same draw calls, the same picture side by side) | seen, measured |
+| `sunset` | The evening the maintainer approved on 2026-11-24, moved here unchanged (same triangles, same draw calls, the same picture side by side) | seen, measured |
 | `sunrise` | A low sun on the other side of the opening view, pinker and a little cooler than the evening | seen |
 | `day` | A high sun, the blue-green water the backdrop had before the evening, wide glow | seen |
 | `night` | A moon at about 30 degrees, stars, the water nearly black with a little blue, animals at about a third of their daylight brightness | seen |

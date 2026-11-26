@@ -1,6 +1,6 @@
 # AGENTS.md
 
-Instructions for any coding agent working in this repo. Keep to them; ask the owner (KM) when a change needs to
+Instructions for any coding agent working in this repo. Keep to them; ask the project maintainer when a change needs to
 break one.
 
 ## What this is
@@ -36,7 +36,7 @@ Read `docs/STORIES.md` before touching a story and `docs/THREEJS.md` before any 
 4. **Ages 5 to 7 only.** Write `young` words only, gentle and plain (`docs/TONE.md`): no violent or frightening
    words. Do not add older age groups.
 5. **Recording voice costs money.** A new or changed spoken line needs a new paid recording. Do not record it, or
-   change a recorded line's words, without KM's yes. Until it is recorded, the browser's own voice reads the line,
+   change a recorded line's words, without the maintainer's yes. Until it is recorded, the browser's own voice reads the line,
    and `tools/story-voice.mjs` fails.
 6. **Credits and licences travel with the files.** Every sound and recorded line has an entry in
    `sounds/manifest.json`. Every guest animal has `credits.json`. Licences are in `NOTICE.md`. Never copy code,
@@ -62,5 +62,5 @@ The first run of the browser check needs `npm install && npx playwright install 
 1. Sources first, then `scenes/<id>/scene.json` and `scene.js` (copy `scenes/anchovy-school/`).
 2. List it in `scenes/index.json`.
 3. Build on `scenes/kit/` (`createSeaPlace` and friends); add a guest animal in `animals/<id>/` only with a signed dossier.
-4. `node tools/story-voice.mjs <id>` lists the lines to record. Ask KM before recording.
+4. `node tools/story-voice.mjs <id>` lists the lines to record. Ask the maintainer before recording.
 5. Run the checks. Add what you learned to `docs/knowledge/` in the same change.

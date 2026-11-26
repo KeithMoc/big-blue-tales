@@ -34,9 +34,9 @@ These back what animals do in a story. They are quoted in the story's `scene.jso
 | webgpu-ocean, iodiot | MIT | WebGPU compute shaders |
 | three.js `webgpu_tsl_raging_sea` | MIT | TSL, stylised, no sky or underside |
 
-## Named by KM, not yet read (2026-11-24)
+## Named by the maintainer, not yet read (2026-11-24)
 
-KM passed these on as the usual origins of functions that appear in generated water shaders. None has been
+The maintainer passed these on as the usual origins of functions that appear in generated water shaders. None has been
 opened by us, so nothing here is used from them yet. Each needs a row in docs/THREEJS.md section 2 before it is.
 
 | Function | Source | Would matter for |

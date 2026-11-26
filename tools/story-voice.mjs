@@ -2,7 +2,7 @@
 // Usage: node tools/story-voice.mjs [story id ...]   (no id = every story in scenes/index.json)
 // Exits 1 when a line has no recording, so a new or changed line is never left to the browser's voice by accident,
 // or when a recorded line or a sound file has no entry in sounds/manifest.json (or an entry names a file that is not there).
-// Recording is paid (ElevenLabs, voice Bronwyn, model eleven_v4, the same as every line so far): ask KM first.
+// Recording is paid (ElevenLabs, voice Bronwyn, model eleven_v4, the same as every line so far): ask the maintainer first.
 // Licence: MIT.
 import { readFileSync, existsSync } from 'node:fs';
 import { storyLines } from '../ui/story-lines.js';

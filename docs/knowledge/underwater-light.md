@@ -27,7 +27,7 @@ material in `scenes/kit/school.js`, `core/env.js` (`waterAt`: water colour by de
 
 ## Mistakes made here
 
-- **A sunset above and midday below.** The first evening build changed only the sky. KM: "everything becomes
+- **A sunset above and midday below.** The first evening build changed only the sky. The maintainer: "everything becomes
   blue, it looks like daytime." One light has to be carried through every layer: backdrop, shafts, surface,
   fish, haze.
 - **The sky seen from below washed with bright blue.** It read as grey. The window is the sky's own colour.

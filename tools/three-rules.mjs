@@ -17,7 +17,7 @@ export const RULES = {
   'scene-tiers': 'A scene.js reads ctx.tier and names what high, mid and low each get.',
   'seeded-random': 'No Math.random in kit/, scenes/ or a pack model: a seeded rng, so every visit and every test sees the same picture.',
   'dispose': 'A scenes/kit module that makes a geometry or a material hands back dispose().',
-  'references': 'docs/THREEJS.md names the three references KM set (three.js skills, img2threejs, earshot).',
+  'references': 'docs/THREEJS.md names the three references the maintainer set (three.js skills, img2threejs, earshot).',
 };
 
 const GLSL = /\b(ShaderMaterial|RawShaderMaterial|onBeforeCompile|gl_FragColor|gl_Position)\b/;

@@ -21,6 +21,6 @@ Newest first. Each one is a rule of thumb now. Add to this page in the same chan
 
 ## Things only a person can see
 
-How it looks. Whether it convinces. A real phone. Every row above marked "no" was found by KM looking at the
+How it looks. Whether it convinces. A real phone. Every row above marked "no" was found by the maintainer looking at the
 preview, not by a tool. A still from headless Chromium, looked at before sending, would have caught four of
 them: look from just under the surface, from the air toward the horizon, straight up, and at a slant.

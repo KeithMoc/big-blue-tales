@@ -19,7 +19,7 @@ Code: `fishMaterial` and `fishGeometry` in `scenes/kit/school.js`. One material 
   description quoted in `scene.json`.
 - **A standard material keeps taking the scene's lights.** In the air those are the wrong lights. The fix was to
   turn the lit colour down above the surface and add our own light there.
-- **More triangles made the fish look like fish.** At 63 the body was a six-sided tube. KM's "increase the
+- **More triangles made the fish look like fish.** At 63 the body was a six-sided tube. The maintainer's "increase the
   quality of the fish" was answered by shape first, paint second.
 
 ## Open questions
