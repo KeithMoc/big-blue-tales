@@ -1,18 +1,39 @@
 # Big Blue Tales
 
-Friendly 3D sea stories for kids, with narration, sounds and music. Every line a child reads is tied to a quoted
-source. One story per folder on a shared story kit. Non-commercial and educational.
+**Dive in and meet the sea!** Friendly 3D stories about real sea animals, for children aged 5 to 7.
+Every story can be read aloud, and everything the animals do comes from real science.
 
-The first story is **A school of anchovies**: a school of northern anchovies swims together, turns in a ring, makes a
-ball, and a California sea lion loops up through it. Pick sunrise, day, sunset or night, and a school, a big school
-or a huge school. Switch on Play for pretend colours and a line of light: tap the water to move the fish, or draw a
-line for them to follow. Draw it up to the surface and they leap out with a splash (pretend, and the page says so).
-"Just the fish" fills the screen with only the water and a menu button. Every part can be read aloud.
+### ▶ [Play the story](https://keithmoc.github.io/big-blue-tales/)
 
-The stories are written for children aged 5 to 7. The page is plain ES modules and three.js r180 in `vendor/`, with
-no bundler and no build step.
+Opens in a web browser. Nothing to install, no sign-in, no ads, and nothing is sent anywhere: the page only
+remembers your settings, and how much 3D your device can draw, on your own device. So far it has been tested in
+desktop Chromium only (see "Not checked").
 
-## Run it
+## The stories
+
+**A school of anchovies.** Hundreds of little silver fish swim together, turn in a ring, and squeeze into a ball.
+Then a California sea lion swims by and loops up through them!
+
+- Tap the parts of the story, or the **?** to hear why the fish do what they do.
+- Watch at sunrise, in the day, at sunset or at night.
+- Pick a school, a big school or a huge school.
+- Switch on **Play** for rainbow fish and a line of light. Tap the water to make the fish dart, or draw a line and
+  they follow it. Draw up to the top of the sea and they jump out with a splash! (That part is pretend, and the
+  story says so.)
+- **Just the fish** fills the screen with only the water.
+
+## For grown-ups
+
+Every line a child reads or hears is tied to a quoted source, and anything pretend is labelled on the page and
+listed under "What the picture leaves out". The words are written in a gentle tone for ages 5 to 7. Non-commercial
+and educational. Licences are in `NOTICE.md`.
+
+## For contributors
+
+One story per folder on a shared story kit. Plain ES modules and three.js r180 in `vendor/`, with no bundler and
+no build step. Coding agents: start with `AGENTS.md`.
+
+### Run it
 
 ```
 python3 -m http.server 8765        # then open http://localhost:8765/ (the last story opened, or the first one) or http://localhost:8765/#anchovy-school
@@ -20,7 +41,7 @@ python3 -m http.server 8765        # then open http://localhost:8765/ (the last 
 
 Opening `index.html` straight from the disk (`file://`) will not work, because browsers refuse ES modules there.
 
-## Check it
+### Check it
 
 ```
 node tools/story-check.mjs       # every part has a source with a quote or a signed dossier fact, and no "never" word for children
@@ -39,7 +60,7 @@ story by its address, and counts triangles and draw calls for every story on the
 phone size it only opens the page and saves a picture. It fails on any page error, failed request, a first-story
 line with no recording, or a count over budget. Headless Chromium draws in software, so it gives no real frame rate.
 
-## How it fits together
+### How it fits together
 
 ```mermaid
 flowchart LR
@@ -64,7 +85,7 @@ flowchart LR
 | `AGENTS.md` | The short rules and checks for a coding agent (or a person) working in this repo |
 | `docs/` | Story guide (`STORIES.md`), three.js standard (`THREEJS.md`), tone guide (`TONE.md`), the story kit decision (`adr/`), what was learned (`knowledge/`) |
 
-## Add a story
+### Add a story
 
 Read `docs/STORIES.md` first. In short:
 
@@ -88,7 +109,14 @@ Read `docs/STORIES.md` first. In short:
    the lines.
 7. **Check it** with the four commands above, and add what you learned to `docs/knowledge/`.
 
-## Rules every story keeps
+### Publish
+
+`.github/workflows/pages.yml` publishes the site to GitHub Pages on every push to `main`. It runs `npm run check`
+first and does not publish if that fails, then copies only the files the page needs (no `docs/` or `tools/`). All
+paths in the page are relative, so it works under `/big-blue-tales/`. Pages has to be switched on once in the
+repository settings (Settings > Pages > Source: GitHub Actions).
+
+### Rules every story keeps
 
 - **One age group:** ages 5 to 7. There is no age choice in Settings.
 - **Facts first:** sources with quotes in `scene.json`, and anything left out or made up listed in `notMadeUp`.
@@ -96,10 +124,11 @@ Read `docs/STORIES.md` first. In short:
 - **Honest sound:** generated sounds and voices are labelled as generated in `sounds/manifest.json`.
 - **Non-commercial and educational.** Licences are in `NOTICE.md`.
 
-## Not checked
+### Not checked
 
 - Nobody has listened to the recorded lines yet.
 - No frame has run on a real phone or tablet, or in Safari: every speed number here is a triangle or draw-call
   count, not a frame rate.
 - How it looks: no tool judges the picture. `tools/smoke.cjs` saves screenshots for a person to look at.
 - The phone layout is only opened and photographed by the browser check, not stepped through.
+- The Pages workflow has not run yet: it needs the repository settings above first.
