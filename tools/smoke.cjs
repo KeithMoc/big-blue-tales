@@ -29,6 +29,10 @@ const TIER_BUDGET = { low: { triangles: 60000, calls: 40 }, mid: { triangles: 12
     // the entry: the name in the sky, Start, then the glide (skipped here); the buttons are only there after it
     await page.waitForSelector('#entrygo', { state: 'visible', timeout: 30000 });
     await page.screenshot({ path: `${out}/${name}-entry.png` });
+    // the music is asked for while the story loads, so it can play from the first screen wherever the browser allows
+    // and from the first touch anywhere elsewhere (headless Chromium does not hold sound back, so that part is not
+    // measured here)
+    if (!requests.some(u => u.endsWith('sfx.story-music.mp3'))) errors.push(`${name}: the music was not asked for before Play`);
     await page.click('#entrygo'); await page.waitForTimeout(1500);
     await page.evaluate(() => { const b = document.getElementById('entryskip'); if (!b.hidden) b.click(); });   // the glide may end on its own just now
     await page.waitForTimeout(300);

@@ -192,9 +192,11 @@ export function createStoryView({ engine, env, settings, go }) {
   // (SFX and OPTIONS.story).
   const SOUND = OPTIONS.story || {}, SEA = SOUND.sea || {}; let music = null, ducked = false, seaTimer = 0, seaN = 0;
   // Music is on unless the visitor turned it off (saved under a new name, so an old "off" from before music came in
-  // from Start does not stay), and it starts with the first tap, Start, fading up from silence (fadeIn).
+  // from Start does not stay). It is asked for as soon as the story starts loading, so it plays from the "Diving in"
+  // screen wherever the browser lets a page play sound by itself; most browsers keep every page silent until the
+  // first touch, click or key, and then it fades up from silence (fadeIn) from that first touch, anywhere on the page.
   const wantMusic = () => store.get('bbt-music') !== '0' && hasSfx('story-music');
-  const musicNow = () => wantMusic() && (started || entered);
+  const musicNow = wantMusic;
   const musicLevel = () => (ducked ? SOUND.duck ?? 0.12 : SOUND.music ?? 0.35);
   function duck(on) { if (on === ducked) return; ducked = on; music?.level(musicLevel(), 500); }
   const seaOn = () => active && entered && !document.hidden && settings.show.sfx && !!SEA.every && hasSfx('sea-swell');
@@ -212,12 +214,16 @@ export function createStoryView({ engine, env, settings, go }) {
     if (seaOn()) { if (!seaTimer) seaTimer = setTimeout(seaTick, 2500); } else { clearTimeout(seaTimer); seaTimer = 0; }
   }
   const cue = (id) => { if (settings.show.sfx) playSfx(id); };
-  // on the title screen, before any tap, the browser keeps the music silent: a first tap on the note starts it
-  // (fading in) rather than turning it off
+  // while the browser still keeps the page silent, a tap on the note lets the music in (fading up) rather than
+  // turning it off: the child hears what the note promised
+  // (whether sound was still held back is read at the first press itself, before that press lets it in)
+  let touches = 0, heldBack = true;
+  for (const ev of ['pointerdown', 'keydown']) document.addEventListener(ev, () => {
+    if (++touches === 1) try { heldBack = audio().state !== 'running'; } catch { /* no sound on this device */ }
+  }, true);
   $('story-music').addEventListener('click', () => {
-    const first = !started && !entered; started = true;
-    try { audio(); } catch { /* no sound on this device */ }
-    if (!(first && wantMusic())) store.set('bbt-music', wantMusic() ? '0' : '1');
+    const letIn = touches <= 1 && heldBack && wantMusic();
+    if (!letIn) store.set('bbt-music', wantMusic() ? '0' : '1');
     syncSound();
   });
   document.addEventListener('visibilitychange', syncSound);
@@ -307,7 +313,7 @@ export function createStoryView({ engine, env, settings, go }) {
   // loads, then its name in the sky of its opening time of day with a big Start. Start is the tap that lets the
   // browser play sound. The name lifts away and the camera glides down through the surface to the school; then the
   // buttons come in. A tap on the picture or Skip ends the glide; with motion reduced it cuts straight in.
-  let started = false, entered = false, entryTimer = 0, introTimer = 0, introDone = null;
+  let entered = false, entryTimer = 0, introTimer = 0, introDone = null;
   function endEntry(arrived = false) {
     clearTimeout(entryTimer); const was = entered; entered = true;
     // the introduction (scene.json entry.intro, recorded): read once, as the camera reaches the school
@@ -341,7 +347,7 @@ export function createStoryView({ engine, env, settings, go }) {
   function skipEntry() { if (entered) return; runner?.home(0); endEntry(true); }
   $('entrygo').addEventListener('click', () => {
     try { audio(); } catch { /* no sound on this device: the story works without it */ }
-    started = true; syncSound();                     // the music fades in from here
+    syncSound();
     const glide = calm ? 0 : (S?.entry?.glide ?? 7);
     $('entrytitle').classList.add('going');
     setTimeout(() => {
@@ -357,6 +363,7 @@ export function createStoryView({ engine, env, settings, go }) {
 
   async function open(id) {
     const mine = ++seq; active = true;
+    syncSound();                                     // the music, from the "Diving in" screen on (see wantMusic)
     try {
       stories = await loadStories();
       if (mine !== seq) return;
