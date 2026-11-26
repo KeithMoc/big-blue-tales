@@ -132,7 +132,7 @@ Until a kit version exists, a pack paints its body with `paintTexture`.
 | # | Rule |
 | --- | --- |
 | 31 | An animal's voice is a real recording or nothing. No tool on this page changes that. |
-| 32 | Sound that is not an animal's voice (a water bed, a soft cue for a button) may be made ahead of time and shipped as files, never made in the browser. Today every such sound is an ElevenLabs `mp3` (`sounds/manifest.json`); the loops (`story-sea`, `story-music`) play inside the file's ends to hide the gap at the seam (`loopSfx` in `ui/sfx.js`). |
+| 32 | Sound that is not an animal's voice (a water bed, a soft cue for a button) may be made ahead of time and shipped as files, never made in the browser. Today every such sound is an ElevenLabs `mp3` (`sounds/manifest.json`); the music loop (`story-music`) plays inside the file's ends to hide the gap at the seam (`loopSfx` in `ui/sfx.js`). |
 
 ## 2. What was reviewed, taken and turned down
 

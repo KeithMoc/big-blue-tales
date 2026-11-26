@@ -19,10 +19,12 @@ export function createStoryView({ engine, env, settings, go }) {
   const text = (o) => o[settings.level] || o.young;
 
   // The voice. A story is never read out by itself and never again each time a part is picked: it is read when
-  // the reader asks. Asking is the ? on the picture (with "Read aloud on tap" on, it speaks as the card opens)
-  // or a Listen button, on the card and beside the words in the panel, which works whatever the switch says.
+  // the reader asks, with the one Listen button at the start of the story buttons (or, with "Read each part aloud"
+  // on in Settings, as a part is tapped). It reads what the fish are doing and then why.
   // What is said is what is shown, in the ages 5 to 7 words (ui/story-lines.js, recorded ahead).
   let reading = null;
+  // a button's picture (an emoji from scene.json, "icon") and its word; the picture is for the eye only
+  const withIcon = (o) => (o.icon ? [h('span', { class: 'emo', 'aria-hidden': 'true', text: o.icon }), h('span', { text: o.label })] : [o.label]);
   const listenBtn = (id) => h('button', { class: 'pill listen', id, hidden: !canSpeak, text: label('story.listen'), onclick: () => read(reading === id ? null : id) });
   function read(id) {
     const b = S?.beats.find(x => x.id === beat);
@@ -30,7 +32,7 @@ export function createStoryView({ engine, env, settings, go }) {
     if (id && b && speak(beatLine(b, settings.level), () => { if (reading === id) { reading = null; syncListen(); } })) reading = id;
     syncListen();
   }
-  function syncListen() { for (const el of document.querySelectorAll('.listen')) { const on = el.id === reading; el.textContent = label(on ? 'story.stop' : 'story.listen'); el.setAttribute('aria-pressed', String(on)); } }
+  function syncListen() { for (const el of document.querySelectorAll('.listen')) { const on = el.id === reading; (el.querySelector('.lbl') || el).textContent = label(on ? 'story.stop' : 'story.listen'); el.setAttribute('aria-pressed', String(on)); } }
   // a note for a play mode is read once, when it comes up, and only with "Read aloud on tap" on
   let noted = '';
   function sayNote(textNow) { if (textNow && textNow !== noted && settings.show.voice && active) { read(null); speak(textNow); } noted = textNow; }
@@ -42,18 +44,8 @@ export function createStoryView({ engine, env, settings, go }) {
     if (id !== beat) timeNote('');
     beat = id;
     $('storyfact').textContent = beatLine(b, settings.level);
-    if (!$('storywhy').hidden) why(true);   // an open card follows the story; a closed one stays closed
     for (const el of $('storyacts').children) if (el.dataset.beat) el.setAttribute('aria-pressed', String(el.dataset.beat === id));
   }
-  // The ? on the picture: what the school is doing now and why, shown only when it is pressed.
-  function why(on) {
-    const b = S?.beats.find(x => x.id === beat), card = $('storywhy');
-    on = !!(on && b);
-    if (on) card.replaceChildren(h('b', { text: b.label }), h('span', { text: text(b) }), b.why ? h('span', { class: 'because', text: text(b.why) }) : null, h('span', { class: 'row' }, listenBtn('story-listen-why'), h('button', { class: 'pill', text: 'Close', onclick: () => why(false) })));
-    if (!on && reading === 'story-listen-why') read(null);
-    card.hidden = !on; syncListen(); $('story-why').setAttribute('aria-expanded', String(on));
-  }
-  $('story-why').addEventListener('click', () => { const open = $('storywhy').hidden; why(open); if (open && settings.show.voice) read('story-listen-why'); });
   $('story-listen').addEventListener('click', () => read(reading === 'story-listen' ? null : 'story-listen'));
   const storyBtn = (o, why) => h('button', { class: 'slink', onclick: () => go(o.id) }, h('b', { text: o.title }), h('span', { text: why }));
   const group = (title, ...kids) => { const k = kids.flat().filter(Boolean); return k.length ? h('section', { class: 'sgroup' }, h('h3', { text: title }), ...k) : null; };
@@ -65,7 +57,7 @@ export function createStoryView({ engine, env, settings, go }) {
     $('storytitle').textContent = S.title; $('storyhead-title').textContent = S.title;
     $('storyhead-kicker').textContent = `Story · ${L.habitat.name}`;
     // the parts of the story, as big buttons on the stage (the one place they are: the panel tells, the buttons choose)
-    $('storyacts').replaceChildren($('story-why'), ...S.beats.map(b => h('button', { class: 'act', 'data-beat': b.id, 'aria-pressed': 'false', text: b.label, onclick: () => { why(false); runner?.beat(b.id); showBeat(b.id); } })));
+    $('storyacts').replaceChildren($('story-listen'), ...S.beats.map(b => h('button', { class: 'act', 'data-beat': b.id, 'aria-pressed': 'false', onclick: () => { runner?.beat(b.id); showBeat(b.id); if (settings.show.voice) read('story-listen'); } }, ...withIcon(b))));
     showBeat(beat || S.beats[0].id);
     renderPlay();
     $('storylinks-out').replaceChildren(...[
@@ -85,7 +77,7 @@ export function createStoryView({ engine, env, settings, go }) {
   function seg(box, cfg, ids, current, pick) {
     const opts = (cfg?.options || []).filter(o => ids?.includes(o.id));
     box.hidden = opts.length < 2; box.setAttribute('aria-label', cfg?.label || '');
-    box.replaceChildren(...opts.map(o => h('button', { role: 'radio', 'data-pick': o.id, 'aria-checked': String(o.id === current), text: o.label, onclick: () => { pick(o.id); renderPlay(); } })));
+    box.replaceChildren(...opts.map(o => h('button', { role: 'radio', 'data-pick': o.id, 'aria-checked': String(o.id === current), onclick: () => { pick(o.id); renderPlay(); } }, ...withIcon(o))));
   }
   // Time of day: the whole picture moves to another light. The line for the time picked shows for a while (and is
   // read once with "Read aloud on tap" on); where it says what the animals do then, scene.json names its source.
@@ -101,10 +93,12 @@ export function createStoryView({ engine, env, settings, go }) {
     seg($('storysizes'), P.sizes, sc?.sizes, sc?.size, (id) => sc.setSize(id));
     seg($('storytimes'), S?.times, sc?.times, sc?.time, (id) => { if (sc.setTime(id)) timeNote(text(S.times.options.find(o => o.id === id))); });
     const canPlay = !!(P.colours && sc?.colours?.length > 1);
-    const sw = $('story-play'); sw.hidden = !canPlay; sw.setAttribute('aria-checked', String(playing));
+    // Learn or Play: one of the two, and only that mode's buttons show
+    $('storymode').hidden = !canPlay;
+    for (const b of $('storymode').children) b.setAttribute('aria-checked', String((b.dataset.mode === 'play') === (canPlay && playing)));
+    $('storymain').hidden = canPlay && playing;
     if (canPlay && playing) seg($('storycolours'), P.colours, sc.colours, sc.colour, (id) => sc.setColours(id)); else $('storycolours').hidden = true;
     if (canPlay && playing && sc.trails) seg($('storytrails'), P.trails, sc.trails, sc.trail, (id) => sc.setTrail(id)); else $('storytrails').hidden = true;
-    $('story-just').hidden = !(canPlay && playing);
     $('storytoys').hidden = !(canPlay && playing);
     const pretend = canPlay && playing && sc.colour !== 'real', note = $('storynote');
     note.textContent = pretend ? text(P.colours.note) : (canPlay && playing && P.touch ? text(P.touch) : '');
@@ -112,28 +106,28 @@ export function createStoryView({ engine, env, settings, go }) {
     sayNote(note.textContent);
   }
   const syncTurn = () => { if (engine) engine.controls.enableRotate = !(active && playing && sceneNow()?.draw); };
-  // Sound: the sea is heard while a story is open (it follows the "Tap sounds" switch), and music plays only when the
-  // visitor switches it on. Which sounds, and how loud, are data: sounds/index.js (SFX and OPTIONS.story).
-  const SOUND = OPTIONS.story || {}; let sea = null, music = null;
+  // Sound: music plays only when the visitor switches it on. There is no sound under the story all the time: the water
+  // bed it once had was heard as a buzz and was taken out (docs/knowledge/pitfalls.md). Which sounds, and how loud, are
+  // data: sounds/index.js (SFX and OPTIONS.story).
+  const SOUND = OPTIONS.story || {}; let music = null;
   const wantMusic = () => store.get('sm-music') === '1' && hasSfx('story-music');
   function syncSound() {
-    const on = active && !document.hidden, m = on && wantMusic(), s = on && settings.show.sfx;
+    const on = active && !document.hidden, m = on && wantMusic();
     if (m && !music) music = loopSfx('story-music', SOUND.music ?? 0.5, SOUND.fadeMs); else if (!m && music) { music.stop(SOUND.fadeMs); music = null; }
-    const loud = m ? SOUND.seaUnderMusic ?? 0.25 : SOUND.sea ?? 0.5;
-    if (s && !sea) sea = loopSfx('story-sea', loud, SOUND.fadeMs); else if (!s && sea) { sea.stop(SOUND.fadeMs); sea = null; } else sea?.level(loud, SOUND.fadeMs);
     const sw = $('story-music'); sw.hidden = !hasSfx('story-music'); sw.setAttribute('aria-checked', String(wantMusic()));
   }
   const cue = (id) => { if (settings.show.sfx) playSfx(id); };
   $('story-music').addEventListener('click', () => { store.set('sm-music', wantMusic() ? '0' : '1'); syncSound(); });
   document.addEventListener('visibilitychange', syncSound);
-  // Just the fish: Play fills the screen and every other button goes away but one, in the corner. It opens a small
+  // Just the fish (one button for both Learn and Play, and the full screen): the picture fills the screen and every
+  // other button goes away but one, in the corner. It opens a small
   // tray with the Play choices (trail, colours, time of day) and the way back to the story. The choices
   // are the same buttons as below the picture, moved into the tray and back, so there is one of each. A wide screen
   // starts with the tray open; a narrow one (a phone) starts with only the button. The line that says what is
   // pretend still shows for a few seconds on the way in.
   let just = false;
   const TRAY = ['storytrails', 'storycolours', 'storytimes'];
-  const HOME = { storytrails: ['storytoys', 'story-just'], storycolours: ['storytoys', 'storytrails'], storytimes: ['storyday', null] };
+  const HOME = { storytrails: ['storytoys', null], storycolours: ['storytoys', 'storytrails'], storytimes: ['storyday', null] };
   const wide = () => (engine?.canvas?.clientWidth || innerWidth) > 640;
   function tray(open) {
     $('justtray').hidden = !open; $('story-more').setAttribute('aria-expanded', String(open));
@@ -153,17 +147,19 @@ export function createStoryView({ engine, env, settings, go }) {
     if (settings.exploring !== on) settings.setExplore(on);
     engine?.resize?.();
   }
-  $('story-just').addEventListener('click', () => justPlay(true));
+  $('story-just').addEventListener('click', () => justPlay(!just));   // Learn or Play: the picture fills the screen
   $('story-exit').addEventListener('click', () => justPlay(false));
   $('story-more').addEventListener('click', () => tray($('justtray').hidden));
   // on a narrow screen the open tray covers the water: touching the water closes it
   engine?.canvas?.addEventListener('pointerdown', () => { if (just && !wide()) tray(false); });
-  $('story-play').addEventListener('click', () => {
-    playing = !playing;
+  const setMode = (play) => {
+    if (play === playing) return;
+    playing = play;
     if (!playing) { sceneNow()?.setColours?.('real'); sceneNow()?.draw?.('clear'); }   // Play off always puts the real animal back
     syncTurn();
     renderPlay();
-  });
+  };
+  for (const b of $('storymode').children) b.addEventListener('click', () => setMode(b.dataset.mode === 'play'));
   // Play on: a tap on the water moves the fish near it out of the way, and a drag draws a line the school swims
   // along. Turning the view is off while Play is on (zooming still works); Play off gives it back.
   if (engine) {

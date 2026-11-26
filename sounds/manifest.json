@@ -103,31 +103,6 @@
    "note": "Instrumental music made by a model, not played by a person. Generated on a paid ElevenLabs plan at the maintainer's request (2026-11-24) and released by Sea Creatures Lab under CC BY 4.0, as the sound effects are."
   },
   {
-   "id": "shell/sfx/story-sea",
-   "kind": "sfx",
-   "scope": "shell",
-   "where": "story-sea",
-   "prompt": "Calm underwater ambience in the open ocean, a soft low hum of deep water, slow gentle movement, a few faint distant bubbles, peaceful, no music, no voices, no animals",
-   "seconds": 12.41,
-   "influence": 0.5,
-   "provider": "elevenlabs-sfx",
-   "model": "eleven_text_to_sound_v2",
-   "voice": null,
-   "voiceName": null,
-   "provenance": "generated",
-   "file": "sounds/shell/sfx.story-sea.mp3",
-   "hash": "0b8c62179acd720b",
-   "fileHash": "c3a34842f402d2b2",
-   "licence": "CC BY 4.0",
-   "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
-   "credit": {
-    "title": "The open sea, heard while a story is open",
-    "author": "ElevenLabs sound effects",
-    "sourceUrl": "https://elevenlabs.io/sound-effects"
-   },
-   "note": "Generated on a paid ElevenLabs plan and released by Sea Creatures Lab under CC BY 4.0 (the maintainer, 2026-11-22). Cleaned on 2026-11-26: the take had most of its energy below 30 Hz, a rumble too low to hear that made small speakers buzz, and a thump at its start; both were taken out (a 45 Hz high-pass, the first 0.4 s cut) and its end now fades into its start so the loop has no seam. Nothing was added."
-  },
-  {
    "id": "shell/sfx/story-splash",
    "kind": "sfx",
    "scope": "shell",

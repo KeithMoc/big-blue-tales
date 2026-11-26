@@ -102,7 +102,8 @@
         "noaa-anchovy",
         "states",
         "adw-anchovy"
-      ]
+      ],
+      "icon": "🐟"
     },
     {
       "id": "ring",
@@ -115,7 +116,8 @@
       "sources": [
         "states",
         "milling-why"
-      ]
+      ],
+      "icon": "🔄"
     },
     {
       "id": "ball",
@@ -128,7 +130,8 @@
       "sources": [
         "bait-ball",
         "coral-digest"
-      ]
+      ],
+      "icon": "⚪"
     },
     {
       "id": "poke",
@@ -146,7 +149,8 @@
         "fountain",
         "lion-stroke",
         "lion-speed"
-      ]
+      ],
+      "icon": "🦭"
     }
   ],
   "times": {
@@ -159,7 +163,8 @@
         "young": "The sun comes up. The fish come together in schools again.",
         "sources": [
           "day-night"
-        ]
+        ],
+        "icon": "🌅"
       },
       {
         "id": "day",
@@ -167,13 +172,15 @@
         "young": "In the day, the fish stay close in their school.",
         "sources": [
           "day-night"
-        ]
+        ],
+        "icon": "☀️"
       },
       {
         "id": "sunset",
         "label": "Sunset",
         "young": "The sun goes down. The top of the sea turns gold.",
-        "sources": []
+        "sources": [],
+        "icon": "🌇"
       },
       {
         "id": "night",
@@ -182,7 +189,8 @@
         "sources": [
           "day-night",
           "day-night-bay"
-        ]
+        ],
+        "icon": "🌙"
       }
     ]
   },
@@ -282,15 +290,18 @@
       "options": [
         {
           "id": "school",
-          "label": "A school"
+          "label": "A school",
+          "icon": "🐟"
         },
         {
           "id": "big",
-          "label": "A big school"
+          "label": "A big school",
+          "icon": "🐟🐟"
         },
         {
           "id": "huge",
-          "label": "A huge school"
+          "label": "A huge school",
+          "icon": "🐟🐟🐟"
         }
       ]
     },
@@ -299,15 +310,18 @@
       "options": [
         {
           "id": "dots",
-          "label": "Dots"
+          "label": "Dots",
+          "icon": "⚬"
         },
         {
           "id": "line",
-          "label": "Line"
+          "label": "Line",
+          "icon": "〰️"
         },
         {
           "id": "sparkle",
-          "label": "Sparkles"
+          "label": "Sparkles",
+          "icon": "✨"
         }
       ]
     },
@@ -316,15 +330,18 @@
       "options": [
         {
           "id": "real",
-          "label": "Real colours"
+          "label": "Real colours",
+          "icon": "🐟"
         },
         {
           "id": "rainbow",
-          "label": "Rainbow"
+          "label": "Rainbow",
+          "icon": "🌈"
         },
         {
           "id": "surprise",
-          "label": "Surprise"
+          "label": "Surprise",
+          "icon": "🎁"
         }
       ],
       "note": {

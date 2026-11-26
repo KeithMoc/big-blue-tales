@@ -1,3 +1,7 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Big Blue Tales</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <style>
@@ -177,10 +181,9 @@ h1, h2, p { margin: 0; }
 .storywhy { pointer-events: auto; display: grid; gap: 6px; justify-items: start; padding: 12px 14px; }
 .storywhy .row { display: flex; gap: 8px; } .listen[aria-pressed="true"] { background: #bfe6f5; color: #04121c; } .storypanel .listen { margin-top: 10px; min-height: 40px; }
 .storywhy b { font-size: 16px; } .storywhy .because { color: #bfe6f5; } .storywhy .pill { min-height: 36px; padding: 0 14px; font-size: 14px; }
-.storyacts .why { flex: 0 0 auto; min-height: 44px; padding: 0 16px; font-size: 16px; font-weight: 700; justify-content: center; border-color: var(--glow); color: var(--glow); }
 .hide-actions .storyfoot { display: none; }
 @container stage (max-width: 640px) { .story { padding: 12px 12px; } .storyacts .act { padding: 6px 12px; font-size: 14px; } .storyplay .seg button { padding: 0 10px; font-size: 14px; min-height: 44px; } .storyplay .pill { padding: 0 12px; font-size: 14px; } .storynote { font-size: 14px; } }
-.storyhead { pointer-events: none; padding-right: 250px; text-shadow: 0 1px 10px rgba(2, 10, 20, 0.85), 0 0 3px rgba(2, 10, 20, 0.7); }
+.storyhead { pointer-events: none; margin-top: 60px; text-shadow: 0 1px 10px rgba(2, 10, 20, 0.85), 0 0 3px rgba(2, 10, 20, 0.7); }
 .storyhead h1 { font-family: var(--display); font-weight: 700; font-size: clamp(26px, 6cqw, 40px); line-height: 1.05; text-wrap: balance; }
 #storytags { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
 .stag { position: absolute; left: 0; top: 0; padding: 3px 10px; border-radius: 999px; background: rgba(3, 7, 12, 0.78); border: 1px solid var(--line); color: var(--ink); font-size: 14px; font-weight: 700; white-space: nowrap; }
@@ -200,6 +203,24 @@ h1, h2, p { margin: 0; }
 
 @media (max-width: 860px) and (orientation: portrait) { .storyhead { display: none; } }
 
+/* the story bar: Learn or Play first, then only the buttons of that mode. Music, Find the fish, Settings and Full
+   screen are for both modes and sit at the top. */
+.storymain { display: grid; gap: 8px; min-width: 0; }
+.modes { justify-self: start; padding: 5px; gap: 6px; border: 2px solid var(--line); }
+.modes button { min-height: 56px; padding: 0 22px; font-size: 19px; color: var(--ink); }
+.modes button[aria-checked="true"] { background: var(--lamp); color: #1a1204; }
+.storyfoot .toys { flex-wrap: wrap; overflow: visible; }
+.emo { font-size: 1.25em; line-height: 1; font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif; }
+.seg button .emo { margin-right: 6px; }
+.storyacts .listen { border: 2px solid var(--glow); color: var(--glow); }
+.storyacts .listen[aria-pressed="true"] { background: #bfe6f5; color: #04121c; }
+.tool i { flex: 0 0 auto; width: 34px; height: 20px; border-radius: 10px; background: #23333f; position: relative; }
+.tool i::after { content: ''; position: absolute; left: 3px; top: 3px; width: 14px; height: 14px; border-radius: 50%; background: var(--mute); transition: translate 0.2s; }
+.tool[aria-checked="true"] i { background: var(--lamp); }
+.tool[aria-checked="true"] i::after { translate: 14px 0; background: #1a1204; }
+@container stage (max-width: 760px) { .modes button { min-height: 50px; font-size: 17px; padding: 0 16px; } .tools { flex-wrap: wrap; justify-content: flex-end; max-width: calc(100% - 24px); } }
+.showcard .grown ul { display: grid; gap: 6px; padding-left: 18px; font-size: 14px; line-height: 1.4; }
+.showcard .grown a { color: var(--glow); }
 </style>
 <script type="importmap">
 { "imports": { "three": "./vendor/three.module.min.js", "three/addons/": "./vendor/addons/", "creature-kit": "./kit/creature-kit.js", "creature-kit/parts": "./kit/parts.js", "creature-kit/skin": "./kit/skin.js", "creature-kit/mouth": "./kit/mouth.js" } }
@@ -208,14 +229,27 @@ h1, h2, p { margin: 0; }
   <main class="stage" id="stage">
     <div id="view"></div>
     <div class="tools">
-      <button class="tool" id="btn-show" aria-expanded="false" aria-controls="showcard" aria-label="Settings"><svg class="ic" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h9M19 7h1M4 17h1M11 17h9"/><circle cx="16" cy="7" r="2.5"/><circle cx="8" cy="17" r="2.5"/></svg><span>Settings</span></button>
-      <button class="tool" id="btn-full" aria-pressed="false" aria-label="Full screen"><svg class="ic" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9V4h5M15 4h5v5M20 15v5h-5M9 20H4v-5"/></svg><span>Full screen</span></button>
+      <button class="tool" id="story-music" role="switch" aria-checked="false" hidden><span class="emo" aria-hidden="true">🎵</span><span>Music</span><i></i></button>
+      <button class="tool" id="story-home"><span class="emo" aria-hidden="true">🐟</span><span>Find the fish</span></button>
+      <button class="tool" id="story-just"><span class="emo" aria-hidden="true">🐠</span><span>Just the fish</span></button>
+      <button class="tool" id="btn-show" aria-expanded="false" aria-controls="showcard"><span class="emo" aria-hidden="true">👪</span><span>Grown-ups</span></button>
     </div>
-    <div class="showcard" id="showcard" role="group" aria-label="Settings" hidden>
-      <h2>Settings</h2>
+    <div class="showcard" id="showcard" role="group" aria-label="For grown-ups" hidden>
+      <h2>For grown-ups</h2>
       <section class="set">
-        <h3>For grown-ups</h3>
-        <div class="switches" id="set-grown"></div>
+        <h3>Learn and Play</h3>
+        <div class="switches" id="set-all"></div>
+      </section>
+      <section class="set">
+        <h3>Learn</h3>
+        <div class="switches" id="set-learn"></div>
+      </section>
+      <section class="set grown">
+        <h3>Where the story comes from</h3>
+        <p class="splain">Every line a child hears is tied to one of these sources, each with a quote in the story file.</p>
+        <ul id="storysources"></ul>
+        <h3>What the picture leaves out</h3>
+        <ul id="storyleft"></ul>
       </section>
     </div>
     <div class="paused" id="paused" role="status" hidden><p>One moment…</p><button id="btn-again" hidden>Tap to try again</button></div>
@@ -225,27 +259,26 @@ h1, h2, p { margin: 0; }
       <div class="storyfoot">
         <p class="storynote" id="storynote" role="status" hidden></p>
         <p class="storynote" id="storytime" role="status" hidden></p>
-        <div class="storynote storywhy" id="storywhy" role="status" hidden></div>
-        <div class="storyacts" id="storyacts" role="group" aria-label="Parts of the story"><button class="pill why" id="story-why" title="What are the fish doing, and why?" aria-expanded="false" aria-controls="storywhy">Why?</button></div>
-        <div class="storyplay" id="storyplay">
-          <button class="pill listen" id="story-listen" aria-pressed="false" hidden>Listen</button>
-          <button class="pill" id="story-play" role="switch" aria-checked="false" hidden><span>Play</span><i></i></button>
-          <button class="pill" id="story-music" role="switch" aria-checked="false" hidden><span>Music</span><i></i></button>
-          <button class="pill" id="story-home">Find the fish</button>
+        <div class="seg modes" id="storymode" role="radiogroup" aria-label="Learn or play" hidden>
+          <button role="radio" aria-checked="true" data-mode="learn"><span class="emo" aria-hidden="true">📖</span><span>Learn</span></button>
+          <button role="radio" aria-checked="false" data-mode="play" id="story-play"><span class="emo" aria-hidden="true">✨</span><span>Play</span></button>
         </div>
-        <div class="storyplay" id="storyday"><div class="seg" id="storytimes" role="radiogroup" hidden></div><div class="seg" id="storysizes" role="radiogroup" hidden></div></div>
-        <div class="storyplay" id="storytoys" hidden>
+        <div class="storymain" id="storymain">
+          <div class="storyacts" id="storyacts" role="group" aria-label="The story"><button class="pill listen" id="story-listen" aria-pressed="false" hidden><span class="emo" aria-hidden="true">🔊</span><span class="lbl">Listen</span></button></div>
+          <div class="storyplay" id="storyday"><div class="seg" id="storytimes" role="radiogroup" hidden></div></div>
+        </div>
+        <div class="storyplay toys" id="storytoys" hidden>
+          <div class="seg" id="storysizes" role="radiogroup" hidden></div>
           <div class="seg" id="storycolours" role="radiogroup" hidden></div>
           <div class="seg" id="storytrails" role="radiogroup" hidden></div>
-          <button class="pill" id="story-just">Just the fish</button>
         </div>
       </div>
       <p class="storynote justnote" id="storyjustnote" hidden></p>
       <div class="justmenu" id="justmenu" hidden>
         <div class="justtray" id="justtray" role="group" aria-label="Play choices" hidden>
-          <button class="pill" id="story-exit">Back to the story</button>
+          <button class="pill" id="story-exit"><span class="emo" aria-hidden="true">📖</span><span>Back to the story</span></button>
         </div>
-        <button class="pill justbtn" id="story-more" aria-expanded="false" aria-controls="justtray">More</button>
+        <button class="pill justbtn" id="story-more" aria-expanded="false" aria-controls="justtray"><span class="emo" aria-hidden="true">✨</span><span>More</span></button>
       </div>
     </div>
   </main>
@@ -257,12 +290,6 @@ h1, h2, p { margin: 0; }
       <p class="fact" id="storyfact" aria-live="polite"></p>
     </div>
     <div id="storylinks-out" style="display:grid;gap:18px"></div>
-    <details class="sources">
-      <summary>For grown-ups: where the story comes from</summary>
-      <ul id="storysources"></ul>
-      <h4>What the picture leaves out</h4>
-      <ul id="storyleft"></ul>
-    </details>
   </aside>
 </div>
 <script type="module" src="./app.js"></script>
