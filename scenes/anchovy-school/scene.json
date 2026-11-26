@@ -4,10 +4,11 @@
   "title": "A school of anchovies",
   "kicker": "Sunlit sea",
   "entry": {
-    "about": "The entry: the name in the sky, a Start button, how many seconds the camera takes to glide down to the school, and the short introduction read when it arrives (every word from its sources).",
+    "about": "The entry: the name over the water, seen from under the school (view = how far below it, how far back, and where it looks, above (+) or below (-) it, in units), a round Play button, how many seconds the camera takes to glide down to the school, and the short introduction read when it arrives (every word from its sources).",
     "kicker": "A Big Blue Tale",
     "title": "A school of anchovies",
-    "start": "Start",
+    "start": "Play",
+    "view": [10, 5, -4],
     "glide": 7,
     "intro": {
       "young": "Meet the anchovy! It is a small fish, no longer than a ruler. It is blue-green on top and silver underneath, with a thin silver stripe on its side. Anchovies eat plankton. Plankton are tiny plants and animals that float in the sea. Anchovies live near the top of the sea, in big groups called schools. Lots of animals eat anchovies: bigger fish, sea birds and sea lions.",
@@ -168,7 +169,7 @@
   ],
   "times": {
     "label": "Time of day",
-    "opens": "sunset",
+    "opens": "day",
     "options": [
       {
         "id": "sunrise",

@@ -56,8 +56,14 @@ const TIER_BUDGET = { low: { triangles: 60000, calls: 40 }, mid: { triangles: 12
         return storyLines(S, 'young').filter(l => !lines[lineKey(l.text)]).map(l => l.where);
       });
       if (missing.length) errors.push('no recording for ' + missing.join(', '));
-      for (const t of ['sunrise', 'day', 'night', 'sunset']) {
-        await page.click(`#storytimes [data-pick="${t}"]`); await page.waitForTimeout(1500);
+      // a new time of day is never read aloud (KM, 2026-11-26): it only shows a caption
+      // (a part may still be read from before: only a time-of-day line counts)
+      const timeLines = await page.evaluate(() => window.__sea.storyView.current.times.options.map(o => o.young));
+      const talking = () => page.evaluate(async () => (await import('./ui/speech.js')).nowSpeaking()?.text || '');
+      for (const t of ['sunrise', 'sunset', 'night', 'day']) {
+        await page.click(`#storytimes [data-pick="${t}"]`); await page.waitForTimeout(400);
+        if (timeLines.includes(await talking())) errors.push(`changing the time to ${t} was read aloud`);
+        await page.waitForTimeout(1100);
         if (t === 'night') await page.screenshot({ path: `${out}/${name}-night.png` });
       }
       await page.click('#story-voice'); await page.waitForTimeout(1500);
@@ -72,6 +78,24 @@ const TIER_BUDGET = { low: { triangles: 60000, calls: 40 }, mid: { triangles: 12
       await page.screenshot({ path: `${out}/${name}-play-line.png` });
       await page.click('#story-just'); await page.waitForTimeout(1500);
       await page.screenshot({ path: `${out}/${name}-just-the-fish.png` });
+      // Music, Captions and Read aloud are one setting for the whole book: switched inside Just the fish, they stay
+      // switched after leaving it, and every place that shows them agrees
+      const corner = () => page.evaluate(() => Object.fromEntries(['story-music', 'story-captions', 'story-voice'].map(id => [id, document.getElementById(id).getAttribute('aria-checked')]).concat([['sw-voice', document.getElementById('sw-voice')?.getAttribute('aria-checked') ?? null]])));
+      const was = await corner();
+      await page.click('#story-more'); await page.waitForTimeout(400);
+      for (const id of ['story-music', 'story-captions', 'story-voice']) await page.click('#' + id);
+      const flipped = await corner();
+      await page.click('#story-exit'); await page.waitForTimeout(800);
+      const after = await corner();
+      for (const id of ['story-music', 'story-captions', 'story-voice']) {
+        if (flipped[id] === was[id]) errors.push(`${id} did not switch inside Just the fish`);
+        if (after[id] !== flipped[id]) errors.push(`${id} went back to ${after[id]} after leaving Just the fish`);
+      }
+      if (after['sw-voice'] !== null && after['sw-voice'] !== after['story-voice']) errors.push('the Read aloud switch for grown-ups does not match the corner one');
+      await page.reload(); await page.waitForFunction(() => window.__sea?.storyView?.runner?.current?.scene, null, { timeout: 90000 });
+      const reloaded = await corner();
+      for (const id of ['story-music', 'story-captions', 'story-voice']) if (reloaded[id] !== after[id]) errors.push(`${id} was not remembered after a reload`);
+      console.log('corner switches', JSON.stringify({ was, after, reloaded }));
       const s = await page.evaluate(() => ({ ...window.__sea.engine.stats(), tier: window.__sea.device.tier }));
       console.log('headless (not a real frame rate):', JSON.stringify({ tier: s.tier, triangles: s.triangles, calls: s.calls }));
     }

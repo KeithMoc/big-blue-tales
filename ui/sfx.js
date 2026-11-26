@@ -22,7 +22,9 @@ export function loopSfx(id, volume = 1, fadeMs = 800) {
     const level = (v, ms = fadeMs) => { const t = ctx.currentTime; g.gain.cancelScheduledValues(t); g.gain.setValueAtTime(g.gain.value, t); g.gain.linearRampToValueAtTime(v, t + ms / 1000); };
     load(id).then(buf => { if (over) return; src = ctx.createBufferSource(); src.buffer = buf; src.loop = true;
       src.loopStart = 0.05; src.loopEnd = Math.max(0.1, buf.duration - 0.06);   // an mp3 decodes with a sliver of silence at each end: go round inside it
-      src.connect(g); src.start(); level(volume); }, () => {});
+      src.connect(g); src.start();
+      // fade up only once the browser lets sound out, so the fade is heard and does not end in silence
+      if (ctx.state === 'running') level(volume); else ctx.addEventListener('statechange', function up() { if (ctx.state !== 'running') return; ctx.removeEventListener('statechange', up); if (!over) level(volume); }); }, () => {});
     // a page opened from a link has had no tap yet, and a browser keeps it silent until one comes
     const wake = () => { if (!over) audio(); };
     document.addEventListener('pointerdown', wake, { once: true, capture: true });
