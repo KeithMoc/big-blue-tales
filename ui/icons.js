@@ -54,6 +54,43 @@ const DRAW = {
     <path d="M16 6.4 A9.6 9.6 0 0 0 16 25.6 C10.6 21.4 10.6 10.6 16 6.4 Z" fill="${C.coral}"/>
     <path d="M16 6.4 A9.6 9.6 0 0 1 16 25.6 C21.4 21.4 21.4 10.6 16 6.4 Z" fill="${C.sea}"/>
     <path d="M16 6.4 C13.4 11 13.4 21 16 25.6 C18.6 21 18.6 11 16 6.4 Z" fill="${C.gold}"/></g>`,
+  // Learn and Play options (the maintainer picks one of each; the others are then taken out)
+  // Learn B: a clever fish in a school cap and round glasses
+  learnFish: () => `<g class="bob">${fish(16.4, 18.4, 1.05)}
+    <circle cx="20.2" cy="17.6" r="2.1" fill="none" stroke="${C.ink}" stroke-width="0.9"/>
+    <path d="M18.1 17.4 Q17 16.6 15.8 17.2" fill="none" stroke="${C.ink}" stroke-width="0.9"/>
+    <path d="M13.4 11.4 V13.6 Q17 15.2 20.6 13.6 V11.4 Z" fill="#d99a2b"/>
+    <path d="M17 7.4 L24.2 10.4 L17 13.4 L9.8 10.4 Z" fill="${C.gold}"/>
+    <path d="M17 10.4 L22.6 12 V15.2" fill="none" stroke="${C.coral}" stroke-width="1.2" stroke-linecap="round"/><circle cx="22.6" cy="15.6" r="1" fill="${C.coral}"/></g>`,
+  // Learn C: a light bulb with a fish in it (an idea)
+  learnBulb: () => `<g class="pulse"><circle cx="16" cy="13.6" r="7.6" fill="#fff1a8"/>
+    <path d="M12.4 19.6 Q13 21 13 22.4 H19 Q19 21 19.6 19.6 Z" fill="#fff1a8"/>
+    ${fish(16.2, 13.4, 0.52)}</g>
+    <rect x="12.8" y="22.2" width="6.4" height="4.4" rx="1.2" fill="${C.belly}"/><path d="M13.2 24.4 H18.8" stroke="${C.back}" stroke-width="1"/>
+    <path class="twinkle" d="M16 3.2 V4.8 M7.2 7 L8.4 8.2 M24.8 7 L23.6 8.2" stroke="${C.gold}" stroke-width="1.8" stroke-linecap="round"/>`,
+  // Play B: a fish leaping out of a wave, with a splash
+  playLeap: () => `${sea(22.4)}<g class="hop">${fish(15.8, 14.2, 0.72, { turn: -28 })}</g>
+    <circle cx="8.4" cy="19.6" r="1.3" fill="${C.white}"/><circle cx="10.6" cy="16.6" r="1" fill="${C.white}"/><circle cx="6.4" cy="16.4" r="0.8" fill="${C.white}"/>
+    ${star(25, 21, 2.2, C.gold, 'twinkle')}`,
+  // Play C: a crayon drawing a loopy line (in Play you draw where the fish swim)
+  playCrayon: () => `<path class="trail" d="M5.4 11.6 C9.6 6.8 12.6 13.4 8.6 15.4 S5.6 21.6 9.6 22.6" fill="none" stroke="${C.gold}" stroke-width="2.4" stroke-linecap="round"/>
+    <g class="wiggle"><g transform="rotate(-45 17 16.4)"><rect x="12" y="13.6" width="14" height="5.6" rx="1.2" fill="${C.coral}"/>
+    <path d="M12 13.6 L7.2 16.4 L12 19.2 Z" fill="#ffd9a0"/><path d="M7.2 16.4 L9 15.4 L9 17.4 Z" fill="${C.coral}"/>
+    <path d="M16 13.6 V19.2 M22 13.6 V19.2" stroke="#c4553b" stroke-width="1.2"/></g></g>
+    ${star(24.6, 23.6, 2.4, C.white, 'twinkle')}`,
+  // Surprise colours options (each tap gives the school two new colours, mixed)
+  // A: two fish in new colours, with a question mark
+  surpriseFish: () => `<g class="swim">${fish(13, 12.2, 0.6, { body: '#c48cff', back: '#7a4fd0', belly: '#f3e6ff' })}${fish(19.2, 21.2, 0.6, { body: C.pink, back: C.coral, belly: '#ffe8ec' })}</g>
+    <path class="wiggle" d="M21 7.6 Q21 5 23.6 5 Q26.2 5 26.2 7.4 Q26.2 9 24.2 9.8 Q23.6 10.1 23.6 11.4" fill="none" stroke="${C.gold}" stroke-width="2" stroke-linecap="round"/><circle cx="23.6" cy="14" r="1.2" fill="${C.gold}"/>`,
+  // B: a paint splash in many colours
+  surpriseSplash: () => `<g class="pulse"><path d="M16 7.6 C18.4 7.6 18.6 10.4 20.6 10 C23 9.6 24.4 11.6 23 13.4 C21.8 15 25 16.4 24 18.8 C23 21.2 20.4 20 19.4 22 C18.4 24.4 15.6 24.8 14.4 22.6 C13.4 20.8 10.6 22 9.4 20 C8.2 18 10.4 16.6 9.2 14.8 C8 13 9.4 10.6 11.8 11 C13.6 11.4 13.6 7.6 16 7.6 Z" fill="${C.coral}"/>
+    <circle cx="16" cy="15.6" r="4.6" fill="${C.gold}"/><circle cx="16.6" cy="15" r="2.4" fill="#c48cff"/>
+    <circle cx="7" cy="9" r="1.4" fill="${C.green}"/><circle cx="25.6" cy="24" r="1.6" fill="${C.sea}"/><circle cx="8.4" cy="24.6" r="1.1" fill="${C.pink}"/></g>
+    ${star(24.8, 8.4, 2.4, C.white, 'twinkle')}`,
+  // C: a dice with dots of different colours (a surprise every throw)
+  surpriseDice: () => `<g class="wiggle"><rect x="8" y="8" width="16" height="16" rx="3.6" fill="${C.white}"/>
+    <circle cx="12.2" cy="12.2" r="1.9" fill="${C.coral}"/><circle cx="19.8" cy="12.2" r="1.9" fill="${C.gold}"/><circle cx="16" cy="16" r="1.9" fill="#a46be0"/>
+    <circle cx="12.2" cy="19.8" r="1.9" fill="${C.sea}"/><circle cx="19.8" cy="19.8" r="1.9" fill="${C.green}"/></g>`,
   listen: () => `<path d="M6.6 12.8 H10.8 L16.4 8 V24 L10.8 19.2 H6.6 Z" fill="${C.gold}" stroke="${C.gold}" stroke-width="1.4" stroke-linejoin="round"/>
     <path class="wave1" d="M19.6 12.4 Q21.8 16 19.6 19.6" fill="none" stroke="${C.rim}" stroke-width="2.2" stroke-linecap="round"/>
     <path class="wave2" d="M22.8 9.4 Q26.6 16 22.8 22.6" fill="none" stroke="${C.rim}" stroke-width="2.2" stroke-linecap="round"/>`,
