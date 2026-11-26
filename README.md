@@ -17,11 +17,12 @@ Then a California sea lion swims by and loops up through them!
 - **Learn**: tap the parts of the story and watch the school swim into each shape. Turn on the speaker to hear what
   the fish are doing; the words show on the picture while they are read.
 - **Play**: pick a school, a big school or a huge school, rainbow fish and a line of light. Tap the water to make the
-  fish dart. Drag to look around, or turn on **Draw** and draw a line for them to follow. Draw up to the top of the
+  fish dart. Drag to draw a line for them to follow, in the trail you picked, or tap **Move the view** to look around. Draw up to the top of the
   sea and they jump out with a splash! (That part is pretend, and the story says so.)
 - In both: watch at sunrise, in the day, at sunset or at night.
-- Bottom right, always there: music, captions and the speaker (pictures only), and **+** for **Find the fish** and
-  **Just the fish**, which fills the screen with only the water.
+- Bottom right, always there, pictures only: music, captions and the speaker (grey with a slash when off), **Find
+  the fish** and **Just the fish**, which fills the screen with only the water; there **+** holds the story's
+  parts (Learn) or the Play choices, and the way back.
 - The sea is alive: soft music from Start, quieter while a line is read, and now and then a swell or a few bubbles.
 
 ## For grown-ups
@@ -69,7 +70,7 @@ phone size it only opens the page and saves a picture. It fails on any page erro
 line with no recording, or a count over budget. Headless Chromium draws in software, so it gives no real frame rate.
 
 `node tools/fit.cjs --files` (`npm run fit`) opens the story at eight phone sizes, upright and on its side, in Learn,
-Play, with More open and in Just the fish, and fails if any button or word is cut off, smaller than 44 px, or on top
+Play, Play with Move the view on, and Just the fish in Play and in Learn with its tray open, and fails if any button or word is cut off, smaller than 44 px, or on top
 of another button.
 
 ### How it fits together

@@ -73,6 +73,12 @@ const DRAW = {
   more: () => `<path class="pulse" d="M16 9 V23 M9 16 H23" stroke="${C.gold}" stroke-width="4" stroke-linecap="round"/>`,
   back: () => `<g class="bob"><path d="M22.6 22.4 C24.6 15.6 20 10.6 13.4 11.4" fill="none" stroke="${C.gold}" stroke-width="3" stroke-linecap="round"/>
     <path d="M15.6 6.8 L10.4 11.6 L15.8 15.8" fill="none" stroke="${C.gold}" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></g>`,
+  // Move the view: a fish with an arrow curving round it (drag turns the view)
+  move: () => `<g class="swim">${fish(16, 16.6, 0.62)}</g>
+    <path d="M7.4 12.6 A9.4 6.6 0 0 1 24.6 12.6" fill="none" stroke="${C.gold}" stroke-width="2.6" stroke-linecap="round"/>
+    <path d="M21 9.6 L24.8 13 L25.6 8.2" fill="none" stroke="${C.gold}" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M24.6 20.4 A9.4 6.6 0 0 1 7.4 20.4" fill="none" stroke="${C.gold}" stroke-width="2.6" stroke-linecap="round"/>
+    <path d="M11 23.4 L7.2 20 L6.4 24.8" fill="none" stroke="${C.gold}" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>`,
   // Captions: a speech bubble with two lines of words in it
   captions: () => `<g class="bob"><path d="M7 10.4 Q7 8 9.4 8 H22.6 Q25 8 25 10.4 V18.6 Q25 21 22.6 21 H14.6 L10 25 V21 H9.4 Q7 21 7 18.6 Z" fill="${C.white}"/>
     <path d="M10.6 12.8 H21.4 M10.6 16.6 H18" stroke="${C.seaDeep}" stroke-width="2.2" stroke-linecap="round"/></g>`,
@@ -131,9 +137,9 @@ export function icon(name) {
   if (!draw) return '';
   const id = `ib${++uid}`;                         // clip ids must be unique on the page
   return `<svg class="ico ico-${name}" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
-    <defs><clipPath id="${id}"><circle cx="16" cy="16" r="14.6"/></clipPath></defs>
-    <circle cx="16" cy="16" r="15" fill="${C.deep}"/><g clip-path="url(#${id})">${draw()}</g>
-    <circle cx="16" cy="16" r="14.6" fill="none" stroke="${C.rim}" stroke-width="1.4"/></svg>`;
+    <defs><clipPath id="${id}"><circle cx="16" cy="16" r="15.2"/></clipPath></defs>
+    <circle cx="16" cy="16" r="15.4" fill="${C.deep}"/><g clip-path="url(#${id})">${draw()}</g>
+    <circle cx="16" cy="16" r="15.1" fill="none" stroke="${C.rim}" stroke-width="0.7" stroke-opacity="0.85"/></svg>`;
 }
 
 const ON = ':is(button:hover, button:focus-visible, button:active, [aria-checked="true"], [aria-pressed="true"], .ico-live) > .ico';
@@ -148,7 +154,7 @@ const MOVES = [['swim', 'ico-swim 1.6s ease-in-out infinite'], ['tail', 'ico-wag
 
 /** The icon CSS: size, and the gentle motion (only while on, hovered or pressed, and only without reduced motion). */
 export const ICON_CSS = `
-.ico { width: 1.6em; height: 1.6em; flex: none; vertical-align: middle; }
+.ico { width: 2.2em; height: 2.2em; flex: none; vertical-align: middle; }
 /* Only the moving parts get a box origin. Never put a moving class on an element with a transform attribute:
    the animation would replace it (wrap it in a <g> instead). */
 .ico :is(${MOVES.map(([c]) => '.' + c).join(', ')}) { transform-box: fill-box; transform-origin: center; }

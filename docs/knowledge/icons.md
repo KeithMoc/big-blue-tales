@@ -41,3 +41,9 @@ The story's buttons use one icon set drawn for Big Blue Tales: `ui/icons.js` (in
 with no word, in every mode, at the maintainer's call; each keeps its name for a screen reader. New drawings: `skip`
 (two arrows), `draw` (a crayon and its wavy line), `captions`. On a phone the Play and time-of-day choices show their
 pictures only (`tools/fit.cjs`), so every choice needs a picture that stands on its own.
+
+Later the same day (the maintainer's review of the corner): icons are bigger (2.2em; the corner buttons are the icon,
+56 px, with no frame of their own), the bubble's rim is thinner (0.7 of 32). Music, Captions and Read aloud show
+"off" as the picture greyed with a white slash from top left to bottom right; "on" is a thin gold ring. Find the fish
+and Just the fish are round buttons in the corner from the start; the + shows only in Just the fish. New drawing:
+`move` (a fish inside a curved arrow) for Move the view; Play has no Draw switch: picking a trail draws.

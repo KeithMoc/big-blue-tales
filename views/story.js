@@ -51,7 +51,7 @@ export function createStoryView({ engine, env, settings, go }) {
   function hush() { said++; stopSpeaking(); hideCaption(); duck(false); }
   // Captions on or off: the round button in the corner, remembered between visits (on at first)
   const wantCaptions = () => store.get('sm-captions') !== '0';
-  const syncCaptions = () => $('story-captions').setAttribute('aria-pressed', String(wantCaptions()));
+  const syncCaptions = () => $('story-captions').setAttribute('aria-checked', String(wantCaptions()));
   $('story-captions').addEventListener('click', () => { store.set('sm-captions', wantCaptions() ? '0' : '1'); syncCaptions(); subtitle(); });
   syncCaptions();
   function read(id) {
@@ -76,7 +76,7 @@ export function createStoryView({ engine, env, settings, go }) {
   }
   // Read aloud: the round speaker in the corner, in every mode. On, it reads what is on the screen now (the part in
   // Learn, the note in Play) and then each part as it is tapped; off, the voice stops.
-  const syncVoice = () => { $('story-voice').hidden = !canSpeak; $('story-voice').setAttribute('aria-pressed', String(!!settings.show.voice)); };
+  const syncVoice = () => { $('story-voice').hidden = !canSpeak; $('story-voice').setAttribute('aria-checked', String(!!settings.show.voice)); };
   $('story-voice').addEventListener('click', () => {
     const on = !settings.show.voice; settings.set('voice', on); syncVoice();
     if (!on) { hush(); reading = null; return; }
@@ -131,19 +131,23 @@ export function createStoryView({ engine, env, settings, go }) {
     for (const b of $('storymode').children) b.setAttribute('aria-checked', String((b.dataset.mode === 'play') === (canPlay && playing)));
     $('storymain').hidden = canPlay && playing;
     if (canPlay && playing) seg($('storycolours'), P.colours, sc.colours, sc.colour, (id) => sc.setColours(id)); else $('storycolours').hidden = true;
-    if (canPlay && playing && sc.trails) seg($('storytrails'), P.trails, sc.trails, sc.trail, (id) => sc.setTrail(id)); else $('storytrails').hidden = true;
+    // picking a trail is how a child says "I want to draw": the drag draws again
+    if (canPlay && playing && sc.trails) seg($('storytrails'), P.trails, sc.trails, sc.trail, (id) => { sc.setTrail(id); drawing = true; syncTurn(); }); else $('storytrails').hidden = true;
+    $('storytrails').classList.toggle('resting', !drawing);
+    $('storyacts').hidden = canPlay && playing;
     $('storytoys').hidden = !(canPlay && playing);
-    const d = $('story-draw'); d.hidden = !(canPlay && playing && sc?.draw); d.setAttribute('aria-pressed', String(drawing));
+    const mv = $('story-move'); mv.hidden = !(canPlay && playing && sc?.draw); mv.setAttribute('aria-pressed', String(!drawing));
     const pretend = canPlay && playing && sc.colour !== 'real', note = $('storynote');
     note.textContent = pretend ? text(P.colours.note) : (canPlay && playing && P.touch ? text(P.touch) : '');
     note.hidden = !note.textContent;
     sayNote(note.textContent);
   }
-  // Play: a drag turns the view round the fish, as in Learn. With Draw on, a drag draws a line the school swims along
-  // instead (zooming works either way). A tap on the water moves the fish near it out of the way in both.
-  let drawing = false;
+  // Play: a drag draws a line the school swims along, in the trail picked (picking a trail draws again). "Move the
+  // view" makes a drag turn the view round the fish instead, as in Learn; zooming works either way. A tap on the
+  // water moves the fish near it out of the way in both. There is no Draw switch: the maintainer's call, 2026-11-26.
+  let drawing = true;
   const syncTurn = () => { if (engine) engine.controls.enableRotate = !(active && playing && drawing && sceneNow()?.draw); };
-  $('story-draw').addEventListener('click', () => { drawing = !drawing; syncTurn(); renderPlay(); });
+  $('story-move').addEventListener('click', () => { drawing = !drawing; syncTurn(); renderPlay(); });
   // Sound. Music is on from Start (soft, the story's own tune, so the opening flows into the story) and goes quieter
   // while a line is read; the round note in the corner turns it off and on, remembered between visits. The sea is
   // not a steady bed (the old one was heard as a buzz: docs/knowledge/pitfalls.md): now and then one soft swell rolls
@@ -170,14 +174,14 @@ export function createStoryView({ engine, env, settings, go }) {
   const cue = (id) => { if (settings.show.sfx) playSfx(id); };
   $('story-music').addEventListener('click', () => { store.set('sm-music', store.get('sm-music') === '0' ? '1' : '0'); syncSound(); });
   document.addEventListener('visibilitychange', syncSound);
-  // More (the round + in the corner) opens a tray: Find the fish and Just the fish. Just the fish fills the screen
-  // with the picture and leaves only the corner; there the tray holds the Play choices (trail, colours, draw, time of
-  // day) and the way back. The choices are the same buttons as below the picture, moved into the tray and back, so
+  // Find the fish and Just the fish are round buttons in the corner. Just the fish fills the screen with the picture
+  // and leaves only the corner, where a + opens a tray: the story's parts in Learn, the Play choices in Play (trail,
+  // colours, move the view), the time of day, and the way back. The choices are the same buttons as below the picture, moved into the tray and back, so
   // there is one of each. A wide screen starts Just the fish with the tray open; a phone starts with it shut. The line
   // that says what is pretend still shows for a few seconds on the way in.
   let just = false;
-  const TRAY = ['story-draw', 'storytrails', 'storycolours', 'storytimes'];
-  const HOME = { 'story-draw': ['storytoys', null], storytrails: ['storytoys', 'story-draw'], storycolours: ['storytoys', 'storytrails'], storytimes: ['storyday', null] };
+  const TRAY = ['storyacts', 'story-move', 'storytrails', 'storycolours', 'storytimes'];
+  const HOME = { storyacts: ['storymain', null], 'story-move': ['storytoys', null], storytrails: ['storytoys', 'story-move'], storycolours: ['storytoys', 'storytrails'], storytimes: ['storyday', null] };
   const wide = () => (engine?.canvas?.clientWidth || innerWidth) > 640;
   function tray(open) {
     $('justtray').hidden = !open; $('story-more').setAttribute('aria-expanded', String(open));
@@ -189,7 +193,7 @@ export function createStoryView({ engine, env, settings, go }) {
   function justPlay(on) {
     if (on === just) return;
     just = on; document.documentElement.classList.toggle('just-play', on);
-    $('story-home').hidden = on; $('story-just').hidden = on; $('story-exit').hidden = !on;
+    $('story-just').hidden = on; $('story-more').hidden = !on;
     if (on) { const exit = $('story-exit'); for (const id of TRAY) $('justtray').insertBefore($(id), exit); }
     else for (const id of TRAY) { const [box, before] = HOME[id]; $(box).insertBefore($(id), before ? $(before) : null); }
     tray(on && wide());
@@ -199,14 +203,15 @@ export function createStoryView({ engine, env, settings, go }) {
   }
   $('story-just').addEventListener('click', () => justPlay(!just));
   $('story-exit').addEventListener('click', () => justPlay(false));
-  $('story-home').addEventListener('click', () => { tray(false); runner?.home(); });
+  $('story-home').addEventListener('click', () => runner?.home());
   $('story-more').addEventListener('click', () => tray($('justtray').hidden));
   // the open tray covers the water: touching the water closes it (in Just the fish on a wide screen it stays open)
   engine?.canvas?.addEventListener('pointerdown', () => { if (!just || !wide()) tray(false); });
   const setMode = (play) => {
     if (play === playing) return;
     playing = play;
-    if (!playing) { drawing = false; sceneNow()?.setColours?.('real'); sceneNow()?.draw?.('clear'); }   // Play off always puts the real animal back
+    drawing = true;
+    if (!playing) { sceneNow()?.setColours?.('real'); sceneNow()?.draw?.('clear'); }   // Play off always puts the real animal back
     syncTurn();
     renderPlay();
   };

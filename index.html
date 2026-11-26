@@ -127,6 +127,9 @@ h1, h2, p { margin: 0; }
 /* Rows wrap instead of scrolling sideways: a phone never cuts a word off at its edge. */
 .storyacts, .storyplay { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; padding: 2px; min-width: 0; }
 .storyplay .seg { flex-wrap: wrap; max-width: 100%; border-radius: 26px; }
+/* while Move the view is on, the trail row rests: picking a trail draws again */
+.seg.resting button[aria-checked="true"] { background: rgba(255, 196, 92, 0.35); }
+.justtray .storyacts { flex-direction: column; align-items: flex-end; }
 .storyacts .act { flex: 0 0 auto; min-height: 44px; padding: 8px 16px; font-size: 15px; white-space: nowrap; }
 /* With "Words on buttons" off, the story's parts keep their words: they have no picture to show instead. */
 .storyplay > * { flex: 0 0 auto; }
@@ -139,10 +142,13 @@ h1, h2, p { margin: 0; }
 .corner > * { pointer-events: auto; }
 .cornerbtns { display: grid; gap: 10px; flex: 0 0 auto; }
 .cornerbtns[hidden], .round[hidden] { display: none; }
-.round { width: 56px; height: 56px; padding: 0; display: grid; place-items: center; border-radius: 50%; border: 2px solid var(--line); background: rgba(3, 7, 12, 0.72); }
-.round .ico { width: 40px; height: 40px; }
-.round:hover { border-color: var(--lamp); }
-.round[aria-checked="true"], .round[aria-pressed="true"], .round[aria-expanded="true"] { border-color: var(--lamp); background: var(--lamp); }
+/* the round button is its picture: no frame of its own. On, a thin gold ring; off, grey with a slash across. */
+.round { position: relative; width: 56px; height: 56px; padding: 0; display: grid; place-items: center; border-radius: 50%; border: 0; background: none; }
+.round .ico { width: 56px; height: 56px; transition: filter 0.2s, opacity 0.2s; }
+.round:hover .ico, .round:focus-visible .ico { filter: brightness(1.15); }
+.round[aria-checked="true"], .round[aria-expanded="true"] { box-shadow: 0 0 0 3px var(--lamp); }
+.round.toggle[aria-checked="false"] .ico { filter: grayscale(1) brightness(0.65); opacity: 0.8; }
+.round.toggle[aria-checked="false"]::after { content: ''; position: absolute; left: 50%; top: 50%; width: 64px; height: 5px; border-radius: 3px; background: #e8eef2; box-shadow: 0 0 0 2px rgba(3, 7, 12, 0.85); transform: translate(-50%, -50%) rotate(45deg); pointer-events: none; }
 .justtray { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; padding: 6px; border-radius: 18px; border: 1px solid var(--line); background: rgba(3, 7, 12, 0.86); min-width: 0; max-width: 100%; max-height: calc(100cqh - 32px); overflow-y: auto; }
 .justtray[hidden] { display: none; }
 .justtray .seg { padding: 3px; gap: 2px; align-items: center; flex-wrap: wrap; justify-content: flex-end; max-width: 100%; border-radius: 22px; }
@@ -178,12 +184,19 @@ h1, h2, p { margin: 0; }
 .storyfoot { padding-right: 68px; }
 @container stage (max-width: 640px) {
   .corner { right: 10px; bottom: 10px; max-width: calc(100% - 20px); }
-  .round { width: 50px; height: 50px; } .round .ico { width: 36px; height: 36px; }
+  .round, .round .ico { width: 50px; height: 50px; } .round.toggle[aria-checked="false"]::after { width: 56px; }
   .storyfoot { padding-right: 58px; }
+}
+/* a phone on its side: the five round buttons get a little smaller and closer, so they clear Grown-ups at the top */
+@container stage (max-height: 500px) {
+  .cornerbtns { gap: 6px; }
+  .round, .round .ico { width: 44px; height: 44px; } .round.toggle[aria-checked="false"]::after { width: 50px; height: 4px; }
+  .storyfoot { padding-right: 52px; }
 }
 /* while the name is in the sky and while the introduction is read, only Music shows in the corner */
 .entering .corner, .intro .corner { opacity: 1 !important; pointer-events: none; }
-.entering #story-voice, .entering #story-captions, .entering #story-more, .entering .justtray, .intro #story-more, .intro .justtray { display: none; }
+.entering #story-voice, .entering #story-captions, .entering #story-more, .entering #story-home, .entering #story-just, .entering .justtray,
+.intro #story-more, .intro #story-home, .intro #story-just, .intro .justtray { display: none; }
 .entering .corner .round:not([hidden]), .intro .corner .round:not([hidden]) { pointer-events: auto; }
 .justnote { position: absolute; left: 16px; top: 16px; max-width: min(calc(100% - 32px), 420px); animation: justnote 7s ease-in forwards; }
 @keyframes justnote { 0%, 75% { opacity: 1; } 100% { opacity: 0; } }
@@ -317,7 +330,7 @@ h1, h2, p { margin: 0; }
           <div class="seg" id="storysizes" role="radiogroup" hidden></div>
           <div class="seg" id="storycolours" role="radiogroup" hidden></div>
           <div class="seg" id="storytrails" role="radiogroup" hidden></div>
-          <button class="pill" id="story-draw" aria-pressed="false" hidden><i data-icon="draw"></i><span>Draw</span></button>
+          <button class="pill" id="story-move" aria-pressed="false" hidden><i data-icon="move"></i><span>Move the view</span></button>
         </div>
         <div class="storyplay" id="storyday"><div class="seg" id="storytimes" role="radiogroup" hidden></div></div>
       </div>
@@ -327,15 +340,15 @@ h1, h2, p { margin: 0; }
            The tray holds Find the fish and Just the fish; in Just the fish it holds the Play choices and the way back. -->
       <div class="corner" id="corner">
         <div class="justtray" id="justtray" role="group" aria-label="More" hidden>
-          <button class="pill" id="story-home"><i data-icon="find"></i><span>Find the fish</span></button>
-          <button class="pill" id="story-just"><i data-icon="just"></i><span>Just the fish</span></button>
-          <button class="pill" id="story-exit" hidden><i data-icon="back"></i><span>Back to the story</span></button>
+          <button class="pill" id="story-exit"><i data-icon="back"></i><span>Back to the story</span></button>
         </div>
         <div class="cornerbtns">
-          <button class="round" id="story-music" role="switch" aria-checked="false" aria-label="Music" title="Music" hidden><i data-icon="music"></i></button>
-          <button class="round" id="story-captions" aria-pressed="true" aria-label="Captions" title="Captions"><i data-icon="captions"></i></button>
-          <button class="round" id="story-voice" aria-pressed="false" aria-label="Read aloud" title="Read aloud" hidden><i data-icon="listen"></i></button>
-          <button class="round" id="story-more" aria-expanded="false" aria-controls="justtray" aria-label="More" title="More"><i data-icon="more"></i></button>
+          <button class="round toggle" id="story-music" role="switch" aria-checked="false" aria-label="Music" title="Music" hidden><i data-icon="music"></i></button>
+          <button class="round toggle" id="story-captions" role="switch" aria-checked="true" aria-label="Captions" title="Captions"><i data-icon="captions"></i></button>
+          <button class="round toggle" id="story-voice" role="switch" aria-checked="false" aria-label="Read aloud" title="Read aloud" hidden><i data-icon="listen"></i></button>
+          <button class="round" id="story-home" aria-label="Find the fish" title="Find the fish"><i data-icon="find"></i></button>
+          <button class="round" id="story-just" aria-label="Just the fish" title="Just the fish"><i data-icon="just"></i></button>
+          <button class="round" id="story-more" aria-expanded="false" aria-controls="justtray" aria-label="More" title="More" hidden><i data-icon="more"></i></button>
         </div>
       </div>
     </div>

@@ -1,6 +1,6 @@
 // Phone fit: opens the story at small phone sizes, upright and on its side, and fails if any button or its word is
 // cut off by the edge of the screen or by its own box, or if two buttons sit on top of each other. It looks at Learn,
-// Play, the open More tray and Just the fish with its tray open.
+// Play, Play with Move the view on, and Just the fish in Play and in Learn with its tray open.
 // Usage: node tools/fit.cjs [url] [screenshot folder]. With --files it reads the files straight from this folder.
 // Licence: MIT.
 const { chromium } = require('playwright');
@@ -64,12 +64,18 @@ function measure(where) {
     errors.push(...await page.evaluate(measure, at('Learn'))); await shot('learn');
     await page.click('#story-play'); await page.waitForTimeout(500);
     errors.push(...await page.evaluate(measure, at('Play'))); await shot('play');
-    await page.click('#story-more'); await page.waitForTimeout(300);
-    errors.push(...await page.evaluate(measure, at('Play, More open'))); await shot('more');
+    await page.click('#story-move'); await page.waitForTimeout(300);
+    errors.push(...await page.evaluate(measure, at('Play, Move the view on'))); await shot('move');
     await page.click('#story-just'); await page.waitForTimeout(800);
     if (await page.getAttribute('#story-more', 'aria-expanded') !== 'true') await page.click('#story-more');
     await page.waitForTimeout(300);
-    errors.push(...await page.evaluate(measure, at('Just the fish, More open'))); await shot('just');
+    errors.push(...await page.evaluate(measure, at('Just the fish in Play, More open'))); await shot('just-play');
+    await page.click('#story-exit'); await page.waitForTimeout(500);
+    await page.click('#storymode [data-mode="learn"]'); await page.waitForTimeout(300);
+    await page.click('#story-just'); await page.waitForTimeout(800);
+    if (await page.getAttribute('#story-more', 'aria-expanded') !== 'true') await page.click('#story-more');
+    await page.waitForTimeout(300);
+    errors.push(...await page.evaluate(measure, at('Just the fish in Learn, More open'))); await shot('just-learn');
     await page.close();
   }
   await browser.close();
