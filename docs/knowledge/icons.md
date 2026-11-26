@@ -25,3 +25,14 @@ The story's buttons use one icon set drawn for Big Blue Tales: `ui/icons.js` (in
 | Smart Interface Design Patterns, design for children | one consistent picture language | |
 | Tabler, Lucide, Atlas (MIT), Fluent Emoji (MIT) | grid, round ends, inline SVG technique | their icons: adult line style or emoji, no sea animals |
 | svg-animation.com and WCAG 2.3.3 on reduced motion | still icon complete, motion opt-in, transform/opacity only | |
+
+## Choices the maintainer made (2026-11-26)
+
+- No shine mark on the bubble: at button size it read as a scratch.
+- Learn is our anchovy in a school cap and glasses; Play is the same fish leaping out of a wave. One fish learns,
+  then plays, and the pair still looks different at a glance. Turned down: an open book (a grown-up idea of
+  learning), a light bulb (many 5 year olds do not read it as "an idea"), a beach ball and a crayon.
+- "Surprise colours" (renamed from "Surprise") is a dice with a different colour on each dot: a gift box did not
+  say "colour". Turned down: two odd-coloured fish with a question mark, a paint splash (read as a flower).
+- Words on screen for kids are subtitles only, 1 or 2 lines at a time, timed to the recording
+  (`ui/captions.js`, `tools/caption-cues.mjs`); no word panel.
