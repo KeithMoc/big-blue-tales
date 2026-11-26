@@ -61,6 +61,7 @@ flowchart LR
 | `views/`, `ui/`, `core/`, `kit/` | The story view; settings, voice and sound playback; engine, water presets, quality tiers, pack loader; the model kit |
 | `sounds/` | Sounds every story shares (`index.js`), and the maker, prompt and licence of every sound and recorded line (`manifest.json`) |
 | `tools/` | The four checks above |
+| `AGENTS.md` | The short rules and checks for a coding agent (or a person) working in this repo |
 | `docs/` | Story guide (`STORIES.md`), three.js standard (`THREEJS.md`), tone guide (`TONE.md`), the story kit decision (`adr/`), what was learned (`knowledge/`) |
 
 ## Add a story
