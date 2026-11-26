@@ -46,11 +46,11 @@ const DRAW = {
     <g class="bob"><circle cx="11.2" cy="9.4" r="3.4" fill="${C.belly}"/><path d="M6 27 V18.6 Q6 13.8 11.2 13.8 Q16.4 13.8 16.4 18.6 V27 Z" fill="${C.belly}"/></g>
     <g class="hop"><circle cx="21.8" cy="15.4" r="2.7" fill="${C.gold}"/><path d="M17.8 27 V22.2 Q17.8 19 21.8 19 Q25.8 19 25.8 22.2 V27 Z" fill="${C.gold}"/></g>`,
   start: () => `<path class="pulse" d="M12.4 8.4 Q12.4 6.8 13.8 7.6 L23.8 14.6 Q25 15.6 23.8 16.6 L13.8 23.6 Q12.4 24.4 12.4 22.8 Z" fill="${C.gold}" stroke="${C.gold}" stroke-width="1.6" stroke-linejoin="round"/>`,
-  learn: () => `<g class="bob"><path d="M16 10.4 Q11 7.4 5.2 8.8 V23.8 Q11 22.4 16 25 Q21 22.4 26.8 23.8 V8.8 Q21 7.4 16 10.4 Z" fill="${C.belly}"/>
+  learnBook: () => `<g class="bob"><path d="M16 10.4 Q11 7.4 5.2 8.8 V23.8 Q11 22.4 16 25 Q21 22.4 26.8 23.8 V8.8 Q21 7.4 16 10.4 Z" fill="${C.belly}"/>
     <path d="M16 10.4 V25" stroke="${C.back}" stroke-width="1.6"/>
     <path d="M8.2 13.4 H13 M8.2 16.6 H13 M8.2 19.8 H11.6" stroke="${C.sea}" stroke-width="1.6" stroke-linecap="round"/>
     ${fish(21.4, 16.8, 0.42)}</g>`,
-  play: () => `<g class="spin"><circle cx="16" cy="16" r="9.6" fill="${C.white}"/>
+  playBall: () => `<g class="spin"><circle cx="16" cy="16" r="9.6" fill="${C.white}"/>
     <path d="M16 6.4 A9.6 9.6 0 0 0 16 25.6 C10.6 21.4 10.6 10.6 16 6.4 Z" fill="${C.coral}"/>
     <path d="M16 6.4 A9.6 9.6 0 0 1 16 25.6 C21.4 21.4 21.4 10.6 16 6.4 Z" fill="${C.sea}"/>
     <path d="M16 6.4 C13.4 11 13.4 21 16 25.6 C18.6 21 18.6 11 16 6.4 Z" fill="${C.gold}"/></g>`,
@@ -94,7 +94,15 @@ const DRAW = {
   listen: () => `<path d="M6.6 12.8 H10.8 L16.4 8 V24 L10.8 19.2 H6.6 Z" fill="${C.gold}" stroke="${C.gold}" stroke-width="1.4" stroke-linejoin="round"/>
     <path class="wave1" d="M19.6 12.4 Q21.8 16 19.6 19.6" fill="none" stroke="${C.rim}" stroke-width="2.2" stroke-linecap="round"/>
     <path class="wave2" d="M22.8 9.4 Q26.6 16 22.8 22.6" fill="none" stroke="${C.rim}" stroke-width="2.2" stroke-linecap="round"/>`,
-  loading: () => `<g class="swim">${fish(17, 16, 1.15)}</g>`,
+  // the loading fish: swims a slow loop, wags its tail and blows bubbles that rise and pop
+  loading: () => `<circle class="bub1" cx="23.4" cy="13" r="1.3" fill="none" stroke="${C.rim}" stroke-width="0.9"/>
+    <circle class="bub2" cx="24.6" cy="11" r="0.9" fill="none" stroke="${C.rim}" stroke-width="0.8"/>
+    <circle class="bub3" cx="23" cy="9.6" r="1.6" fill="none" stroke="${C.rim}" stroke-width="0.9"/>
+    <g class="cruise">${fish(15, 17, 1.05)}</g>`,
+  stop: () => `<rect class="pulse" x="9.6" y="9.6" width="12.8" height="12.8" rx="3" fill="${C.gold}"/>`,
+  more: () => `<path class="pulse" d="M16 9 V23 M9 16 H23" stroke="${C.gold}" stroke-width="4" stroke-linecap="round"/>`,
+  back: () => `<g class="bob"><path d="M22.6 22.4 C24.6 15.6 20 10.6 13.4 11.4" fill="none" stroke="${C.gold}" stroke-width="3" stroke-linecap="round"/>
+    <path d="M15.6 6.8 L10.4 11.6 L15.8 15.8" fill="none" stroke="${C.gold}" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></g>`,
 
   // ---- what the fish do ----
   together: () => `<g class="swim">${fish(11.6, 10.6, 0.56)}${fish(21.2, 16, 0.56)}${fish(11.6, 21.4, 0.56)}</g>`,
@@ -133,16 +141,18 @@ const DRAW = {
   sparkle: () => `${fish(21.4, 17.6, 0.6)}${star(9.4, 11, 3.6, C.gold, 'twinkle')}${star(12.6, 21.4, 2.4, C.white, 'twinkle2')}`,
   real: () => `<g class="swim">${fish(17, 16, 1.15)}</g>`,
   rainbow: () => `<g class="swim">${fish(17, 16, 1.15, { body: C.gold, back: C.coral, belly: C.green })}</g>`,
-  surprise: () => `<g class="wiggle"><rect x="8" y="14.4" width="16" height="11" rx="1.6" fill="${C.sea}"/><rect x="7" y="11" width="18" height="4.4" rx="1.4" fill="${C.rim}"/>
+  surpriseGift: () => `<g class="wiggle"><rect x="8" y="14.4" width="16" height="11" rx="1.6" fill="${C.sea}"/><rect x="7" y="11" width="18" height="4.4" rx="1.4" fill="${C.rim}"/>
     <path d="M16 11 V25.4" stroke="${C.gold}" stroke-width="2.8"/><path d="M16 11 Q10.6 4.8 10.2 9.2 Q10.6 11.4 16 11 Q21.4 11.4 21.8 9.2 Q21.4 4.8 16 11 Z" fill="${C.gold}"/></g>`,
 };
 
+// The picks for the buttons that have more than one drawing (the maintainer chooses on the icon board; swap here).
+export const PICKS = { learn: 'learnFish', play: 'playLeap', surprise: 'surpriseDice' };
 export const ICON_NAMES = Object.keys(DRAW);
 
 let uid = 0;
 /** Inline SVG for a named icon, or '' for an unknown name (the word on the button still says what it does). */
 export function icon(name) {
-  const draw = DRAW[name];
+  const draw = DRAW[PICKS[name] || name];
   if (!draw) return '';
   const id = `ib${++uid}`;                         // clip ids must be unique on the page
   return `<svg class="ico ico-${name}" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
@@ -158,7 +168,8 @@ const MOVES = [['swim', 'ico-swim 1.6s ease-in-out infinite'], ['tail', 'ico-wag
   ['squeeze', 'ico-squeeze 1.6s ease-in-out infinite'], ['nod', 'ico-nod 1.4s ease-in-out infinite'], ['rock', 'ico-rock 2.6s ease-in-out infinite'],
   ['twinkle', 'ico-twinkle 1.4s ease-in-out infinite'], ['twinkle2', 'ico-twinkle 1.4s ease-in-out 0.7s infinite'],
   ['wave1', 'ico-fade 1.2s ease-in-out infinite'], ['wave2', 'ico-fade 1.2s ease-in-out 0.3s infinite'], ['trail', 'ico-fade 1.4s ease-in-out infinite'],
-  ['pulse', 'ico-pulse 1.4s ease-in-out infinite'], ['grow', 'ico-pulse 1.6s ease-in-out infinite'], ['wiggle', 'ico-wiggle 1.2s ease-in-out infinite']];
+  ['pulse', 'ico-pulse 1.4s ease-in-out infinite'], ['cruise', 'ico-cruise 3.2s ease-in-out infinite'],
+  ['bub1', 'ico-bubble 2.4s ease-in infinite'], ['bub2', 'ico-bubble 2.4s ease-in 0.8s infinite'], ['bub3', 'ico-bubble 2.4s ease-in 1.6s infinite'], ['grow', 'ico-pulse 1.6s ease-in-out infinite'], ['wiggle', 'ico-wiggle 1.2s ease-in-out infinite']];
 
 /** The icon CSS: size, and the gentle motion (only while on, hovered or pressed, and only without reduced motion). */
 export const ICON_CSS = `
@@ -186,5 +197,22 @@ ${MOVES.map(([c, a]) => `  ${ON} .${c} { animation: ${a}; }`).join('\n')}
 @keyframes ico-twinkle { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.35; transform: scale(0.7); } }
 @keyframes ico-fade { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
 @keyframes ico-pulse { 50% { transform: scale(1.08); } }
+@keyframes ico-cruise { 0%, 100% { transform: translate(-2px, 1px) rotate(4deg); } 25% { transform: translate(1px, -1.5px) rotate(-6deg); } 50% { transform: translate(3px, 0.5px) rotate(3deg); } 75% { transform: translate(0, 2px) rotate(-3deg); } }
+@keyframes ico-bubble { 0% { opacity: 0; transform: translate(0, 4px) scale(0.6); } 20% { opacity: 1; } 100% { opacity: 0; transform: translate(1.5px, -8px) scale(1.15); } }
 @keyframes ico-wiggle { 0%, 60%, 100% { transform: rotate(0); } 70% { transform: rotate(-8deg); } 85% { transform: rotate(8deg); } }
 `;
+
+/** An icon as a DOM node (for buttons built in code). */
+export function iconNode(name) {
+  const t = document.createElement('template'); t.innerHTML = icon(name).trim();
+  return t.content.firstElementChild || document.createTextNode('');
+}
+/** Puts the icon CSS on the page once, and draws every [data-icon] in `root`: an <i data-icon> becomes the icon itself
+ *  (so it is a direct child of its button, which the motion rules need); any other element gets the icon inside it. */
+export function paintIcons(root = document) {
+  if (!document.getElementById('icon-css')) document.head.append(Object.assign(document.createElement('style'), { id: 'icon-css', textContent: ICON_CSS }));
+  for (const el of root.querySelectorAll('[data-icon]')) {
+    const node = iconNode(el.dataset.icon);
+    if (el.tagName === 'I') el.replaceWith(node); else el.replaceChildren(node);
+  }
+}

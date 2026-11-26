@@ -116,7 +116,7 @@
         "states",
         "adw-anchovy"
       ],
-      "icon": "🐟"
+      "icon": "together"
     },
     {
       "id": "ring",
@@ -130,7 +130,7 @@
         "states",
         "milling-why"
       ],
-      "icon": "🔄"
+      "icon": "ring"
     },
     {
       "id": "ball",
@@ -144,7 +144,7 @@
         "bait-ball",
         "coral-digest"
       ],
-      "icon": "⚪"
+      "icon": "ball"
     },
     {
       "id": "poke",
@@ -163,7 +163,7 @@
         "lion-stroke",
         "lion-speed"
       ],
-      "icon": "🦭"
+      "icon": "sealion"
     }
   ],
   "times": {
@@ -177,7 +177,7 @@
         "sources": [
           "day-night"
         ],
-        "icon": "🌅"
+        "icon": "sunrise"
       },
       {
         "id": "day",
@@ -186,14 +186,14 @@
         "sources": [
           "day-night"
         ],
-        "icon": "☀️"
+        "icon": "day"
       },
       {
         "id": "sunset",
         "label": "Sunset",
         "young": "The sun goes down. The top of the sea turns gold.",
         "sources": [],
-        "icon": "🌇"
+        "icon": "sunset"
       },
       {
         "id": "night",
@@ -203,7 +203,7 @@
           "day-night",
           "day-night-bay"
         ],
-        "icon": "🌙"
+        "icon": "night"
       }
     ]
   },
@@ -304,17 +304,17 @@
         {
           "id": "school",
           "label": "A school",
-          "icon": "🐟"
+          "icon": "school"
         },
         {
           "id": "big",
           "label": "A big school",
-          "icon": "🐟🐟"
+          "icon": "bigschool"
         },
         {
           "id": "huge",
           "label": "A huge school",
-          "icon": "🐟🐟🐟"
+          "icon": "hugeschool"
         }
       ]
     },
@@ -324,17 +324,17 @@
         {
           "id": "dots",
           "label": "Dots",
-          "icon": "⚬"
+          "icon": "dots"
         },
         {
           "id": "line",
           "label": "Line",
-          "icon": "〰️"
+          "icon": "line"
         },
         {
           "id": "sparkle",
           "label": "Sparkles",
-          "icon": "✨"
+          "icon": "sparkle"
         }
       ]
     },
@@ -344,17 +344,17 @@
         {
           "id": "real",
           "label": "Real colours",
-          "icon": "🐟"
+          "icon": "real"
         },
         {
           "id": "rainbow",
           "label": "Rainbow",
-          "icon": "🌈"
+          "icon": "rainbow"
         },
         {
           "id": "surprise",
           "label": "Surprise",
-          "icon": "🎁"
+          "icon": "surprise"
         }
       ],
       "note": {

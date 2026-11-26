@@ -3,6 +3,7 @@
 //   no address    the first story in scenes/index.json, or the one opened last on this device
 // Licence: MIT.
 import { $, h } from './ui/dom.js';
+import { paintIcons } from './ui/icons.js';
 import { createSettings } from './ui/settings.js';
 import { createEngine } from './core/engine.js';
 import { createEnvironment } from './core/env.js';
@@ -11,6 +12,7 @@ import { loadFonts } from './core/fonts.js';
 import { createStoryView } from './views/story.js';
 import { bindSfx } from './ui/sfx.js';
 
+paintIcons();                                 // the sea bubble icons, before anything else shows (ui/icons.js)
 loadFonts();
 const stage = $('stage');
 const settings = createSettings();

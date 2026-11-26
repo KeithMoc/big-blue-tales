@@ -151,7 +151,14 @@ h1, h2, p { margin: 0; }
 @keyframes justnote { 0%, 75% { opacity: 1; } 100% { opacity: 0; } }
 @media (prefers-reduced-motion: reduce) { .justnote { animation: none; } }
 .storyplay .pill { min-height: 44px; }
-.storynote.caption { justify-self: center; max-width: min(100%, 680px); padding: 10px 18px; font-size: 20px; line-height: 1.4; text-align: center; }
+.storynote.caption { justify-self: center; max-width: min(100%, 620px); padding: 10px 20px; font-size: 21px; line-height: 1.35; text-align: center; text-wrap: balance; }
+/* The introduction: only the fish and the subtitle, low on the screen and clear of the school. The buttons come in after. */
+.intro .tools, .intro .storyhead, .intro #storytags, .intro .storyfoot > :not(.caption) { display: none; }
+.intro .storyfoot { margin-bottom: 4vh; }
+@media (prefers-reduced-motion: no-preference) {
+  .tools, .storyhead, .storyfoot > :not(.caption) { animation: comein 0.8s ease-out; }
+  @keyframes comein { from { opacity: 0; } }
+}
 .storynote { justify-self: start; max-width: min(100%, 520px); padding: 8px 14px; border-radius: 14px; background: rgba(3, 7, 12, 0.86); color: #eaf6fb; font-size: 15px; line-height: 1.35; pointer-events: none; }
 .storywhy { pointer-events: auto; display: grid; gap: 6px; justify-items: start; padding: 12px 14px; }
 .storywhy .row { display: flex; gap: 8px; } .listen[aria-pressed="true"] { background: #bfe6f5; color: #04121c; }
@@ -182,8 +189,7 @@ h1, h2, p { margin: 0; }
 .modes button { min-height: 56px; padding: 0 22px; font-size: 19px; color: var(--ink); }
 .modes button[aria-checked="true"] { background: var(--lamp); color: #1a1204; }
 .storyfoot .toys { flex-wrap: wrap; overflow: visible; }
-.emo { font-size: 1.25em; line-height: 1; font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif; }
-.seg button .emo { margin-right: 6px; }
+.seg button .ico { margin-right: 2px; }
 .storyacts .listen { border: 2px solid var(--glow); color: var(--glow); }
 .storyacts .listen[aria-pressed="true"] { background: #bfe6f5; color: #04121c; }
 .tool i { flex: 0 0 auto; width: 34px; height: 20px; border-radius: 10px; background: #23333f; position: relative; }
@@ -199,8 +205,7 @@ h1, h2, p { margin: 0; }
 .entry > * { pointer-events: auto; }
 .entry[hidden] { display: none; }
 .entryload { display: grid; justify-items: center; gap: 10px; color: var(--ink); font-size: 22px; font-weight: 700; }
-.entryfish { font-size: 56px; animation: entryswim 1.6s ease-in-out infinite; font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif; }
-@keyframes entryswim { 0%, 100% { translate: -24px 0; rotate: -6deg; } 50% { translate: 24px -8px; rotate: 6deg; } }
+.entryfish { display: block; } .entryfish .ico { width: 112px; height: 112px; }
 .entrytitle { display: grid; justify-items: center; gap: 18px; text-align: center; padding: 0 16px; transition: opacity 0.9s, translate 0.9s; }
 .entrytitle h1, .entrykicker { animation: entryfloat 5s ease-in-out infinite; }
 .entrytitle.going { opacity: 0; translate: 0 -40px; }
@@ -213,7 +218,7 @@ h1, h2, p { margin: 0; }
 .entering .tools, .entering .storyfoot, .entering .storyhead, .entering #storytags { opacity: 0; pointer-events: none; }
 .app.entering { grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(0, 1fr) auto; }   /* the picture has the whole page */
 .tools, .storyfoot, .storyhead { transition: opacity 0.8s; }
-@media (prefers-reduced-motion: reduce) { .entryfish, .entrytitle h1, .entrykicker { animation: none; } }
+@media (prefers-reduced-motion: reduce) { .entrytitle h1, .entrykicker { animation: none; } }
 </style>
 <script type="importmap">
 { "imports": { "three": "./vendor/three.module.min.js", "three/addons/": "./vendor/addons/", "creature-kit": "./kit/creature-kit.js", "creature-kit/parts": "./kit/parts.js", "creature-kit/skin": "./kit/skin.js", "creature-kit/mouth": "./kit/mouth.js" } }
@@ -222,10 +227,10 @@ h1, h2, p { margin: 0; }
   <main class="stage" id="stage">
     <div id="view"></div>
     <div class="tools">
-      <button class="tool" id="story-music" role="switch" aria-checked="false" hidden><span class="emo" aria-hidden="true">🎵</span><span>Music</span><i></i></button>
-      <button class="tool" id="story-home"><span class="emo" aria-hidden="true">🐟</span><span>Find the fish</span></button>
-      <button class="tool" id="story-just"><span class="emo" aria-hidden="true">🐠</span><span>Just the fish</span></button>
-      <button class="tool" id="btn-show" aria-expanded="false" aria-controls="showcard"><span class="emo" aria-hidden="true">👪</span><span>Grown-ups</span></button>
+      <button class="tool" id="story-music" role="switch" aria-checked="false" hidden><i data-icon="music"></i><span>Music</span><i></i></button>
+      <button class="tool" id="story-home"><i data-icon="find"></i><span>Find the fish</span></button>
+      <button class="tool" id="story-just"><i data-icon="just"></i><span>Just the fish</span></button>
+      <button class="tool" id="btn-show" aria-expanded="false" aria-controls="showcard"><i data-icon="grownups"></i><span>Grown-ups</span></button>
     </div>
     <div class="showcard" id="showcard" role="group" aria-label="For grown-ups" hidden>
       <h2>For grown-ups</h2>
@@ -250,11 +255,11 @@ h1, h2, p { margin: 0; }
       </section>
     </div>
     <div class="entry" id="entry" aria-live="polite">
-      <div class="entryload" id="entryload"><span class="entryfish" aria-hidden="true">🐟</span><p>Diving in…</p></div>
+      <div class="entryload" id="entryload"><span class="entryfish ico-live" data-icon="loading" aria-hidden="true"></span><p>Diving in…</p></div>
       <div class="entrytitle" id="entrytitle" hidden>
         <p class="entrykicker" id="entrykicker"></p>
         <h1 id="entryname"></h1>
-        <button class="entrygo" id="entrygo"><span class="emo" aria-hidden="true">▶️</span><span id="entrygo-label">Start</span></button>
+        <button class="entrygo" id="entrygo"><i data-icon="start"></i><span id="entrygo-label">Start</span></button>
       </div>
       <button class="entryskip" id="entryskip" hidden>Skip</button>
     </div>
@@ -266,11 +271,11 @@ h1, h2, p { margin: 0; }
         <p class="storynote" id="storynote" role="status" hidden></p>
         <p class="storynote caption" id="storycaption" role="status" hidden></p>
         <div class="seg modes" id="storymode" role="radiogroup" aria-label="Learn or play" hidden>
-          <button role="radio" aria-checked="true" data-mode="learn"><span class="emo" aria-hidden="true">📖</span><span>Learn</span></button>
-          <button role="radio" aria-checked="false" data-mode="play" id="story-play"><span class="emo" aria-hidden="true">✨</span><span>Play</span></button>
+          <button role="radio" aria-checked="true" data-mode="learn"><i data-icon="learn"></i><span>Learn</span></button>
+          <button role="radio" aria-checked="false" data-mode="play" id="story-play"><i data-icon="play"></i><span>Play</span></button>
         </div>
         <div class="storymain" id="storymain">
-          <div class="storyacts" id="storyacts" role="group" aria-label="The story"><button class="pill listen" id="story-listen" aria-pressed="false" hidden><span class="emo" aria-hidden="true">🔊</span><span class="lbl">Listen</span></button></div>
+          <div class="storyacts" id="storyacts" role="group" aria-label="The story"><button class="pill listen" id="story-listen" aria-pressed="false" hidden><i data-icon="listen"></i><span class="lbl">Listen</span></button></div>
           <div class="storyplay" id="storyday"><div class="seg" id="storytimes" role="radiogroup" hidden></div></div>
         </div>
         <div class="storyplay toys" id="storytoys" hidden>
@@ -282,9 +287,9 @@ h1, h2, p { margin: 0; }
       <p class="storynote justnote" id="storyjustnote" hidden></p>
       <div class="justmenu" id="justmenu" hidden>
         <div class="justtray" id="justtray" role="group" aria-label="Play choices" hidden>
-          <button class="pill" id="story-exit"><span class="emo" aria-hidden="true">📖</span><span>Back to the story</span></button>
+          <button class="pill" id="story-exit"><i data-icon="back"></i><span>Back to the story</span></button>
         </div>
-        <button class="pill justbtn" id="story-more" aria-expanded="false" aria-controls="justtray"><span class="emo" aria-hidden="true">✨</span><span>More</span></button>
+        <button class="pill justbtn" id="story-more" aria-expanded="false" aria-controls="justtray"><i data-icon="more"></i><span>More</span></button>
       </div>
     </div>
   </main>

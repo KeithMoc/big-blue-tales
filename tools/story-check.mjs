@@ -11,6 +11,7 @@
 //   any line a child reads or hears holds a "never" word (tools/tone.words.json)
 // Lines above the reading grade are listed; --strict fails on them too. Licence: MIT.
 import { readFileSync, existsSync } from 'node:fs';
+import { ICON_NAMES, PICKS } from '../ui/icons.js';
 const R = new URL('../', import.meta.url), read = (f) => JSON.parse(readFileSync(new URL(f, R), 'utf8')), has = (f) => existsSync(new URL(f, R));
 const W = read('tools/tone.words.json'), args = process.argv.slice(2), LEVEL = 'young', MAX = W.maxGrade[LEVEL];
 const rx = (list) => new RegExp(`\\b(${list.map(w => w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&').replace(/ /g, '\\s+')).join('|')})\\b`, 'gi');
@@ -51,6 +52,8 @@ for (const id of index.scenes) {
   if (S.id !== id) problems.push(`${id}: scene.json says its id is "${S.id}"`);
   for (const k of S.shows || []) if (!index.ideas?.[k]) problems.push(`${id}: idea "${k}" is not in scenes/index.json`);
   if (!index.habitats?.[S.habitat]) problems.push(`${id}: place "${S.habitat}" is not in scenes/index.json`);
+  // every button picture is a drawn icon from ui/icons.js, never an emoji
+  JSON.stringify(S, (k, v) => { if (k === 'icon' && !ICON_NAMES.includes(v) && !PICKS[v]) problems.push(`${id}: icon "${v}" is not in ui/icons.js`); return v; });
   for (const c of S.cast || []) if (c.animal && !animal(c.animal)) problems.push(`${id}: cast animal "${c.animal}" has no animals/${c.animal}/pack.js`);
   if (!S.beats?.length) problems.push(`${id}: no parts (beats)`);
   for (const b of S.beats || []) {

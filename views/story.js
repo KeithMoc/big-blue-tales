@@ -8,7 +8,9 @@ import { createSceneRunner } from '../scenes/runner.js';
 import { loadStories, loadVoice } from '../scenes/links.js';
 import { playSfx, loopSfx, hasSfx } from '../ui/sfx.js';
 import { OPTIONS } from '../sounds/index.js';
-import { canSpeak, speak, stopSpeaking, setStoryNarration, warmNarration } from '../ui/speech.js';
+import { canSpeak, speak, stopSpeaking, setStoryNarration, warmNarration, nowSpeaking } from '../ui/speech.js';
+import { evenCues } from '../ui/captions.js';
+import { iconNode } from '../ui/icons.js';
 import { beatLine } from '../ui/story-lines.js';
 import { label } from '../ui/words.js';
 import { audio } from '../ui/audio.js';
@@ -25,17 +27,27 @@ export function createStoryView({ engine, env, settings, go }) {
   // on in Settings, as a part is tapped). It reads what the fish are doing and then why.
   // What is said is what is shown, in the ages 5 to 7 words (ui/story-lines.js, recorded ahead).
   let reading = null;
-  // a button's picture (an emoji from scene.json, "icon") and its word; the picture is for the eye only
-  const withIcon = (o) => (o.icon ? [h('span', { class: 'emo', 'aria-hidden': 'true', text: o.icon }), h('span', { text: o.label })] : [o.label]);
+  // a button's picture (an icon name from scene.json "icon", drawn by ui/icons.js) and its word; the picture is for the eye only
+  const withIcon = (o) => (o.icon ? [iconNode(o.icon), h('span', { text: o.label })] : [o.label]);
   const listenBtn = (id) => h('button', { class: 'pill listen', id, hidden: !canSpeak, text: label('story.listen'), onclick: () => read(reading === id ? null : id) });
-  // The caption: the words being spoken, shown only while they are spoken, and gone when the voice stops.
+  // The caption is a subtitle: only while a line is spoken, one or two short lines at a time, each piece shown while
+  // it is being said (timed against the recording: narration.json "cues", tools/caption-cues.mjs; for the browser's
+  // own voice, by the length of the words). It is gone when the voice stops.
   // (each line gets a number, so a stopped line that ends late cannot take away the caption of the next one)
-  let captioned = '', said = 0;
-  function hideCaption() { captioned = ''; $('storycaption').hidden = true; }
+  let captioned = '', said = 0, subTimer = 0;
+  function hideCaption() { captioned = ''; clearInterval(subTimer); $('storycaption').hidden = true; }
+  function subtitle() {
+    const now = nowSpeaking(), n = $('storycaption');
+    if (!now || now.text !== captioned) { n.hidden = true; return; }        // not started yet (still loading)
+    const cues = now.cues || evenCues(captioned, captioned.split(' ').length / 2.6);
+    let piece = cues[0][1]; for (const [t, w] of cues) if (now.seconds >= t) piece = w;
+    if (n.textContent !== piece) n.textContent = piece;
+    n.hidden = false;
+  }
   function say(words, done) {
-    const n = $('storycaption'), mine = ++said; captioned = words; n.textContent = words; n.hidden = !words;
+    const mine = ++said; clearInterval(subTimer); $('storycaption').hidden = true; captioned = words;
     const ok = !!words && speak(words, () => { if (mine === said) hideCaption(); done?.(); });
-    if (!ok) hideCaption();
+    if (ok) subTimer = setInterval(subtitle, 100); else hideCaption();
     return ok;
   }
   function hush() { said++; stopSpeaking(); hideCaption(); }
@@ -45,7 +57,8 @@ export function createStoryView({ engine, env, settings, go }) {
     if (id && b && say(beatLine(b, settings.level), () => { if (reading === id) { reading = null; syncListen(); } })) reading = id;
     syncListen();
   }
-  function syncListen() { for (const el of document.querySelectorAll('.listen')) { const on = el.id === reading; (el.querySelector('.lbl') || el).textContent = label(on ? 'story.stop' : 'story.listen'); el.setAttribute('aria-pressed', String(on)); } }
+  function syncListen() { for (const el of document.querySelectorAll('.listen')) { const on = el.id === reading; (el.querySelector('.lbl') || el).textContent = label(on ? 'story.stop' : 'story.listen'); el.setAttribute('aria-pressed', String(on));
+    const ico = el.querySelector('.ico'), want = on ? 'stop' : 'listen'; if (ico && !ico.classList.contains(`ico-${want}`)) ico.replaceWith(iconNode(want)); } }
   // a note for a play mode is read once, when it comes up, and only with "Read aloud on tap" on
   let noted = '';
   function sayNote(textNow) { if (textNow && textNow !== noted && settings.show.voice && active) { read(null); say(textNow); } noted = textNow; }
@@ -207,14 +220,20 @@ export function createStoryView({ engine, env, settings, go }) {
   // loads, then its name in the sky of its opening time of day with a big Start. Start is the tap that lets the
   // browser play sound. The name lifts away and the camera glides down through the surface to the school; then the
   // buttons come in. A tap on the picture or Skip ends the glide; with motion reduced it cuts straight in.
-  let entered = false, entryTimer = 0;
+  let entered = false, entryTimer = 0, introTimer = 0;
   function endEntry(arrived = false) {
     clearTimeout(entryTimer); const was = entered; entered = true;
     // the introduction (scene.json entry.intro, recorded): read once, as the camera reaches the school
+    // While it is read there are no buttons: only the fish and the subtitle. The buttons come in when it ends.
     const intro = arrived && !was ? text(S?.entry?.intro || {}) : '';
-    if (intro) { read(null); say(intro); }
+    const app = $('app'), done = () => { clearTimeout(introTimer); app.classList.remove('intro'); };
+    if (intro) {
+      read(null); app.classList.add('intro');
+      if (!say(intro, done)) done();
+      else introTimer = setTimeout(done, (intro.split(' ').length / 2 + 8) * 1000);   // never stuck without buttons
+    }
     $('entry').hidden = true; $('entryskip').hidden = true;
-    runner?.hold(false); $('app').classList.remove('entering');
+    runner?.hold(false); app.classList.remove('entering');
   }
   function entry() {
     const E = S.entry || {}, sc = runner?.current?.scene;
