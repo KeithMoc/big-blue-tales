@@ -1,0 +1,18 @@
+{
+  "about": "The stories in reading order, and the big ideas and places they share. Each story's folder (scenes/<id>/) holds its own words and sources. What a story says about an animal in it lives in that story's scene.json (links) and must point at a fact in the animal's signed dossier (animals/<id>/dossier.json).",
+  "scenes": [
+    "anchovy-school"
+  ],
+  "ideas": {
+    "safety-in-numbers": {
+      "name": "Safety in numbers",
+      "young": "Staying close to lots of friends."
+    }
+  },
+  "habitats": {
+    "open-sea": {
+      "name": "Open sea",
+      "young": "Wide blue water, far from the bottom."
+    }
+  }
+}
