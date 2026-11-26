@@ -93,7 +93,10 @@ export function createStoryView({ engine, env, settings, go }) {
   const syncVoice = () => { $('story-voice').hidden = !canSpeak; $('story-voice').setAttribute('aria-checked', String(!!settings.show.voice)); };
   $('story-voice').addEventListener('click', () => {
     const on = !settings.show.voice; settings.set('voice', on); syncVoice();
-    if (!on) { hush(); reading = null; return; }
+    // off while the introduction is read: it stops and the buttons come in at once (a stopped recording never
+    // reports its own end, so without this the page waited up to half a minute with no buttons: 2026-11-26 audit)
+    if (!on) { hush(); reading = null; introDone?.(); return; }
+    if (introDone) return;                           // on during the introduction: nothing else starts over it
     if (playing && $('storynote').textContent) { read(null); say($('storynote').textContent); } else read('story-listen');
   });
   const storyBtn = (o, why) => h('button', { class: 'slink', onclick: () => go(o.id) }, h('b', { text: o.title }), h('span', { text: why }));
@@ -137,11 +140,29 @@ export function createStoryView({ engine, env, settings, go }) {
     if (!words) { if (quiet && S?.times?.options.some(o => text(o) === quiet.text)) hush(); return; }
     if (active && !speaking()) show(words);
   }
+  // Time of day is one setting for the whole book, like Music, Captions and Read aloud (KM, 2026-11-26): a round
+  // button in the corner, in every mode, that moves on to the next time of day with each tap and is remembered.
+  // Its picture is the time of day now. Learn and Play no longer hold it.
+  const savedTime = () => store.get('bbt-time');
+  function syncTime() {
+    const sc = sceneNow(), b = $('story-time'), opts = (S?.times?.options || []).filter(o => sc?.times?.includes(o.id));
+    b.hidden = opts.length < 2; if (b.hidden) return;
+    const now = opts.find(o => o.id === sc.time) || opts[0];
+    b.setAttribute('aria-label', `${S.times.label || 'Time of day'}: ${now.label}`); b.title = b.getAttribute('aria-label');
+    if (b.dataset.time !== now.id) { b.dataset.time = now.id; b.replaceChildren(iconNode(now.icon || 'day')); }
+  }
+  $('story-time').addEventListener('click', () => {
+    const sc = sceneNow(), opts = (S?.times?.options || []).filter(o => sc?.times?.includes(o.id)); if (opts.length < 2) return;
+    const next = opts[(opts.findIndex(o => o.id === sc.time) + 1) % opts.length];
+    if (sc.setTime(next.id)) { store.set('bbt-time', next.id); timeNote(text(next)); }
+    syncTime();
+  });
   function renderPlay() {
     const sc = sceneNow(), P = S?.play || {};
-    seg($('storysizes'), P.sizes, sc?.sizes, sc?.size, (id) => sc.setSize(id));
-    seg($('storytimes'), S?.times, sc?.times, sc?.time, (id) => { if (sc.setTime(id)) timeNote(text(S.times.options.find(o => o.id === id))); });
     const canPlay = !!(P.colours && sc?.colours?.length > 1);
+    seg($('storysizes'), P.sizes, sc?.sizes, sc?.size, (id) => sc.setSize(id));
+    if (!(canPlay && playing)) $('storysizes').hidden = true;      // a Play choice: also in the Just the fish tray
+    syncTime();
     // Learn or Play: one of the two, and only that mode's buttons show
     $('storymode').hidden = !canPlay;
     for (const b of $('storymode').children) b.setAttribute('aria-checked', String((b.dataset.mode === 'play') === (canPlay && playing)));
@@ -207,8 +228,10 @@ export function createStoryView({ engine, env, settings, go }) {
   // there is one of each. Just the fish starts with the + alone. The line
   // that says what is pretend still shows for a few seconds on the way in.
   let just = false;
-  const TRAY = ['storyacts', 'story-move', 'storytrails', 'storycolours', 'storytimes'];
-  const HOME = { storyacts: ['storymain', null], 'story-move': ['storytoys', null], storytrails: ['storytoys', 'story-move'], storycolours: ['storytoys', 'storytrails'], storytimes: ['storyday', null] };
+  // Everything in the Learn and Play panels goes into the tray: taken from the page, not from a list kept by hand,
+  // so a new control cannot be left behind (school sizes were, 2026-11-26). Each goes back exactly where it was.
+  const PANELS = ['storymain', 'storytoys'];
+  let away = [];
   function tray(open) {
     $('justtray').hidden = !open; $('story-more').setAttribute('aria-expanded', String(open));
     $('corner').classList.toggle('open', open);      // in Just the fish the other corner buttons come out with the tray
@@ -221,8 +244,11 @@ export function createStoryView({ engine, env, settings, go }) {
     if (on === just) return;
     just = on; document.documentElement.classList.toggle('just-play', on);
     $('story-just').hidden = on; $('story-more').hidden = !on;
-    if (on) { const exit = $('story-exit'); for (const id of TRAY) $('justtray').insertBefore($(id), exit); }
-    else for (const id of TRAY) { const [box, before] = HOME[id]; $(box).insertBefore($(id), before ? $(before) : null); }
+    if (on) {
+      const exit = $('story-exit');
+      away = PANELS.flatMap(id => [...$(id).children].map(el => [el, el.parentNode, el.nextSibling]));
+      for (const [el] of away) $('justtray').insertBefore(el, exit);
+    } else { for (const [el, box, next] of away.reverse()) box.insertBefore(el, next); away = []; }
     tray(false);                                     // Just the fish starts with only the +
     justNote(on ? $('storynote').textContent : '');
     if (settings.exploring !== on) settings.setExplore(on);
@@ -288,11 +314,11 @@ export function createStoryView({ engine, env, settings, go }) {
     // While it is read there are no buttons: only the fish and the subtitle. The buttons come in when it ends.
     const intro = arrived && !was ? text(S?.entry?.intro || {}) : '';
     const app = $('app'), done = () => { clearTimeout(introTimer); introDone = null; app.classList.remove('intro'); };
-    if (intro) {
+    if (intro && settings.show.voice) {
       read(null); app.classList.add('intro'); introDone = done;
       if (!say(intro, done)) done();
       else introTimer = setTimeout(done, (intro.split(' ').length / 2 + 8) * 1000);   // never stuck without buttons
-    }
+    } else if (intro) show(intro);                 // Read aloud off: the introduction is a caption, and the buttons are there
     $('entry').hidden = true; $('entryskip').hidden = true;
     runner?.hold(false); app.classList.remove('entering');
     syncSound();
@@ -341,12 +367,13 @@ export function createStoryView({ engine, env, settings, go }) {
       beat = null; playing = false; noted = ''; timeNote(''); syncTurn(); tags.replaceChildren();
       const voice = await loadVoice(S.id); if (mine !== seq) return;
       $('entryload').dataset.step = '2';            // the story's words and voice are here: now the sea and the fish
-      setStoryNarration(voice); if (settings.show.voice) warmNarration(settings.level);
+      setStoryNarration(voice); warmNarration(settings.level);   // the introduction and a later switch-on both need it
       render();
       if (!runner) { endEntry(); return; }
       engine.canvas.setAttribute('aria-label', `${S.title}. Drag or use the arrow keys to look around. Plus and minus zoom.`);
       await runner.open(S.id);
       if (mine !== seq) return;
+      { const sc = sceneNow(), t = savedTime(); if (t && sc?.times?.includes(t) && t !== sc.time) sc.setTime(t, 0); }   // the time of day picked last visit
       $('entryload').dataset.step = '3';
       renderPlay(); syncSound();
       clearInterval(tagTimer); tagTimer = setInterval(placeTags, 50);

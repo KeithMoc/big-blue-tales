@@ -32,6 +32,14 @@ const TIER_BUDGET = { low: { triangles: 60000, calls: 40 }, mid: { triangles: 12
     await page.click('#entrygo'); await page.waitForTimeout(1500);
     await page.evaluate(() => { const b = document.getElementById('entryskip'); if (!b.hidden) b.click(); });   // the glide may end on its own just now
     await page.waitForTimeout(300);
+    // Read aloud switched off while the introduction is read: it stops and the buttons come in at once (it used to
+    // leave the page with no buttons for up to half a minute); switched back on, nothing starts over the story
+    if (name === 'desktop' && await page.evaluate(() => document.getElementById('app').classList.contains('intro'))) {
+      await page.click('#story-voice'); await page.waitForTimeout(400);
+      if (await page.evaluate(() => document.getElementById('app').classList.contains('intro'))) errors.push('turning Read aloud off during the introduction did not bring the buttons in');
+      await page.click('#story-voice'); await page.waitForTimeout(400);
+      if (await page.evaluate(async () => !!(await import('./ui/speech.js')).nowSpeaking())) errors.push('turning Read aloud back on after the introduction started a line by itself');
+    }
     if (await page.isVisible('#introskip')) await page.click('#introskip');     // Skip ends the introduction at once
     if (await page.evaluate(() => document.getElementById('app').classList.contains('intro'))) errors.push(`${name}: Skip did not end the introduction`);
     if (await page.evaluate(() => document.getElementById('app').classList.contains('entering'))) errors.push(`${name}: the buttons did not come in after the entry`);
@@ -41,7 +49,7 @@ const TIER_BUDGET = { low: { triangles: 60000, calls: 40 }, mid: { triangles: 12
       const info = await page.evaluate(() => ({
         title: document.title, level: window.__sea.settings.level,
         parts: [...document.querySelectorAll('#storyacts .act')].map(b => b.textContent),
-        times: [...document.querySelectorAll('#storytimes button')].map(b => b.textContent),
+        time: document.getElementById('story-time').getAttribute('aria-label'),
         ageButtons: document.querySelectorAll('[data-level]').length, panel: !!document.querySelector('.storypanel'), caption: !document.querySelector('#storycaption').hidden,
       }));
       console.log(JSON.stringify(info, null, 1));
@@ -56,16 +64,25 @@ const TIER_BUDGET = { low: { triangles: 60000, calls: 40 }, mid: { triangles: 12
         return storyLines(S, 'young').filter(l => !lines[lineKey(l.text)]).map(l => l.where);
       });
       if (missing.length) errors.push('no recording for ' + missing.join(', '));
-      // a new time of day is never read aloud (KM, 2026-11-26): it only shows a caption
-      // (a part may still be read from before: only a time-of-day line counts)
+      // Time of day is one round button in the corner for the whole book (KM, 2026-11-26): each tap moves to the next
+      // time, and a new time is never read aloud, only shown as a caption (a part may still be read from before)
       const timeLines = await page.evaluate(() => window.__sea.storyView.current.times.options.map(o => o.young));
       const talking = () => page.evaluate(async () => (await import('./ui/speech.js')).nowSpeaking()?.text || '');
-      for (const t of ['sunrise', 'sunset', 'night', 'day']) {
-        await page.click(`#storytimes [data-pick="${t}"]`); await page.waitForTimeout(400);
+      const timeNow = () => page.evaluate(() => window.__sea.storyView.runner.current.scene.time);
+      if (await page.evaluate(() => document.querySelector('#storymain #story-time, #storytoys #story-time, .storyfoot .seg[aria-label="Time of day"]'))) errors.push('time of day is still inside Learn or Play');
+      const seen = [];
+      for (let i = 0; i < timeLines.length; i++) {
+        const before = await timeNow();
+        await page.click('#story-time'); await page.waitForTimeout(400);
+        const t = await timeNow(); seen.push(t);
+        if (t === before) errors.push('the time of day button did not move to the next time');
         if (timeLines.includes(await talking())) errors.push(`changing the time to ${t} was read aloud`);
+        if (!(await page.getAttribute('#story-time', 'aria-label')).toLowerCase().includes(t === 'day' ? 'day' : t)) errors.push(`the time of day button does not say ${t}`);
         await page.waitForTimeout(1100);
         if (t === 'night') await page.screenshot({ path: `${out}/${name}-night.png` });
       }
+      if (new Set(seen).size !== timeLines.length) errors.push(`the time of day button did not go round every time: ${seen.join(', ')}`);
+      while (await timeNow() !== 'day') await page.click('#story-time');   // back to the bright day for the pictures below
       await page.click('#story-voice'); await page.waitForTimeout(1500);
       if (!requests.some(u => u.endsWith('narration.young.mp3'))) errors.push('Read aloud did not fetch narration.young.mp3');
       await page.click('#story-play'); await page.waitForTimeout(500);
@@ -76,8 +93,31 @@ const TIER_BUDGET = { low: { triangles: 60000, calls: 40 }, mid: { triangles: 12
       for (let i = 0; i <= 20; i++) await page.mouse.move(cx - 150 + i * 15, cy - Math.sin(i / 3) * 60);
       await page.mouse.up(); await page.waitForTimeout(3000);
       await page.screenshot({ path: `${out}/${name}-play-line.png` });
-      await page.click('#story-just'); await page.waitForTimeout(1500);
+      // Just the fish: the + rolls out every control the mode shows below the picture (taken from the page, so the
+      // two can never drift apart again), plus the corner buttons, the time of day among them
+      const shown = (where) => page.evaluate((where) => {
+        const vis = (el) => !el.closest('[hidden]') && el.getBoundingClientRect().width > 0;
+        return [...document.querySelectorAll(where)].filter(vis).map(el => el.id || el.className);
+      }, where);
+      const inTray = async (mode) => {
+        const want = await shown('#storymain > *, #storytoys > *');
+        if (mode === 'Play' && !want.includes('storysizes')) errors.push('Play does not show the school sizes');
+        await page.click('#story-just'); await page.waitForTimeout(1200);
+        if ((await shown('.cornerbtns > *')).join() !== 'story-more') errors.push(`Just the fish in ${mode} does not start with only the +`);
+        await page.click('#story-more'); await page.waitForTimeout(400);
+        const got = await shown('#justtray > *'), corner = await shown('.cornerbtns > *');
+        for (const id of want) if (!got.includes(id)) errors.push(`Just the fish in ${mode}: "${id}" is missing from the + menu`);
+        for (const id of ['story-music', 'story-captions', 'story-voice', 'story-time', 'story-home']) if (!corner.includes(id)) errors.push(`Just the fish in ${mode}: "${id}" does not roll out from the +`);
+        console.log(`Just the fish in ${mode}, + open:`, JSON.stringify({ tray: got, corner }));
+      };
+      await inTray('Play');
       await page.screenshot({ path: `${out}/${name}-just-the-fish.png` });
+      await page.click('#story-exit'); await page.waitForTimeout(600);
+      await page.click('#storymode [data-mode="learn"]'); await page.waitForTimeout(400);
+      await inTray('Learn');
+      await page.click('#story-exit'); await page.waitForTimeout(600);
+      await page.click('#story-play'); await page.waitForTimeout(400);
+      await page.click('#story-just'); await page.waitForTimeout(1200);
       // Music, Captions and Read aloud are one setting for the whole book: switched inside Just the fish, they stay
       // switched after leaving it, and every place that shows them agrees
       const corner = () => page.evaluate(() => Object.fromEntries(['story-music', 'story-captions', 'story-voice'].map(id => [id, document.getElementById(id).getAttribute('aria-checked')]).concat([['sw-voice', document.getElementById('sw-voice')?.getAttribute('aria-checked') ?? null]])));
@@ -95,6 +135,7 @@ const TIER_BUDGET = { low: { triangles: 60000, calls: 40 }, mid: { triangles: 12
       await page.reload(); await page.waitForFunction(() => window.__sea?.storyView?.runner?.current?.scene, null, { timeout: 90000 });
       const reloaded = await corner();
       for (const id of ['story-music', 'story-captions', 'story-voice']) if (reloaded[id] !== after[id]) errors.push(`${id} was not remembered after a reload`);
+      if (await page.evaluate(() => window.__sea.storyView.runner.current.scene.time) !== 'day') errors.push('the time of day was not remembered after a reload');
       console.log('corner switches', JSON.stringify({ was, after, reloaded }));
       const s = await page.evaluate(() => ({ ...window.__sea.engine.stats(), tier: window.__sea.device.tier }));
       console.log('headless (not a real frame rate):', JSON.stringify({ tier: s.tier, triangles: s.triangles, calls: s.calls }));
