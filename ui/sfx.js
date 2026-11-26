@@ -28,8 +28,11 @@ export function loopSfx(id, volume = 1, fadeMs = 800) {
       if (ctx.state === 'running') level(volume); else ctx.addEventListener('statechange', function up() { if (ctx.state !== 'running') return; ctx.removeEventListener('statechange', up); if (!over) level(volume); }); }, () => {});
     // a page opened from a link has had no tap yet, and a browser keeps it silent until one comes
     // (iOS lets sound in on a touch's end or a click, other browsers on a press or a key: any of them will do)
-    const wake = () => { if (!over) audio(); for (const ev of WAKE) document.removeEventListener(ev, wake, true); };
+    // Keep asking until the browser says yes: iOS refuses a press (pointerdown) and accepts the touch's end, so
+    // stopping after the first event of any kind left an iPhone silent for good.
+    const wake = () => { if (!over) audio(); if (over || ctx.state === 'running') for (const ev of WAKE) document.removeEventListener(ev, wake, true); };
     for (const ev of WAKE) document.addEventListener(ev, wake, true);
+    ctx.addEventListener('statechange', () => { if (ctx.state === 'running') for (const ev of WAKE) document.removeEventListener(ev, wake, true); });
     return { level, stop(ms = fadeMs) { if (over) return; over = true; level(0, ms); setTimeout(() => { try { src?.stop(); } catch { /* never started */ } g.disconnect(); }, ms + 80); } };
   } catch { return null; }
 }

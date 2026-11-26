@@ -262,8 +262,10 @@ h1, h2, p { margin: 0; }
 .showcard .grown a { color: var(--glow); }
 /* the entry: "Diving in", then the story's name in the sky with a big Start, then a glide down to the fish; the
    buttons come in when it ends. Nothing in it is heavy: it is the story's own sea and sky behind a few words. */
-.entry { position: absolute; inset: 0; z-index: 5; display: grid; place-items: center; pointer-events: none; }
-.entry > * { pointer-events: auto; }
+/* the entry is a wall: no tap reaches the story underneath (its buttons are there, unseen, and would act). Only
+   Music stays usable while it shows: the corner is lifted above the entry and holds nothing else then. */
+.entry { position: absolute; inset: 0; z-index: 5; display: grid; place-items: center; pointer-events: auto; touch-action: none; }
+.entering .corner { z-index: 6; }
 .entry[hidden] { display: none; }
 /* Diving in (the concept KM shared, 2026-11-26): light from the surface fading into deep blue, a small school drifting
    across, and three dots for how far the loading is. Plain CSS and one inline SVG, so it shows before anything loads. */
