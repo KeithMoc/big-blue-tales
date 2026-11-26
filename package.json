@@ -1,0 +1,21 @@
+{
+  "name": "big-blue-tales",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Big Blue Tales: friendly 3D sea stories for kids, with narration, sounds and music. Every line a child reads is tied to a quoted source. One story per folder on a shared story kit. Non-commercial and educational.",
+  "license": "SEE LICENSE IN NOTICE.md",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "serve": "python3 -m http.server 8765",
+    "check": "node tools/story-check.mjs && node tools/story-voice.mjs && node tools/three-rules.mjs",
+    "story": "node tools/story-check.mjs",
+    "voice": "node tools/story-voice.mjs",
+    "three": "node tools/three-rules.mjs",
+    "smoke": "node tools/smoke.cjs http://localhost:8765/"
+  },
+  "devDependencies": {
+    "playwright": "1.63.0"
+  }
+}

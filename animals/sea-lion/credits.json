@@ -1,0 +1,38 @@
+{
+  "schema": 2,
+  "pack": "open",
+  "restrictedAssets": [],
+  "project": {
+    "code": {
+      "licence": "MIT",
+      "licenceUrl": "https://opensource.org/license/mit",
+      "covers": [
+        "model/"
+      ]
+    },
+    "content": {
+      "licence": "CC BY 4.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
+      "covers": [
+        "animal.json",
+        "dossier.json",
+        "notes.md"
+      ]
+    }
+  },
+  "assets": {
+    "model/creature.js": {
+      "title": "California sea lion, procedural 3D model",
+      "author": "Sea Creatures Lab",
+      "sourceUrl": null,
+      "licence": "MIT",
+      "licenceUrl": "https://opensource.org/license/mit",
+      "nonCommercial": false,
+      "changes": "Original work. No photograph or third-party mesh was traced or imported.",
+      "retrieved": "2026-11-23",
+      "checkedBy": null
+    }
+  },
+  "thirdParty": [],
+  "referencePhotos": []
+}

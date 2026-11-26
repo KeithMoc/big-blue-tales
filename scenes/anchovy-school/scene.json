@@ -1,0 +1,326 @@
+{
+  "schema": 1,
+  "id": "anchovy-school",
+  "title": "A school of anchovies",
+  "kicker": "Sunlit sea",
+  "cast": [
+    {
+      "name": "Northern anchovy",
+      "scientific": "Engraulis mordax",
+      "animal": null,
+      "role": "a big group of fish that move as one"
+    },
+    {
+      "name": "California sea lion",
+      "scientific": "Zalophus californianus",
+      "animal": "sea-lion",
+      "role": "a fast swimmer that eats anchovies"
+    }
+  ],
+  "labels": {
+    "sea-lion": "California sea lion"
+  },
+  "shows": [
+    "safety-in-numbers"
+  ],
+  "habitat": "open-sea",
+  "zone": "sunlit",
+  "environment": {
+    "preset": "sunlit",
+    "fog": 0.05,
+    "bloom": 0.3
+  },
+  "looks": {
+    "dive": {
+      "camera": {
+        "home": {
+          "pos": [
+            1.5,
+            0.35,
+            4.1
+          ],
+          "target": [
+            0,
+            0,
+            0
+          ]
+        },
+        "homeTall": {
+          "pos": [
+            1.2,
+            0.3,
+            4.4
+          ],
+          "target": [
+            0,
+            0,
+            0
+          ]
+        }
+      }
+    }
+  },
+  "camera": {
+    "aspect": 1.5,
+    "home": {
+      "pos": [
+        0,
+        1.1,
+        6.8
+      ],
+      "target": [
+        0,
+        0,
+        0
+      ]
+    },
+    "homeTall": {
+      "pos": [
+        0,
+        0.9,
+        5.6
+      ],
+      "target": [
+        0,
+        0,
+        0
+      ]
+    },
+    "minDistance": 1.5,
+    "maxDistance": 22
+  },
+  "beats": [
+    {
+      "id": "travel",
+      "label": "Swim together",
+      "young": "Anchovies swim in a big group called a school. They all point the same way.",
+      "why": {
+        "young": "Swimming together helps keep them safe. It helps them find food too."
+      },
+      "facts": [],
+      "sources": [
+        "noaa-anchovy",
+        "states",
+        "adw-anchovy"
+      ]
+    },
+    {
+      "id": "ring",
+      "label": "Turn in a ring",
+      "young": "The school can turn in a ring. Round and round it goes.",
+      "why": {
+        "young": "Nobody knows why yet. In a ring, the fish swim side by side and stay in one place."
+      },
+      "facts": [],
+      "sources": [
+        "states",
+        "milling-why"
+      ]
+    },
+    {
+      "id": "ball",
+      "label": "Make a ball",
+      "young": "Big animals come near. The little fish squeeze into a tight ball.",
+      "why": {
+        "young": "In a ball, it is hard to pick out one fish."
+      },
+      "facts": [],
+      "sources": [
+        "bait-ball",
+        "coral-digest"
+      ]
+    },
+    {
+      "id": "poke",
+      "label": "A sea lion swims by",
+      "young": "Whoosh! A sea lion swims up through the school. The fish move out of the way, then join up again.",
+      "why": {
+        "young": "Sea lions eat anchovies. Most times, the fish get away."
+      },
+      "facts": [
+        "sea-lion:food-noaa"
+      ],
+      "sources": [
+        "loop",
+        "loop-success",
+        "fountain"
+      ]
+    }
+  ],
+  "times": {
+    "label": "Time of day",
+    "opens": "sunset",
+    "options": [
+      {
+        "id": "sunrise",
+        "label": "Sunrise",
+        "young": "The sun comes up. The fish come together in schools again.",
+        "sources": [
+          "day-night"
+        ]
+      },
+      {
+        "id": "day",
+        "label": "Day",
+        "young": "In the day, the fish stay close in their school.",
+        "sources": [
+          "day-night"
+        ]
+      },
+      {
+        "id": "sunset",
+        "label": "Sunset",
+        "young": "The sun goes down. The top of the sea turns gold.",
+        "sources": []
+      },
+      {
+        "id": "night",
+        "label": "Night",
+        "young": "At night the fish spread out. In the morning they come together again.",
+        "sources": [
+          "day-night",
+          "day-night-bay"
+        ]
+      }
+    ]
+  },
+  "links": [
+    {
+      "animal": "sea-lion",
+      "fact": "sea-lion:food-noaa",
+      "young": "Sea lions eat anchovies."
+    }
+  ],
+  "notMadeUp": [
+    "The sea lion's loop was filmed with sardine schools off Mexico, not with anchovies. Sea lions do eat anchovies.",
+    "No fish is caught in the picture. In the films about one try in five caught a fish.",
+    "The side the sea lion comes from, the size of its loop and where it goes afterwards are our choices. How the fish move out of its way is the school's own rule here; the study says how schools answer a loop from below has had little study.",
+    "The ring was measured in golden shiners and the ball was filmed in sardines, not in anchovies.",
+    "Hundreds of fish are shown; a real school can hold many thousands.",
+    "Sunrise, day, sunset and night change the light, and at night the fish that swim together are shown spread out. The colours are a look. The ring, the ball and the sea lion are shown the same at every time of day: our sources do not say at what time of day they happen.",
+    "The night sky has a moon and stars as a look. No source here says what the moon does to anchovies.",
+    "With Play on the school can leap out of the water, with a splash. That is pretend: we found no source that says anchovies leap."
+  ],
+  "sources": {
+    "noaa-anchovy": {
+      "name": "NOAA Fisheries: Northern Anchovy",
+      "url": "https://www.fisheries.noaa.gov/species/northern-anchovy",
+      "quote": "Anchovies form large, dense schools near the ocean surface. [...] They are bluish-green above and silvery below, and adults have a faint silver stripe on the side."
+    },
+    "adw-anchovy": {
+      "name": "Animal Diversity Web, University of Michigan: Engraulis mordax (northern anchovy)",
+      "url": "https://animaldiversity.org/accounts/Engraulis_mordax",
+      "quote": "Northern anchovies create large schools, which aids in antipredator defense and finding prey."
+    },
+    "states": {
+      "name": "PLOS Computational Biology, 2013 (Tunstrom and others): Collective States, Multistability and Transitional Behavior in Schooling Fish",
+      "url": "https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1002915",
+      "quote": "at least three dynamically-stable collective states; swarm, milling and polarized groups"
+    },
+    "milling-why": {
+      "name": "PLOS Computational Biology, 2013 (Tunstrom and others): Collective States, Multistability and Transitional Behavior in Schooling Fish",
+      "url": "https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1002915",
+      "quote": "Although the functional reason for milling is not yet known, it does, however, allow individuals to be locally polarized, which could be important for information transfer, while allowing the group to remain in a specific area."
+    },
+    "bait-ball": {
+      "name": "BBC Future, 2024: How South Africa's sardine run is changing",
+      "url": "https://www.bbc.com/future/article/20240520-how-south-africas-sardine-run-is-changing",
+      "quote": "As many as 18,000 common and bottlenose dolphins round the sardines up into bait balls, stretching 20m (66ft) in diameter."
+    },
+    "coral-digest": {
+      "name": "Coral Digest: Fish Schooling",
+      "url": "https://www.coraldigest.org/reef_inhabitants/fishschooling/index.html",
+      "quote": "Predators have difficulty tracking the movement of a single fish in a large school"
+    },
+    "fountain": {
+      "name": "Communications Biology, 2024: Collective anti-predator escape manoeuvres through optimal attack and avoidance strategies (striped marlin and sardines)",
+      "url": "https://doi.org/10.1038/s42003-024-07267-2",
+      "quote": "prey break into two subgroups, turning in an arched trajectory around an attacking predator and rejoining at its tail, visually appearing like a fountain"
+    },
+    "loop": {
+      "name": "Philosophical Transactions of the Royal Society B, 2023 (Hansen and others): California sea lions interfere with striped marlin hunting behaviour in multi-species predator aggregations",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10107233",
+      "quote": "In these attacks, the prey school is approached in a horizontally straight line, but 0.5–1 m deeper than the school. Underneath the prey school, the sea lion rapidly moves its head upwards (dorsiflexion) and propels itself towards the school by rapidly adducting its front flippers in a clap-like manner. This leads to a characteristic loop-like trajectory."
+    },
+    "loop-success": {
+      "name": "Philosophical Transactions of the Royal Society B, 2023 (Hansen and others): California sea lions interfere with striped marlin hunting behaviour in multi-species predator aggregations",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10107233",
+      "quote": "Sea lions were successful in 19.3% of their attacks and striped marlin in 14.1% of their attacks."
+    },
+    "day-night": {
+      "name": "Marine Ecology Progress Series, 2009 (Kaltenberg and Benoit-Bird): Diel behavior of sardine and anchovy schools in the California Current System",
+      "url": "https://www.int-res.com/journals/meps/articles/meps08252",
+      "quote": "Schools of sardines and anchovies off the Oregon coast followed typical diel patterns consistent with antipredator behavior, dispersing at nighttime, rapidly reforming into discrete schools at sunrise, and maintaining schooling behavior throughout daylight hours."
+    },
+    "day-night-bay": {
+      "name": "Marine Ecology Progress Series, 2009 (Kaltenberg and Benoit-Bird): Diel behavior of sardine and anchovy schools in the California Current System",
+      "url": "https://www.int-res.com/journals/meps/articles/meps08252",
+      "quote": "Discrete schools containing primarily sardines in Monterey Bay, California, were observed during both daytime and nighttime in addition to layers and loose aggregations at nighttime"
+    }
+  },
+  "budget": {
+    "high": {
+      "triangles": 450000,
+      "calls": 100
+    }
+  },
+  "play": {
+    "sizes": {
+      "label": "How many fish?",
+      "options": [
+        {
+          "id": "school",
+          "label": "A school"
+        },
+        {
+          "id": "big",
+          "label": "A big school"
+        },
+        {
+          "id": "huge",
+          "label": "A huge school"
+        }
+      ]
+    },
+    "trails": {
+      "label": "Line of light",
+      "options": [
+        {
+          "id": "dots",
+          "label": "Dots"
+        },
+        {
+          "id": "line",
+          "label": "Line"
+        },
+        {
+          "id": "sparkle",
+          "label": "Sparkles"
+        }
+      ]
+    },
+    "colours": {
+      "label": "Play colours",
+      "options": [
+        {
+          "id": "real",
+          "label": "Real colours"
+        },
+        {
+          "id": "rainbow",
+          "label": "Rainbow"
+        },
+        {
+          "id": "surprise",
+          "label": "Surprise"
+        }
+      ],
+      "note": {
+        "young": "Real anchovies are silver. These colours are just for fun."
+      }
+    },
+    "touch": {
+      "young": "Tap the water, or draw a line. The fish swim along your line and stay where it ends. Draw up to the top of the sea and they jump out! This is just for fun. Nobody has seen anchovies do it."
+    }
+  }
+}

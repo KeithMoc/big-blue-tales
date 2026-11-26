@@ -1,0 +1,29 @@
+node_modules/
+shots/
+.DS_Store
+
+# secrets and private files: never commit these
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+*.jks
+*.keystore
+id_rsa*
+id_ed25519*
+.npmrc
+.netrc
+credentials.json
+service-account*.json
+secrets.json
+secrets.y*ml
+*.tfvars
+
+# editors, tools and agents
+.vscode/
+.idea/
+.claude/
+*.log
