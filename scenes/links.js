@@ -45,6 +45,6 @@ export async function loadVoice(id) {
     const at = new URL(`./${id}/`, import.meta.url), r = await fetch(new URL('audio/narration.json', at));
     if (!r.ok) return null;
     const L = (await r.json()).levels?.young;
-    return L ? { levels: { young: { url: new URL(L.file, at).href, lines: L.lines } } } : null;
+    return L ? { levels: { young: { url: new URL(L.file, at).href, lines: L.lines, cues: L.cues || {} } } } : null;
   } catch { return null; }
 }

@@ -13,7 +13,8 @@
     "story": "node tools/story-check.mjs",
     "voice": "node tools/story-voice.mjs",
     "three": "node tools/three-rules.mjs",
-    "smoke": "node tools/smoke.cjs http://localhost:8765/"
+    "smoke": "node tools/smoke.cjs http://localhost:8765/",
+    "fit": "node tools/fit.cjs --files"
   },
   "devDependencies": {
     "playwright": "1.63.0"

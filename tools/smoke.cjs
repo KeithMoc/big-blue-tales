@@ -1,12 +1,17 @@
 // Opens the page in headless Chromium at a desktop and a phone size. At the desktop size it walks the first story's
-// parts, times of day, Listen, Music, Play, a drawn line and Just the fish; opens every story in scenes/index.json by
+// parts, times of day, Read aloud, Music, Play and a drawn line, and Just the fish; opens every story in scenes/index.json by
 // its address; and measures every story on the low, mid and high tiers against its budget (every group size, and the
 // biggest group with its guest in the picture). At the phone size it only opens the page and takes a picture.
 // Fails on any page error, failed request, line of the first story with no recording, or count over budget.
-// Usage: node tools/smoke.cjs [url] [screenshot folder]. Numbers from headless Chromium are not real frame rates.
+// Usage: node tools/smoke.cjs [url] [screenshot folder]. With --files instead of a url it reads the files straight from
+// this folder (no server needed). Numbers from headless Chromium are not real frame rates.
 // Licence: MIT.
 const { chromium } = require('playwright');
-const url = process.argv[2] || 'http://localhost:8765/', out = process.argv[3] || '.';
+const path = require('path');
+const FILES = process.argv[2] === '--files', ROOT = path.join(__dirname, '..');
+const url = FILES ? 'http://site.local/' : process.argv[2] || 'http://localhost:8765/', out = process.argv[3] || '.';
+// --files: every request to site.local is answered from the repository folder
+const serve = (page) => FILES && page.route('http://site.local/**', r => { let f = decodeURIComponent(new URL(r.request().url()).pathname); if (f.endsWith('/')) f += 'index.html'; return r.fulfill({ path: path.join(ROOT, f) }).catch(() => r.fulfill({ status: 404, body: '' })); });
 // what a story may draw on each device tier; a story may raise one in its scene.json "budget" (docs/THREEJS.md rule 16)
 const TIER_BUDGET = { low: { triangles: 60000, calls: 40 }, mid: { triangles: 120000, calls: 60 }, high: { triangles: 200000, calls: 100 } };
 (async () => {
@@ -14,23 +19,34 @@ const TIER_BUDGET = { low: { triangles: 60000, calls: 40 }, mid: { triangles: 12
   const errors = [], requests = [];
   for (const [name, vp] of [['desktop', { width: 1440, height: 900 }], ['phone', { width: 390, height: 844 }]]) {
     const page = await browser.newPage({ viewport: vp, deviceScaleFactor: 1 });
+    await serve(page);
     page.on('pageerror', e => errors.push(`${name} pageerror: ${e.message}`));
     page.on('console', m => { if (m.type() === 'error') errors.push(`${name} console: ${m.text()}`); });
     page.on('requestfailed', r => { if (!/\.mp3$/.test(r.url()) || !/ERR_ABORTED/.test(r.failure()?.errorText || '')) errors.push(`${name} failed: ${r.url()} ${r.failure()?.errorText}`); });
     page.on('response', r => { requests.push(r.url()); if (r.status() >= 400) errors.push(`${name} ${r.status()}: ${r.url()}`); });
     await page.goto(url);
     await page.waitForFunction(() => window.__sea?.storyView?.runner?.current?.scene, null, { timeout: 90000 });
-    await page.waitForTimeout(2500);
+    // the entry: the name in the sky, Start, then the glide (skipped here); the buttons are only there after it
+    await page.waitForSelector('#entrygo', { state: 'visible', timeout: 30000 });
+    await page.screenshot({ path: `${out}/${name}-entry.png` });
+    await page.click('#entrygo'); await page.waitForTimeout(1500);
+    if (await page.isVisible('#entryskip')) await page.click('#entryskip');
+    await page.waitForTimeout(300);
+    if (await page.isVisible('#introskip')) await page.click('#introskip');     // Skip ends the introduction at once
+    if (await page.evaluate(() => document.getElementById('app').classList.contains('intro'))) errors.push(`${name}: Skip did not end the introduction`);
+    if (await page.evaluate(() => document.getElementById('app').classList.contains('entering'))) errors.push(`${name}: the buttons did not come in after the entry`);
+    await page.waitForTimeout(1500);
     await page.screenshot({ path: `${out}/${name}-open.png` });
     if (name === 'desktop') {
       const info = await page.evaluate(() => ({
         title: document.title, level: window.__sea.settings.level,
         parts: [...document.querySelectorAll('#storyacts .act')].map(b => b.textContent),
         times: [...document.querySelectorAll('#storytimes button')].map(b => b.textContent),
-        ageButtons: document.querySelectorAll('[data-level]').length, fact: document.querySelector('#storyfact').textContent,
+        ageButtons: document.querySelectorAll('[data-level]').length, panel: !!document.querySelector('.storypanel'), caption: !document.querySelector('#storycaption').hidden,
       }));
       console.log(JSON.stringify(info, null, 1));
       if (info.level !== 'young' || info.ageButtons) errors.push('age group is not fixed at ages 5 to 7');
+      if (info.panel) errors.push('a word panel is back on the kids\' screen: only a caption while a line is spoken');
       for (const b of await page.$$('#storyacts .act')) { await b.click(); await page.waitForTimeout(1500); }
       await page.waitForTimeout(2500);
       await page.screenshot({ path: `${out}/${name}-sea-lion.png` });
@@ -44,12 +60,11 @@ const TIER_BUDGET = { low: { triangles: 60000, calls: 40 }, mid: { triangles: 12
         await page.click(`#storytimes [data-pick="${t}"]`); await page.waitForTimeout(1500);
         if (t === 'night') await page.screenshot({ path: `${out}/${name}-night.png` });
       }
-      await page.click('#story-listen'); await page.waitForTimeout(1500);
-      if (!requests.some(u => u.endsWith('narration.young.mp3'))) errors.push('Listen did not fetch narration.young.mp3');
+      await page.click('#story-voice'); await page.waitForTimeout(1500);
+      if (!requests.some(u => u.endsWith('narration.young.mp3'))) errors.push('Read aloud did not fetch narration.young.mp3');
       await page.click('#story-play'); await page.waitForTimeout(500);
-      await page.click('#story-music'); await page.waitForTimeout(1500);
-      if (!requests.some(u => u.endsWith('sfx.story-music.mp3'))) errors.push('Music did not fetch sfx.story-music.mp3');
-      if (!requests.some(u => u.endsWith('sfx.story-sea.mp3'))) errors.push('the sea sound was not fetched');
+      // music is on from Start
+      if (!requests.some(u => u.endsWith('sfx.story-music.mp3'))) errors.push('Music did not start with the story (sfx.story-music.mp3 not fetched)');
       const [cx, cy] = await page.$eval('#view canvas', c => { const r = c.getBoundingClientRect(); return [r.left + r.width / 2, r.top + r.height / 2]; });
       await page.mouse.move(cx - 150, cy); await page.mouse.down();
       for (let i = 0; i <= 20; i++) await page.mouse.move(cx - 150 + i * 15, cy - Math.sin(i / 3) * 60);

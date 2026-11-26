@@ -5,11 +5,11 @@ import { canPlay, audio, decode } from './audio.js';
 const buffers = new Map();
 const load = (id) => { if (!buffers.has(id)) { const p = decode(SFX[id].url); p.catch(() => buffers.delete(id)); buffers.set(id, p); } return buffers.get(id); };
 export const hasSfx = (id) => canPlay && !!SFX[id];
-export function playSfx(id) {
+export function playSfx(id, volume = 1) {
   if (!canPlay || !SFX[id]) return;
   try {
     const ctx = audio();
-    load(id).then(buf => { const s = ctx.createBufferSource(), g = ctx.createGain(); g.gain.value = OPTIONS.sfx?.volume ?? 1; s.buffer = buf; s.connect(g).connect(ctx.destination); s.start(); }, () => {});
+    load(id).then(buf => { const s = ctx.createBufferSource(), g = ctx.createGain(); g.gain.value = (OPTIONS.sfx?.volume ?? 1) * volume; s.buffer = buf; s.connect(g).connect(ctx.destination); s.start(); }, () => {});
   } catch { /* no sound here: taps still work */ }
 }
 /** A long sound that goes round and round until it is stopped (the sea in a story, music). It comes in and goes

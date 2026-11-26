@@ -11,6 +11,7 @@
 //   any line a child reads or hears holds a "never" word (tools/tone.words.json)
 // Lines above the reading grade are listed; --strict fails on them too. Licence: MIT.
 import { readFileSync, existsSync } from 'node:fs';
+import { ICON_NAMES } from '../ui/icons.js';
 const R = new URL('../', import.meta.url), read = (f) => JSON.parse(readFileSync(new URL(f, R), 'utf8')), has = (f) => existsSync(new URL(f, R));
 const W = read('tools/tone.words.json'), args = process.argv.slice(2), LEVEL = 'young', MAX = W.maxGrade[LEVEL];
 const rx = (list) => new RegExp(`\\b(${list.map(w => w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&').replace(/ /g, '\\s+')).join('|')})\\b`, 'gi');
@@ -51,6 +52,8 @@ for (const id of index.scenes) {
   if (S.id !== id) problems.push(`${id}: scene.json says its id is "${S.id}"`);
   for (const k of S.shows || []) if (!index.ideas?.[k]) problems.push(`${id}: idea "${k}" is not in scenes/index.json`);
   if (!index.habitats?.[S.habitat]) problems.push(`${id}: place "${S.habitat}" is not in scenes/index.json`);
+  // every button picture is a drawn icon from ui/icons.js, never an emoji
+  JSON.stringify(S, (k, v) => { if (k === 'icon' && !ICON_NAMES.includes(v)) problems.push(`${id}: icon "${v}" is not in ui/icons.js`); return v; });
   for (const c of S.cast || []) if (c.animal && !animal(c.animal)) problems.push(`${id}: cast animal "${c.animal}" has no animals/${c.animal}/pack.js`);
   if (!S.beats?.length) problems.push(`${id}: no parts (beats)`);
   for (const b of S.beats || []) {
@@ -73,6 +76,11 @@ for (const id of index.scenes) {
       if (!(o.id && o.label)) problems.push(`${id}: a time of day needs an id and a label`);
       words(o, `${id}/time ${o.id}`); listed(S, o.sources, `${id}/time ${o.id}`);
     }
+  }
+  // the entry's introduction: words for ages 5 to 7, from listed sources
+  if (S.entry?.intro) {
+    if (!S.entry.intro.sources?.length) problems.push(`${id}: the entry's intro needs a source`);
+    words(S.entry.intro, `${id}/intro`); listed(S, S.entry.intro.sources, `${id}/intro`);
   }
   for (const [k, v] of Object.entries(S.labels || {})) if (typeof v !== 'string' || !v) problems.push(`${id}: label "${k}" has no words`);
   if (S.play) {

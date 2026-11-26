@@ -15,6 +15,8 @@ const voice = OPTIONS.fallback.engine === 'browser' && 'speechSynthesis' in wind
 export const canSpeak = !!voice || canPlay;
 
 let story = null, playing = null, token = 0;
+// the subtitle clock: when the line now being spoken began, and its timed pieces (narration.json "cues")
+let clock = null;
 const buffers = new Map();                 // url -> Promise of a decoded AudioBuffer
 
 function load(url) {
@@ -35,7 +37,7 @@ export function setStoryNarration(n) { stopSpeaking(); story = canPlay && n ? n 
 export function warmNarration(level) { try { const L = story?.levels?.[level]; if (L && canPlay) load(L.url).catch(() => {}); } catch { /* the stand-in will do */ } }
 
 function stopRecorded() { if (playing) { const p = playing; playing = null; p.onended = null; try { p.stop(); } catch { /* already over */ } } }
-export function stopSpeaking() { token++; stopRecorded(); try { voice?.cancel(); } catch { /* not available here */ } }
+export function stopSpeaking() { token++; clock = null; stopRecorded(); try { voice?.cancel(); } catch { /* not available here */ } }
 
 function speakBrowser(text, done) {
   if (!voice) { done?.(); return false; }
@@ -43,10 +45,20 @@ function speakBrowser(text, done) {
     voice.cancel();
     const u = new SpeechSynthesisUtterance(text);
     u.lang = OPTIONS.fallback.lang; u.rate = OPTIONS.fallback.rate;
-    if (done) u.onend = u.onerror = done;
+    const mine = token;
+    u.onstart = () => { if (mine === token) clock = { t0: performance.now() / 1000, rate: 1, cues: null, text }; };
+    u.onend = u.onerror = () => { if (mine === token) clock = null; done?.(); };
     voice.speak(u);
     return true;
   } catch { return false; }
+}
+
+/** The line being spoken now and how far into it the voice is: { text, seconds, cues } (cues are the recording's
+ *  timed subtitles, or null for the browser's voice), or null while nothing is being said. */
+export function nowSpeaking() {
+  if (!clock) return null;
+  const now = clock.ctx ? clock.ctx.currentTime : performance.now() / 1000;
+  return { text: clock.text, seconds: (now - clock.t0) * clock.rate, cues: clock.cues };
 }
 
 export function speak(text, done) { stopSpeaking(); return start(text, done); }
@@ -64,8 +76,9 @@ function start(text, done) {
       if (mine !== token) return;
       const src = ctx.createBufferSource();
       src.buffer = buf; src.connect(ctx.destination); if (OPTIONS.rate) src.playbackRate.value = OPTIONS.rate;
-      src.onended = () => { if (playing === src) playing = null; done?.(); };
+      src.onended = () => { if (playing === src) { playing = null; clock = null; } done?.(); };
       playing = src; src.start(0, at[0], at[1]);
+      clock = { ctx, t0: ctx.currentTime, rate: OPTIONS.rate || 1, cues: L.cues?.[lineKey(text)] || null, text };
     }, () => { clearTimeout(late); if (mine === token) speakBrowser(text, done); });
     return true;
   } catch { return speakBrowser(text, done); }

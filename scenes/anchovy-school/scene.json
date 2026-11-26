@@ -3,6 +3,19 @@
   "id": "anchovy-school",
   "title": "A school of anchovies",
   "kicker": "Sunlit sea",
+  "entry": {
+    "about": "The entry: the name in the sky, a Start button, how many seconds the camera takes to glide down to the school, and the short introduction read when it arrives (every word from its sources).",
+    "kicker": "A Big Blue Tale",
+    "title": "A school of anchovies",
+    "start": "Start",
+    "glide": 7,
+    "intro": {
+      "young": "Meet the anchovy! It is a small fish, no longer than a ruler. It is blue-green on top and silver underneath, with a thin silver stripe on its side. Anchovies eat plankton. Plankton are tiny plants and animals that float in the sea. Anchovies live near the top of the sea, in big groups called schools. Lots of animals eat anchovies: bigger fish, sea birds and sea lions.",
+      "sources": [
+        "noaa-anchovy"
+      ]
+    }
+  },
   "cast": [
     {
       "name": "Northern anchovy",
@@ -102,7 +115,8 @@
         "noaa-anchovy",
         "states",
         "adw-anchovy"
-      ]
+      ],
+      "icon": "together"
     },
     {
       "id": "ring",
@@ -115,7 +129,8 @@
       "sources": [
         "states",
         "milling-why"
-      ]
+      ],
+      "icon": "ring"
     },
     {
       "id": "ball",
@@ -128,7 +143,8 @@
       "sources": [
         "bait-ball",
         "coral-digest"
-      ]
+      ],
+      "icon": "ball"
     },
     {
       "id": "poke",
@@ -143,8 +159,11 @@
       "sources": [
         "loop",
         "loop-success",
-        "fountain"
-      ]
+        "fountain",
+        "lion-stroke",
+        "lion-speed"
+      ],
+      "icon": "sealion"
     }
   ],
   "times": {
@@ -157,7 +176,8 @@
         "young": "The sun comes up. The fish come together in schools again.",
         "sources": [
           "day-night"
-        ]
+        ],
+        "icon": "sunrise"
       },
       {
         "id": "day",
@@ -165,13 +185,15 @@
         "young": "In the day, the fish stay close in their school.",
         "sources": [
           "day-night"
-        ]
+        ],
+        "icon": "day"
       },
       {
         "id": "sunset",
         "label": "Sunset",
         "young": "The sun goes down. The top of the sea turns gold.",
-        "sources": []
+        "sources": [],
+        "icon": "sunset"
       },
       {
         "id": "night",
@@ -180,7 +202,8 @@
         "sources": [
           "day-night",
           "day-night-bay"
-        ]
+        ],
+        "icon": "night"
       }
     ]
   },
@@ -205,7 +228,7 @@
     "noaa-anchovy": {
       "name": "NOAA Fisheries: Northern Anchovy",
       "url": "https://www.fisheries.noaa.gov/species/northern-anchovy",
-      "quote": "Anchovies form large, dense schools near the ocean surface. [...] They are bluish-green above and silvery below, and adults have a faint silver stripe on the side."
+      "quote": "Northern anchovies are small, compressed fish with long snouts that overhang a large mouth. [...] They are bluish-green above and silvery below, and adults have a faint silver stripe on the side. [...] Northern anchovies grow quickly, up to about 7 inches. [...] Northern anchovies feed on plankton (tiny floating plants and animals). [...] They are an important part of the food chain for other fish species, including many recreationally and commercially important fish, as well as birds and marine mammals. [...] Anchovies form large, dense schools near the ocean surface."
     },
     "adw-anchovy": {
       "name": "Animal Diversity Web, University of Michigan: Engraulis mordax (northern anchovy)",
@@ -256,6 +279,16 @@
       "name": "Marine Ecology Progress Series, 2009 (Kaltenberg and Benoit-Bird): Diel behavior of sardine and anchovy schools in the California Current System",
       "url": "https://www.int-res.com/journals/meps/articles/meps08252",
       "quote": "Discrete schools containing primarily sardines in Monterey Bay, California, were observed during both daytime and nighttime in addition to layers and loose aggregations at nighttime"
+    },
+    "lion-stroke": {
+      "name": "Biomimetics, 2025 (PMC): Propulsive Force Characterization of a Bio-Robotic Sea Lion Foreflipper",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12730486",
+      "quote": "A complete stroke cycle lasts approximately one second, with the power and paddle phases comprising about 60% of the cycle and the recovery phase the remaining 40%. During the recovery phase, the flipper moves upward and outward (abduction) to a laterally extended position, minimizing drag while preparing for propulsion. The power phase follows, characterized by a strong downward and rearward motion (adduction and retraction) that generates thrust. The cycle concludes with the paddle phase, where the flipper moves ventrally toward the body while maintaining lift before returning to the streamlined position alongside the flank"
+    },
+    "lion-speed": {
+      "name": "Alliance of Marine Mammal Parks and Aquariums: California Sea Lion fact sheet (citing Feldkamp 1987)",
+      "url": "https://ammpa.org/sites/default/files/files/animalfactsheets/AMMPA-SealionFactsheet-english-web.pdf",
+      "quote": "Reported swimming speed for California Sea Lions was observed at 2.7 to 3.5 m/s (about 6 - 8mph). (Feldkamp, 1987). [...] Sea lions use their rear flippers for steering and maneuverability when swimming."
     }
   },
   "budget": {
@@ -270,15 +303,18 @@
       "options": [
         {
           "id": "school",
-          "label": "A school"
+          "label": "A school",
+          "icon": "school"
         },
         {
           "id": "big",
-          "label": "A big school"
+          "label": "A big school",
+          "icon": "bigschool"
         },
         {
           "id": "huge",
-          "label": "A huge school"
+          "label": "A huge school",
+          "icon": "hugeschool"
         }
       ]
     },
@@ -287,15 +323,18 @@
       "options": [
         {
           "id": "dots",
-          "label": "Dots"
+          "label": "Dots",
+          "icon": "dots"
         },
         {
           "id": "line",
-          "label": "Line"
+          "label": "Line",
+          "icon": "line"
         },
         {
           "id": "sparkle",
-          "label": "Sparkles"
+          "label": "Sparkles",
+          "icon": "sparkle"
         }
       ]
     },
@@ -304,15 +343,18 @@
       "options": [
         {
           "id": "real",
-          "label": "Real colours"
+          "label": "Real colours",
+          "icon": "real"
         },
         {
           "id": "rainbow",
-          "label": "Rainbow"
+          "label": "Rainbow",
+          "icon": "rainbow"
         },
         {
           "id": "surprise",
-          "label": "Surprise"
+          "label": "Surprise colours",
+          "icon": "surprise"
         }
       ],
       "note": {

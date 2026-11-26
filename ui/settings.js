@@ -1,17 +1,17 @@
-// Settings for the story, all in one Settings card on the stage: voice and sounds, what is on the screen,
-// full screen. There is one age group, ages 5 to 7 ("young"), so it is not a choice. Remembered on this device only. Licence: MIT.
+// Settings for the story: the For grown-ups card (tap sounds, reading each part aloud; views/story.js adds the
+// sources), and full screen, which "Just the fish" asks for. There is one age group, ages 5 to 7 ("young"), so it is not a choice. Remembered on this device only. Licence: MIT.
 import { $, h, store } from './dom.js';
 import { canSpeak, stopSpeaking } from './speech.js';
 import { canPlay } from './audio.js';
 
-// [key, label, the Settings section it sits in]
-const PARTS = [['voice', 'Read aloud on tap', 'sound'], ['sfx', 'Tap sounds', 'sound'],
-  ['panel', 'Story panel', 'screen'], ['actions', 'Buttons', 'screen'], ['words', 'Words on buttons', 'screen'], ['snow', 'Drifting specks', 'screen'],
-  ['perf', 'Speed numbers', 'grown']];
-const OFF_BY_DEFAULT = ['voice', 'perf'];
-const EVERYTHING = Object.fromEntries(PARTS.map(([k]) => [k, !OFF_BY_DEFAULT.includes(k)]));
-const JUST_FISH = { ...EVERYTHING, panel: false, words: false, voice: true };
-const ICON_FULL = 'M4 9V4h5M15 4h5v5M20 15v5h-5M9 20H4v-5', ICON_LEAVE = 'M9 4v5H4M15 4v5h5M20 15h-5v5M4 15h5v5';
+// The two switches a grown-up may want, in the Settings card: [key, label]. Everything else on the screen is always on;
+// Full screen and "Just the fish" put the story panel aside for a while.
+// [key, label, section]: "all" is for both Learn and Play; "learn" only matters in Learn.
+const PARTS = [['sfx', 'Sounds when you tap', 'all'], ['voice', 'Read each part aloud when it is tapped', 'learn']];
+// panel, actions, words and snow are not switches any more (always on); they stay as classes the page can read
+// Read aloud is on at first: ages 5 to 7 hear each part as it is tapped (audit, 2026-11-26)
+const EVERYTHING = { sfx: true, voice: true, panel: true, actions: true, words: true, snow: true };
+const JUST_FISH = { ...EVERYTHING, panel: false, voice: true };
 
 export function createSettings() {
   const level = 'young';   // the one age group this story carries: ages 5 to 7
@@ -21,22 +21,20 @@ export function createSettings() {
   try {
     const m = JSON.parse(store.get('sm-show') || 'null');
     // full screen never survives a reload: come back to the switches it had put aside
-    if (m) show = { ...EVERYTHING, ...(m.explore && m.saved ? m.saved : m.show) };
+    // only the two switches are kept from an earlier visit; anything else saved then is set aside
+    // a visit from before v2 kept Read aloud off by default, not by choice: it starts on again
+    if (m) { const was = (m.explore && m.saved ? m.saved : m.show) || {}; show = { ...EVERYTHING, sfx: was.sfx ?? true, voice: m.v === 2 ? !!was.voice : true }; }
   } catch { /* start from the defaults */ }
 
   function applyLevel() { document.body.classList.add('young'); }
 
   function applyShow() {
     const root = document.documentElement;
-    for (const [k] of PARTS) root.classList.toggle('hide-' + k, !show[k]);
+    for (const k of Object.keys(EVERYTHING)) root.classList.toggle('hide-' + k, !show[k]);
     for (const b of document.querySelectorAll('[data-show]')) b.setAttribute('aria-checked', !!show[b.dataset.show]);
-    const f = $('btn-full'), label = explore ? 'Leave full screen' : 'Full screen';
-    f.setAttribute('aria-pressed', explore); f.setAttribute('aria-label', label);
-    f.querySelector('span').textContent = label;
-    f.querySelector('path').setAttribute('d', explore ? ICON_LEAVE : ICON_FULL);
     if (voiceWas && !show.voice) stopSpeaking();   // only when read-aloud itself is switched off
     voiceWas = !!show.voice;
-    store.set('sm-show', JSON.stringify({ show, explore, saved }));
+    store.set('sm-show', JSON.stringify({ v: 2, show, explore, saved }));
     emit();
   }
   for (const [k, label, group] of PARTS) {
@@ -45,10 +43,6 @@ export function createSettings() {
     b.addEventListener('click', () => { show[k] = !show[k]; applyShow(); });
     $('set-' + group).append(b);
   }
-  // the two shortcuts sit under "On the screen" and change only that section: voice and sounds stay as chosen
-  const others = () => Object.fromEntries(PARTS.filter(([, , g]) => g !== 'screen').map(([k]) => [k, show[k]]));
-  $('preset-fish').addEventListener('click', () => { show = { ...JUST_FISH, ...others() }; applyShow(); });
-  $('preset-all').addEventListener('click', () => { show = { ...EVERYTHING, ...others() }; applyShow(); });
   const openShow = (open) => { $('showcard').hidden = !open; $('btn-show').setAttribute('aria-expanded', open); };
   $('btn-show').addEventListener('click', () => openShow($('showcard').hidden));
   document.addEventListener('pointerdown', (e) => { if (!e.target.closest('#showcard, #btn-show')) openShow(false); });
@@ -58,7 +52,7 @@ export function createSettings() {
   function setExplore(on) {
     if (on === explore) return;
     explore = on;
-    if (on) { saved = { ...show }; show = { ...JUST_FISH, perf: show.perf }; }
+    if (on) { saved = { ...show }; show = { ...JUST_FISH, sfx: show.sfx }; }
     else { show = saved ? { ...EVERYTHING, ...saved } : { ...EVERYTHING }; saved = null; }
     applyShow(); openShow(false);
     // real full screen where the browser allows it; the stripped-back layout works either way
@@ -75,7 +69,6 @@ export function createSettings() {
       }
     } catch { /* full screen refused: stay with the in-page version */ }
   }
-  $('btn-full').addEventListener('click', () => setExplore(!explore));
   for (const ev of ['fullscreenchange', 'webkitfullscreenchange']) document.addEventListener(ev, () => {
     if (nativeFull && !(document.fullscreenElement || document.webkitFullscreenElement)) setExplore(false);
   });
@@ -88,5 +81,7 @@ export function createSettings() {
     get exploring() { return explore; },
     onChange(fn) { listeners.add(fn); return () => listeners.delete(fn); },
     setExplore, openShow,
+    /** one switch, as its button in the Grown-ups card would set it */
+    set(k, v) { if (show[k] !== !!v) { show[k] = !!v; applyShow(); } },
   };
 }
