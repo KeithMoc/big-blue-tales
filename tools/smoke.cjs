@@ -33,6 +33,17 @@ const TIER_BUDGET = { low: { triangles: 60000, calls: 40 }, mid: { triangles: 12
     // and from the first touch anywhere elsewhere (headless Chromium does not hold sound back, so that part is not
     // measured here)
     if (!requests.some(u => u.endsWith('sfx.story-music.mp3'))) errors.push(`${name}: the music was not asked for before Play`);
+    // the entry is a wall: no point of the screen reaches a story button under it, and Tab reaches only Play and
+    // Music (the buttons underneath are there, unseen, and used to act on a tap through the title)
+    {
+      const through = await page.evaluate(() => { const hit = new Set();
+        for (let y = 4; y < innerHeight; y += 12) for (let x = 4; x < innerWidth; x += 12) {
+          const el = document.elementFromPoint(x, y); if (el && !el.closest('#entry, #story-music')) hit.add(el.closest('button, [role]')?.id || el.closest('button, [role]')?.textContent.trim() || el.id || el.tagName); }
+        return [...hit]; });
+      if (through.length) errors.push(`${name}: a tap on the title screen reaches what is under it: ${through.join(', ')}`);
+      const tabbed = new Set(); for (let i = 0; i < 20; i++) { await page.keyboard.press('Tab'); tabbed.add(await page.evaluate(() => { const a = document.activeElement; return a === document.body || a.closest('#entry, #story-music') ? '' : a.id || a.textContent.trim() || a.tagName; })); }
+      tabbed.delete(''); if (tabbed.size) errors.push(`${name}: Tab on the title screen reaches what is under it: ${[...tabbed].join(', ')}`);
+    }
     await page.click('#entrygo'); await page.waitForTimeout(1500);
     await page.evaluate(() => { const b = document.getElementById('entryskip'); if (!b.hidden) b.click(); });   // the glide may end on its own just now
     await page.waitForTimeout(300);
@@ -42,7 +53,11 @@ const TIER_BUDGET = { low: { triangles: 60000, calls: 40 }, mid: { triangles: 12
       await page.click('#story-voice'); await page.waitForTimeout(400);
       if (await page.evaluate(() => document.getElementById('app').classList.contains('intro'))) errors.push('turning Read aloud off during the introduction did not bring the buttons in');
       await page.click('#story-voice'); await page.waitForTimeout(400);
-      if (await page.evaluate(async () => !!(await import('./ui/speech.js')).nowSpeaking())) errors.push('turning Read aloud back on after the introduction started a line by itself');
+      // switched on, Read aloud reads the line on screen (by design); what must not happen is the introduction again
+      // (this used to ask for silence, which only held while the line's recording was still loading: a flaky pass)
+      if (await page.evaluate(async () => { const now = (await import('./ui/speech.js')).nowSpeaking()?.text || '', intro = window.__sea.storyView.current?.entry?.intro || {};
+        return document.getElementById('app').classList.contains('intro') || (now && Object.values(intro).some(t => typeof t === 'string' && t === now)); }))
+        errors.push('turning Read aloud back on after the introduction started the introduction again');
     }
     if (await page.isVisible('#introskip')) await page.click('#introskip');     // Skip ends the introduction at once
     if (await page.evaluate(() => document.getElementById('app').classList.contains('intro'))) errors.push(`${name}: Skip did not end the introduction`);
@@ -183,6 +198,28 @@ const TIER_BUDGET = { low: { triangles: 60000, calls: 40 }, mid: { triangles: 12
     await page.close();
   }
   await browser.close();
+  // "Diving in", the way a phone's browser behaves (sound held back until a tap): nothing under the loading screen
+  // takes a tap, and the first tap on it lets the music's sound out
+  {
+    const b = await chromium.launch({ args: ['--use-gl=angle', '--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--autoplay-policy=document-user-activation-required'] });
+    const page = await b.newPage({ viewport: { width: 390, height: 844 }, hasTouch: true, isMobile: true });
+    await page.addInitScript(() => { const A = window.AudioContext; window.__ctxs = []; window.AudioContext = class extends A { constructor(...a) { super(...a); window.__ctxs.push(this); } }; });
+    if (FILES) await page.route('http://site.local/**', async r => { let f = decodeURIComponent(new URL(r.request().url()).pathname); if (f.endsWith('/')) f += 'index.html';
+      if (f.endsWith('/scene.js')) await new Promise(ok => setTimeout(ok, 4000));     // hold "Diving in" on screen
+      return r.fulfill({ path: path.join(ROOT, f) }).catch(() => r.fulfill({ status: 404, body: '' })); });
+    await page.goto(url); await page.waitForTimeout(1500);
+    const st = await page.evaluate(() => ({ load: !document.getElementById('entryload').hidden, ctx: window.__ctxs.map(c => c.state),
+      through: (() => { const hit = new Set(); for (let y = 4; y < innerHeight; y += 12) for (let x = 4; x < innerWidth; x += 12) { const el = document.elementFromPoint(x, y); if (el && !el.closest('#entry, #story-music')) hit.add(el.id || el.tagName); } return [...hit]; })() }));
+    if (!FILES || !st.load) errors.push('Diving in: not on screen long enough to check (run with --files)');
+    else {
+      if (st.through.length) errors.push(`Diving in: a tap reaches what is under it: ${st.through.join(', ')}`);
+      if (st.ctx.some(c => c === 'running')) errors.push('Diving in: sound was let out before any tap, so this check measures nothing');
+      await page.touchscreen.tap(200, 300); await page.waitForTimeout(300);
+      const ctx = await page.evaluate(() => window.__ctxs.map(c => c.state));
+      if (!ctx.length || ctx.some(c => c !== 'running')) errors.push(`Diving in: the first tap did not let the sound out (${ctx.join(', ') || 'no audio'})`);
+    }
+    await b.close();
+  }
   const bad = [...new Set(errors)];
   console.log(bad.length ? 'FAIL\n' + bad.join('\n') : 'PASS: no errors, every line of the first story has a recording, every story fits its budget on every tier');
   process.exit(bad.length ? 1 : 0);

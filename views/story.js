@@ -314,6 +314,11 @@ export function createStoryView({ engine, env, settings, go }) {
   // browser play sound. The name lifts away and the camera glides down through the surface to the school; then the
   // buttons come in. A tap on the picture or Skip ends the glide; with motion reduced it cuts straight in.
   let entered = false, entryTimer = 0, introTimer = 0, introDone = null;
+  // While the entry shows, everything under it is out of reach: no tap (the entry is a wall, see index.html) and no
+  // key (inert), so Tab cannot land on a button nobody can see. Only the corner stays, holding Music alone then.
+  const below = () => [$('view'), document.querySelector('.tools'), $('showcard'), ...[...$('story').children].filter(el => el.id !== 'corner')];
+  const lockBelow = (on) => { for (const el of below()) if (el) el.inert = on; };
+  lockBelow(true);
   function endEntry(arrived = false) {
     clearTimeout(entryTimer); const was = entered; entered = true;
     // the introduction (scene.json entry.intro, recorded): read once, as the camera reaches the school
@@ -325,7 +330,7 @@ export function createStoryView({ engine, env, settings, go }) {
       if (!say(intro, done)) done();
       else introTimer = setTimeout(done, (intro.split(' ').length / 2 + 8) * 1000);   // never stuck without buttons
     } else if (intro) show(intro);                 // Read aloud off: the introduction is a caption, and the buttons are there
-    $('entry').hidden = true; $('entryskip').hidden = true;
+    $('entry').hidden = true; $('entryskip').hidden = true; lockBelow(false);
     runner?.hold(false); app.classList.remove('entering');
     syncSound();
   }
@@ -359,7 +364,8 @@ export function createStoryView({ engine, env, settings, go }) {
     }, glide ? 900 : 0);
   });
   $('entryskip').addEventListener('click', skipEntry);
-  engine?.canvas?.addEventListener('pointerdown', () => { if (!entered && $('entrytitle').hidden && !$('entry').hidden) skipEntry(); });
+  // a tap on the picture while it glides ends the glide (the entry covers the picture, so the tap lands on it)
+  $('entry').addEventListener('pointerdown', (e) => { if (!entered && $('entrytitle').hidden && $('entryload').hidden && e.target === $('entry')) skipEntry(); });
 
   async function open(id) {
     const mine = ++seq; active = true;
