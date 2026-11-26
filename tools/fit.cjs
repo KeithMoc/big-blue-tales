@@ -55,7 +55,7 @@ function measure(where) {
     const at = (what) => `${w}x${hgt} ${what}`;
     errors.push(...await page.evaluate(measure, at('entry')));
     await page.click('#entrygo'); await page.waitForTimeout(1200);
-    if (await page.isVisible('#entryskip')) await page.click('#entryskip');
+    await page.evaluate(() => { const b = document.getElementById('entryskip'); if (!b.hidden) b.click(); });   // the glide may end on its own just now
     await page.waitForTimeout(400);
     errors.push(...await page.evaluate(measure, at('introduction')));
     if (await page.isVisible('#introskip')) await page.click('#introskip');

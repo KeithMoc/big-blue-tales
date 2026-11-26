@@ -193,6 +193,12 @@ h1, h2, p { margin: 0; }
   .round, .round .ico { width: 44px; height: 44px; } .round.toggle[aria-checked="false"]::after { width: 50px; height: 4px; }
   .storyfoot { padding-right: 52px; }
 }
+/* Just the fish: only the + until it is pressed; then the corner buttons roll out above it with the tray */
+.just-play .corner:not(.open) .cornerbtns > :not(#story-more) { display: none; }
+@media (prefers-reduced-motion: no-preference) {
+  .just-play .corner.open .cornerbtns > :not(#story-more), .just-play .corner.open .justtray { animation: rollout 0.25s ease-out both; }
+  @keyframes rollout { from { opacity: 0; translate: 0 16px; } }
+}
 /* while the name is in the sky and while the introduction is read, only Music shows in the corner */
 .entering .corner, .intro .corner { opacity: 1 !important; pointer-events: none; }
 .entering #story-voice, .entering #story-captions, .entering #story-more, .entering #story-home, .entering #story-just, .entering .justtray,

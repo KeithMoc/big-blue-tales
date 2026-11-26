@@ -187,16 +187,17 @@ export function createStoryView({ engine, env, settings, go }) {
   $('story-music').addEventListener('click', () => { store.set('sm-music', store.get('sm-music') === '0' ? '1' : '0'); syncSound(); });
   document.addEventListener('visibilitychange', syncSound);
   // Find the fish and Just the fish are round buttons in the corner. Just the fish fills the screen with the picture
-  // and leaves only the corner, where a + opens a tray: the story's parts in Learn, the Play choices in Play (trail,
+  // and leaves only a + in the corner (the maintainer's call, 2026-11-26). The + rolls everything out at once: Music,
+  // Captions, Read aloud and Find the fish above it, and a tray beside it with the story's parts in Learn, the Play choices in Play (trail,
   // colours, move the view), the time of day, and the way back. The choices are the same buttons as below the picture, moved into the tray and back, so
-  // there is one of each. A wide screen starts Just the fish with the tray open; a phone starts with it shut. The line
+  // there is one of each. Just the fish starts with the + alone. The line
   // that says what is pretend still shows for a few seconds on the way in.
   let just = false;
   const TRAY = ['storyacts', 'story-move', 'storytrails', 'storycolours', 'storytimes'];
   const HOME = { storyacts: ['storymain', null], 'story-move': ['storytoys', null], storytrails: ['storytoys', 'story-move'], storycolours: ['storytoys', 'storytrails'], storytimes: ['storyday', null] };
-  const wide = () => (engine?.canvas?.clientWidth || innerWidth) > 640;
   function tray(open) {
     $('justtray').hidden = !open; $('story-more').setAttribute('aria-expanded', String(open));
+    $('corner').classList.toggle('open', open);      // in Just the fish the other corner buttons come out with the tray
   }
   function justNote(words) {
     const n = $('storyjustnote'); n.textContent = words; n.hidden = true;
@@ -208,7 +209,7 @@ export function createStoryView({ engine, env, settings, go }) {
     $('story-just').hidden = on; $('story-more').hidden = !on;
     if (on) { const exit = $('story-exit'); for (const id of TRAY) $('justtray').insertBefore($(id), exit); }
     else for (const id of TRAY) { const [box, before] = HOME[id]; $(box).insertBefore($(id), before ? $(before) : null); }
-    tray(on && wide());
+    tray(false);                                     // Just the fish starts with only the +
     justNote(on ? $('storynote').textContent : '');
     if (settings.exploring !== on) settings.setExplore(on);
     engine?.resize?.();
@@ -217,8 +218,8 @@ export function createStoryView({ engine, env, settings, go }) {
   $('story-exit').addEventListener('click', () => justPlay(false));
   $('story-home').addEventListener('click', () => runner?.home());
   $('story-more').addEventListener('click', () => tray($('justtray').hidden));
-  // the open tray covers the water: touching the water closes it (in Just the fish on a wide screen it stays open)
-  engine?.canvas?.addEventListener('pointerdown', () => { if (!just || !wide()) tray(false); });
+  // the open tray covers the water: touching the water closes it
+  engine?.canvas?.addEventListener('pointerdown', () => tray(false));
   const setMode = (play) => {
     if (play === playing) return;
     playing = play;
