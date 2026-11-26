@@ -96,7 +96,7 @@ flowchart LR
 | `animals/<id>/` | Guest animals a story mounts. Today that is the California sea lion: `pack.js`, `model/`, its signed fact `dossier.json`, `notes.md`, `credits.json` |
 | `views/`, `ui/`, `core/`, `kit/` | The story view; settings, voice and sound playback; engine, water presets, quality tiers, pack loader; the model kit |
 | `sounds/` | Sounds every story shares (`index.js`), and the maker, prompt and licence of every sound and recorded line (`manifest.json`) |
-| `tools/` | The checks above, `site.sh` (gathers the site for a host) and `demo-server.mjs` (the Render demo) |
+| `tools/` | The checks above, and `site.sh` (gathers the site for GitHub Pages) |
 | `AGENTS.md` | The short rules and checks for a coding agent (or a person) working in this repo |
 | `docs/` | Story guide (`STORIES.md`), three.js standard (`THREEJS.md`), tone guide (`TONE.md`), the story kit decision (`adr/`), what was learned (`knowledge/`) |
 
@@ -130,12 +130,6 @@ Read `docs/STORIES.md` first. In short:
 first and does not publish if that fails, then copies only the files the page needs (no `docs/` or `tools/`). All
 paths in the page are relative, so it works under `/big-blue-tales/`. Pages has to be switched on once in the
 repository settings (Settings > Pages > Source: GitHub Actions).
-
-**Private demo on Render.** `render.yaml` runs the same checks and `tools/site.sh`, then serves the site with
-`tools/demo-server.mjs`: one shared password (the `DEMO_PASSWORD` setting on Render; any user name works) and strict
-security headers (a content security policy, no framing, no search-engine listing). With no password set it shows
-nothing. To start it: Render dashboard > New > Blueprint > this repository, and enter a password when asked. The
-free plan sleeps when nobody visits, so the first visit after a quiet spell takes about a minute.
 
 ### Rules every story keeps
 
