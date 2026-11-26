@@ -35,7 +35,7 @@ export function createStoryView({ engine, env, settings, go }) {
   let captioned = '', said = 0, subTimer = 0;
   function hideCaption() { captioned = ''; clearInterval(subTimer); $('storycaption').hidden = true; }
   function subtitle() {
-    const now = nowSpeaking(), n = $('storycaption');
+    const now = nowSpeaking() || (quiet?.text === captioned ? { text: quiet.text, seconds: (performance.now() - quiet.t0) / 1000, cues: null } : null), n = $('storycaption');
     if (!now || now.text !== captioned || !wantCaptions()) { n.hidden = true; return; }        // not started yet (still loading)
     const cues = now.cues || evenCues(captioned, captioned.split(' ').length / 2.6);
     let piece = cues[0][1]; for (const [t, w] of cues) if (now.seconds >= t) piece = w;
@@ -48,7 +48,19 @@ export function createStoryView({ engine, env, settings, go }) {
     if (ok) { subTimer = setInterval(subtitle, 100); duck(true); } else hideCaption();
     return ok;
   }
-  function hush() { said++; stopSpeaking(); hideCaption(); duck(false); }
+  function hush() { said++; stopSpeaking(); hideCaption(); duck(false); quiet = null; clearTimeout(quietTimer); }
+  // With Read aloud off and Captions on, a line that would have been read still shows, as a caption with no voice,
+  // for as long as it would take to say. So what is pretend, and how to play, is always on the page.
+  let quiet = null, quietTimer = 0;
+  function show(words) {
+    hush(); if (!words || !wantCaptions()) return;
+    const secs = words.split(' ').length / 2.6 + 1.5;
+    captioned = words; quiet = { text: words, t0: performance.now() };
+    subTimer = setInterval(subtitle, 100); subtitle();
+    quietTimer = setTimeout(() => { if (quiet?.text === words) { quiet = null; hideCaption(); } }, secs * 1000);
+  }
+  // what a child is told: read aloud with its caption, or shown as a caption alone
+  function tell(words) { if (!active || !words) return; if (settings.show.voice) { read(null); say(words); } else show(words); }
   // Captions on or off: the round button in the corner, remembered between visits (on at first)
   const wantCaptions = () => store.get('sm-captions') !== '0';
   const syncCaptions = () => $('story-captions').setAttribute('aria-checked', String(wantCaptions()));
@@ -64,7 +76,7 @@ export function createStoryView({ engine, env, settings, go }) {
     const ico = el.querySelector('.ico'), want = on ? 'stop' : 'listen'; if (ico && !ico.classList.contains(`ico-${want}`)) ico.replaceWith(iconNode(want)); } }
   // a note for a play mode is read once, when it comes up, and only with "Read aloud on tap" on
   let noted = '';
-  function sayNote(textNow) { if (textNow && textNow !== noted && settings.show.voice && active) { read(null); say(textNow); } noted = textNow; }
+  function sayNote(textNow) { if (textNow && textNow !== noted) tell(textNow); noted = textNow; }
 
   function showBeat(id) {
     if (!S) return;
@@ -92,7 +104,7 @@ export function createStoryView({ engine, env, settings, go }) {
     $('storyhead-kicker').textContent = `Story · ${L.habitat.name}`;
     // the parts of the story, as big buttons on the stage
     // a part's button: the school swims into its new shape with a swish, and with Read aloud on its line is read
-    $('storyacts').replaceChildren(...S.beats.map(b => h('button', { class: 'act', 'data-beat': b.id, 'aria-pressed': 'false', onclick: () => { const moved = b.id !== beat; runner?.beat(b.id); showBeat(b.id); if (moved) cue('story-dart'); if (settings.show.voice) read('story-listen'); } }, ...withIcon(b))));
+    $('storyacts').replaceChildren(...S.beats.map(b => h('button', { class: 'act', 'data-beat': b.id, 'aria-pressed': 'false', onclick: () => { const moved = b.id !== beat; runner?.beat(b.id); showBeat(b.id); if (moved) cue('story-dart'); if (settings.show.voice) read('story-listen'); else show(beatLine(b, settings.level)); } }, ...withIcon(b))));
     syncVoice();
     showBeat(beat || S.beats[0].id);
     renderPlay();
@@ -119,7 +131,7 @@ export function createStoryView({ engine, env, settings, go }) {
   // picked is read once, with its caption; where it says what the animals do then, scene.json names its source.
   function timeNote(words) {
     if (!words) { if (captioned && S?.times?.options.some(o => text(o) === captioned)) hush(); return; }
-    if (settings.show.voice && active) { read(null); say(words); }
+    tell(words);
   }
   function renderPlay() {
     const sc = sceneNow(), P = S?.play || {};

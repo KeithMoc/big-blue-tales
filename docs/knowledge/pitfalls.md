@@ -4,6 +4,7 @@ Newest first. Each one is a rule of thumb now. Add to this page in the same chan
 
 | Date | What was seen | Cause | Rule of thumb | A check catches it? |
 | --- | --- | --- | --- | --- |
+| 2026-11-26 | A child tapping a part heard and saw nothing; pretend colours and how to play were labelled nowhere | Read aloud was off by default, and since the word panel went, the notes were only spoken | Read aloud starts on (old saved settings too); with it off and Captions on, every line still shows as a caption for as long as it would take to say | audit walk, not a gate |
 | 2026-11-26 | On a phone the Play choices were cut off at the edge ("Colours" lost its C) | Rows scrolled sideways with the scroll bar hidden, so a cut-off word looked like the end of the row; Just the fish's tray did the same | Rows wrap, never scroll sideways; on a phone the choices show pictures only | `tools/fit.cjs` (8 phone sizes) |
 | 2026-11-26 | The sea sound came back, without the buzz | A steady bed hums and hisses by nature (row below) | No bed: one soft swell or a few bubbles every 7 to 14 s, never while a line is read; cut below 110 Hz and above 2.8 kHz, and measure the bands with ffmpeg before it ships. Still needs a person's ear on a phone | no |
 | 2026-11-25 | A sea lion as a guest put the huge school over budget on every tier | A guest's triangles were not in anyone's table | Count the worst moment (biggest group and the guest); let far scenery give way while the guest is there | `tools/smoke.cjs` (guest pass) |

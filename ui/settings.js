@@ -9,7 +9,8 @@ import { canPlay } from './audio.js';
 // [key, label, section]: "all" is for both Learn and Play; "learn" only matters in Learn.
 const PARTS = [['sfx', 'Sounds when you tap', 'all'], ['voice', 'Read each part aloud when it is tapped', 'learn']];
 // panel, actions, words and snow are not switches any more (always on); they stay as classes the page can read
-const EVERYTHING = { sfx: true, voice: false, panel: true, actions: true, words: true, snow: true };
+// Read aloud is on at first: ages 5 to 7 hear each part as it is tapped (audit, 2026-11-26)
+const EVERYTHING = { sfx: true, voice: true, panel: true, actions: true, words: true, snow: true };
 const JUST_FISH = { ...EVERYTHING, panel: false, voice: true };
 
 export function createSettings() {
@@ -21,7 +22,8 @@ export function createSettings() {
     const m = JSON.parse(store.get('sm-show') || 'null');
     // full screen never survives a reload: come back to the switches it had put aside
     // only the two switches are kept from an earlier visit; anything else saved then is set aside
-    if (m) { const was = (m.explore && m.saved ? m.saved : m.show) || {}; show = { ...EVERYTHING, sfx: was.sfx ?? true, voice: !!was.voice }; }
+    // a visit from before v2 kept Read aloud off by default, not by choice: it starts on again
+    if (m) { const was = (m.explore && m.saved ? m.saved : m.show) || {}; show = { ...EVERYTHING, sfx: was.sfx ?? true, voice: m.v === 2 ? !!was.voice : true }; }
   } catch { /* start from the defaults */ }
 
   function applyLevel() { document.body.classList.add('young'); }
@@ -32,7 +34,7 @@ export function createSettings() {
     for (const b of document.querySelectorAll('[data-show]')) b.setAttribute('aria-checked', !!show[b.dataset.show]);
     if (voiceWas && !show.voice) stopSpeaking();   // only when read-aloud itself is switched off
     voiceWas = !!show.voice;
-    store.set('sm-show', JSON.stringify({ show, explore, saved }));
+    store.set('sm-show', JSON.stringify({ v: 2, show, explore, saved }));
     emit();
   }
   for (const [k, label, group] of PARTS) {

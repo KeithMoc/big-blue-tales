@@ -14,8 +14,8 @@ desktop Chromium only (see "Not checked").
 **A school of anchovies.** Hundreds of little silver fish swim together, turn in a ring, and squeeze into a ball.
 Then a California sea lion swims by and loops up through them!
 
-- **Learn**: tap the parts of the story and watch the school swim into each shape. Turn on the speaker to hear what
-  the fish are doing; the words show on the picture while they are read.
+- **Learn**: tap the parts of the story and watch the school swim into each shape. Each part is read aloud as it is tapped,
+  and the words show on the picture while they are read.
 - **Play**: pick a school, a big school or a huge school, rainbow fish and a line of light. Tap the water to make the
   fish dart. Drag to draw a line for them to follow, in the trail you picked, or tap **Move the view** to look around. Draw up to the top of the
   sea and they jump out with a splash! (That part is pretend, and the story says so.)
