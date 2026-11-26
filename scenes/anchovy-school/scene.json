@@ -143,7 +143,9 @@
       "sources": [
         "loop",
         "loop-success",
-        "fountain"
+        "fountain",
+        "lion-stroke",
+        "lion-speed"
       ]
     }
   ],
@@ -256,6 +258,16 @@
       "name": "Marine Ecology Progress Series, 2009 (Kaltenberg and Benoit-Bird): Diel behavior of sardine and anchovy schools in the California Current System",
       "url": "https://www.int-res.com/journals/meps/articles/meps08252",
       "quote": "Discrete schools containing primarily sardines in Monterey Bay, California, were observed during both daytime and nighttime in addition to layers and loose aggregations at nighttime"
+    },
+    "lion-stroke": {
+      "name": "Biomimetics, 2025 (PMC): Propulsive Force Characterization of a Bio-Robotic Sea Lion Foreflipper",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12730486",
+      "quote": "A complete stroke cycle lasts approximately one second, with the power and paddle phases comprising about 60% of the cycle and the recovery phase the remaining 40%. During the recovery phase, the flipper moves upward and outward (abduction) to a laterally extended position, minimizing drag while preparing for propulsion. The power phase follows, characterized by a strong downward and rearward motion (adduction and retraction) that generates thrust. The cycle concludes with the paddle phase, where the flipper moves ventrally toward the body while maintaining lift before returning to the streamlined position alongside the flank"
+    },
+    "lion-speed": {
+      "name": "Alliance of Marine Mammal Parks and Aquariums: California Sea Lion fact sheet (citing Feldkamp 1987)",
+      "url": "https://ammpa.org/sites/default/files/files/animalfactsheets/AMMPA-SealionFactsheet-english-web.pdf",
+      "quote": "Reported swimming speed for California Sea Lions was observed at 2.7 to 3.5 m/s (about 6 - 8mph). (Feldkamp, 1987). [...] Sea lions use their rear flippers for steering and maneuverability when swimming."
     }
   },
   "budget": {

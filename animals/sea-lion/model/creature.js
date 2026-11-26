@@ -259,20 +259,33 @@ export function create(ctx = {}) {
     }
     if (alive || bubbles.visible) { bGeo.attributes.position.needsUpdate = true; bubbles.visible = alive; }
 
-    // front flippers: slow, gliding strokes at rest; quick, strong strokes before each leap; folded back in the air
-    const calm = ctx.calm ? 0.5 : 1;
-    stroke += dt * (1.3 + 5.2 * fast * (1 - air));
+    // front flippers: slow, gliding strokes at rest; quick, strong strokes before each leap; folded back in the air.
+    // st.swim (0..1, from a story): it is swimming on, not resting. A sea lion's stroke cycle lasts about one second:
+    // the flipper goes up and out (recovery, about 40% of it), then strongly down and back (power), then in toward the
+    // body (paddle) and back along the flank (Nature/PMC 2025, PMC12730486; scene.json "lion-stroke"). The hind
+    // flippers only steer, so they trail (dossier beh-swim-front): no tail beat. st.clap (0..1): the quick, clap-like
+    // stroke of both front flippers under a school, at the start of the loop (scene.json "loop").
+    const calm = ctx.calm ? 0.5 : 1, go = clamp01(st.swim ?? 0) * (1 - air), clap = clamp01(st.clap ?? 0);
+    const rate = (1.3 + 5.2 * fast * (1 - air)) * (1 - go) + TAU * (1 + 0.8 * clap) * go;
+    stroke += dt * rate;
     const beat = Math.sin(stroke), amp = (0.22 + 0.25 * fast) * calm * (1 - air);
+    const u = (stroke / TAU) % 1, rec = smooth(0, 0.4, u), pow = smooth(0.4, 0.75, u), pad = smooth(0.75, 1, u);
+    const flap = -0.55 + 1.25 * rec - 1.25 * pow           // down at the start, up at the end of recovery, down again by the end of power
+    const back = Math.sin(Math.PI * Math.min(1, Math.max(0, (u - 0.4) / 0.6)));   // swept back through power and paddle
+    const tuck = smooth(0.7, 1, u) * (1 - smooth(0, 0.15, u));                // in along the flank at the end of the stroke
+    const A = (0.75 + 0.2 * clap) * calm;
     for (const { pivot, s } of flippers) {
-      pivot.rotation.set(s * (0.15 + amp * beat), 0, -0.1 - 0.12 * amp * Math.cos(stroke) - 0.55 * air, 'XYZ');
+      const rx = 0.15 + amp * beat, rz = -0.1 - 0.12 * amp * Math.cos(stroke) - 0.55 * air;
+      const sx = 0.1 + A * flap - 0.25 * tuck, sz = -0.15 - 0.5 * back * A - 0.2 * tuck;
+      pivot.rotation.set(s * (rx + (sx - rx) * go), 0, rz + (sz - rz) * go, 'XYZ');
     }
-    wave.phase += dt * (1.3 + 5.2 * fast * (1 - air));
+    wave.phase += dt * rate * (1 - 0.6 * go);
     wave.amp = 0.05 * (1 + 0.6 * fast) * (1 - 0.7 * air);
     bender.apply();
     const idle = 1 - smooth(0, 0.5, fast);
     pose.position.set(0, lift, 0);
     pose.rotation.set(0, 0, pitch);
-    swim.position.set(0, (0.03 * calm * Math.sin(stroke + 1.2) + 0.025 * Math.sin(t * 0.31)) * idle, 0);
+    swim.position.set(0.03 * go * Math.sin(Math.PI * Math.min(1, Math.max(0, (u - 0.4) / 0.6))), (0.03 * calm * Math.sin(stroke + 1.2) * (1 - go) + 0.025 * Math.sin(t * 0.31)) * idle, 0);
     swim.rotation.set(0.02 * Math.sin(t * 0.27) * idle, 0, 0.015 * calm * Math.sin(stroke - 0.4) * (1 - air));
   }
   update(0, 0);

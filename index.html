@@ -51,21 +51,15 @@ h1, h2, p { margin: 0; }
 .set h3 { margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--glow); }
 
 .switches { display: grid; grid-template-columns: 1fr 1fr; column-gap: 20px; }
-.sw { display: flex; align-items: center; justify-content: space-between; gap: 12px; width: 100%; min-height: 40px; padding: 0; border: 0; border-top: 1px solid var(--line); background: none; text-align: left; font-size: 15px; line-height: 1.2; }
+.sw { display: flex; align-items: center; justify-content: space-between; gap: 12px; width: 100%; min-height: 52px; padding: 0; border: 0; border-top: 1px solid var(--line); background: none; text-align: left; font-size: 16px; line-height: 1.2; }
 .sw:first-child, .sw:nth-child(2) { border-top: 0; }
 .sw i { flex: 0 0 auto; width: 46px; height: 26px; border-radius: 13px; background: #23333f; position: relative; transition: background 0.2s; }
 .sw i::after { content: ''; position: absolute; left: 3px; top: 3px; width: 20px; height: 20px; border-radius: 50%; background: var(--mute); transition: translate 0.2s, background 0.2s; }
 .sw[aria-checked="true"] i { background: var(--lamp); }
 .sw[aria-checked="true"] i::after { translate: 20px 0; background: #1a1204; }
-.presets { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-.presets button { min-height: 44px; border-radius: 999px; border: 1px solid var(--line); background: none; font-weight: 700; font-size: 15px; }
-.presets button:hover { border-color: var(--lamp); color: var(--lamp); }
 
 .hide-panel .panel { display: none; }
 .hide-panel .app { grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(0, 1fr) auto; }
-.hide-words .tool span { display: none; }
-.hide-words .act { width: 60px; height: 60px; padding: 0; justify-content: center; }
-.hide-words .tool { padding: 0; }
 
 .nogl { position: absolute; inset: 0; display: grid; place-items: center; padding: 24px; text-align: center; color: var(--mute); }
 
@@ -77,10 +71,6 @@ h1, h2, p { margin: 0; }
 .card p.fact { max-width: 34em; }
 .young .card p.fact { font-size: 23px; line-height: 1.45; }
 
-.parts { display: flex; flex-wrap: wrap; gap: 8px; }
-.parts button { min-height: 44px; padding: 6px 16px; border-radius: 999px; border: 1px solid var(--line); background: none; color: var(--ink); font-size: 15px; font-weight: 700; }
-.parts button:hover { border-color: var(--lamp); }
-.parts button[aria-pressed="true"] { border-color: var(--lamp); color: var(--lamp); }
 .sources { margin-top: auto; font-size: 14px; color: var(--mute); border-top: 1px solid var(--line); padding-top: 14px; }
 .sources summary { cursor: pointer; font-weight: 700; }
 .sources ul { margin: 10px 0 0; padding-left: 18px; display: grid; gap: 6px; }
@@ -93,14 +83,12 @@ h1, h2, p { margin: 0; }
   .act { padding: 8px 14px; font-size: 15px; }
 
   .tools { right: 12px; top: 12px; }
-  .tool { padding: 0; }
-  .tool span { display: none; }
+  .tool { padding: 0 14px; font-size: 14px; }
   .showcard { right: 12px; top: 68px; width: min(420px, calc(100% - 24px)); max-height: calc(100% - 80px); padding: 12px 14px 14px; gap: 10px; }
   .showcard h2 { font-size: 18px; }
   .switches { column-gap: 16px; }
   .sw { font-size: 14px; line-height: 1.2; gap: 8px; }
   .act .ic { display: none; }
-  .hide-words .act .ic { display: block; }
 }
 
 @media (max-width: 860px) {
@@ -124,8 +112,6 @@ h1, h2, p { margin: 0; }
   * { transition: none !important; }
 }
 
-.perf { position: absolute; right: 16px; bottom: 84px; z-index: 2; margin: 0; padding: 8px 12px; border-radius: 10px; background: rgba(3, 7, 12, 0.82); border: 1px solid var(--line); font: 12px/1.5 ui-monospace, SFMono-Regular, Menlo, monospace; color: var(--glow); white-space: pre; pointer-events: none; font-variant-numeric: tabular-nums; }
-.hide-perf .perf{ display: none; }
 
 /* ---------- the GPU context was lost: one calm line over the stage ---------- */
 .paused { position: absolute; inset: 0; z-index: 4; display: grid; place-content: center; justify-items: center; gap: 14px; padding: 24px; text-align: center; background: rgba(3, 7, 12, 0.72); font-family: var(--display); font-size: 24px; color: var(--glow); }
@@ -133,7 +119,7 @@ h1, h2, p { margin: 0; }
 .paused button { min-height: 52px; padding: 0 26px; border-radius: 999px; border: 0; background: var(--lamp); color: #1a1204; font: inherit; font-weight: 700; }
 
 .seg { display: inline-flex; border: 1px solid var(--line); border-radius: 999px; padding: 4px; gap: 4px; background: rgba(3, 7, 12, 0.72); }
-.seg button { min-height: 40px; padding: 0 14px; border: 0; border-radius: 999px; background: none; color: var(--mute); font-weight: 700; font-size: 15px; white-space: nowrap; }
+.seg button { min-height: 44px; padding: 0 14px; border: 0; border-radius: 999px; background: none; color: var(--mute); font-weight: 700; font-size: 15px; white-space: nowrap; }
 .seg button[aria-checked="true"] { background: var(--lamp); color: #1a1204; }
 
 .pill { display: inline-flex; align-items: center; gap: 10px; min-height: 48px; padding: 0 16px; border-radius: 999px; border: 1px solid var(--line); background: rgba(3, 7, 12, 0.72); color: var(--ink); font-weight: 700; font-size: 15px; }
@@ -147,7 +133,6 @@ h1, h2, p { margin: 0; }
 @container stage (max-width: 760px) {
   .seg button { padding: 0 11px; font-size: 14px; }
 
-  .perf { right: 12px; bottom: 72px; font-size: 11px; }
 }
 @container stage (max-height: 440px) {
   .seg button { padding: 0 9px; font-size: 13px; }
@@ -163,7 +148,6 @@ h1, h2, p { margin: 0; }
 .storyacts, .storyplay { display: flex; gap: 8px; align-items: center; overflow-x: auto; scrollbar-width: none; padding: 2px; }
 .storyacts .act { flex: 0 0 auto; min-height: 44px; padding: 8px 16px; font-size: 15px; white-space: nowrap; }
 /* With "Words on buttons" off, the story's parts keep their words: they have no picture to show instead. */
-.hide-words .storyacts .act { width: auto; height: auto; padding: 8px 16px; justify-content: flex-start; }
 .storyplay > * { flex: 0 0 auto; }
 /* Just the fish: Play with nothing else on the screen. The water fills the window; one button leads back. */
 .just-play .tools, .just-play .storyhead, .just-play .storyfoot, .just-play .storypanel, .just-play #storytags { display: none !important; }
@@ -172,13 +156,13 @@ h1, h2, p { margin: 0; }
    way back. Wide screens open it to the left in a row; narrow ones open it upwards, and start with only the button. */
 .justmenu { position: absolute; right: 16px; bottom: 16px; display: flex; align-items: flex-end; gap: 8px; max-width: calc(100% - 32px); pointer-events: none; }
 .justmenu > * { pointer-events: auto; }
-.justbtn { flex: 0 0 auto; width: 48px; height: 48px; min-height: 48px; padding: 0; border-radius: 50%; justify-content: center; opacity: 0.85; }
+.justbtn { flex: 0 0 auto; min-height: 48px; padding: 0 18px; justify-content: center; opacity: 0.9; }
 .justbtn[aria-expanded="true"] { opacity: 1; background: var(--lamp); color: #1a1204; }
 .justtray { display: flex; flex-wrap: wrap; justify-content: flex-end; align-items: center; gap: 6px; padding: 6px; border-radius: 18px; border: 1px solid var(--line); background: rgba(3, 7, 12, 0.82); }
 .justtray[hidden] { display: none; }
 .justtray .seg { padding: 3px; gap: 2px; align-items: center; }
 .justtray .seg::before { content: attr(aria-label); padding: 0 4px 0 8px; font-size: 12px; font-weight: 700; color: var(--mute); white-space: nowrap; }
-.justtray .seg button { min-height: 34px; padding: 0 10px; font-size: 13px; }
+.justtray .seg button { min-height: 44px; padding: 0 10px; font-size: 13px; }
 .justtray .pill { min-height: 40px; padding: 0 14px; font-size: 14px; }
 @container stage (max-width: 640px) {
   .justmenu { flex-direction: column; right: 12px; bottom: 12px; max-width: calc(100% - 24px); }
@@ -193,9 +177,9 @@ h1, h2, p { margin: 0; }
 .storywhy { pointer-events: auto; display: grid; gap: 6px; justify-items: start; padding: 12px 14px; }
 .storywhy .row { display: flex; gap: 8px; } .listen[aria-pressed="true"] { background: #bfe6f5; color: #04121c; } .storypanel .listen { margin-top: 10px; min-height: 40px; }
 .storywhy b { font-size: 16px; } .storywhy .because { color: #bfe6f5; } .storywhy .pill { min-height: 36px; padding: 0 14px; font-size: 14px; }
-.storyacts .why { flex: 0 0 auto; width: 44px; height: 44px; min-height: 44px; padding: 0; border-radius: 50%; font-size: 20px; font-weight: 700; justify-content: center; }
+.storyacts .why { flex: 0 0 auto; min-height: 44px; padding: 0 16px; font-size: 16px; font-weight: 700; justify-content: center; border-color: var(--glow); color: var(--glow); }
 .hide-actions .storyfoot { display: none; }
-@container stage (max-width: 640px) { .story { padding: 12px 12px; } .storyacts .act { padding: 6px 12px; font-size: 14px; } .storyplay .seg button { padding: 0 10px; font-size: 13px; min-height: 36px; } .storyplay .pill { padding: 0 12px; font-size: 14px; } .storynote { font-size: 14px; } }
+@container stage (max-width: 640px) { .story { padding: 12px 12px; } .storyacts .act { padding: 6px 12px; font-size: 14px; } .storyplay .seg button { padding: 0 10px; font-size: 14px; min-height: 44px; } .storyplay .pill { padding: 0 12px; font-size: 14px; } .storynote { font-size: 14px; } }
 .storyhead { pointer-events: none; padding-right: 250px; text-shadow: 0 1px 10px rgba(2, 10, 20, 0.85), 0 0 3px rgba(2, 10, 20, 0.7); }
 .storyhead h1 { font-family: var(--display); font-weight: 700; font-size: clamp(26px, 6cqw, 40px); line-height: 1.05; text-wrap: balance; }
 #storytags { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
@@ -230,23 +214,10 @@ h1, h2, p { margin: 0; }
     <div class="showcard" id="showcard" role="group" aria-label="Settings" hidden>
       <h2>Settings</h2>
       <section class="set">
-        <h3>Voice and sounds</h3>
-        <div class="switches" id="set-sound"></div>
-      </section>
-      <section class="set">
-        <h3>On the screen</h3>
-        <div class="switches" id="set-screen"></div>
-        <div class="presets">
-          <button id="preset-fish">Just the fish</button>
-          <button id="preset-all">Everything</button>
-        </div>
-      </section>
-      <section class="set">
         <h3>For grown-ups</h3>
         <div class="switches" id="set-grown"></div>
       </section>
     </div>
-    <pre class="perf" id="perf" aria-hidden="true"></pre>
     <div class="paused" id="paused" role="status" hidden><p>One moment…</p><button id="btn-again" hidden>Tap to try again</button></div>
     <div class="story" id="story">
       <div id="storytags"></div>
@@ -255,14 +226,14 @@ h1, h2, p { margin: 0; }
         <p class="storynote" id="storynote" role="status" hidden></p>
         <p class="storynote" id="storytime" role="status" hidden></p>
         <div class="storynote storywhy" id="storywhy" role="status" hidden></div>
-        <div class="storyacts" id="storyacts" role="group" aria-label="Parts of the story"><button class="pill why" id="story-why" aria-label="What are the fish doing, and why?" aria-expanded="false" aria-controls="storywhy">?</button></div>
-        <div class="storyplay" id="storyday"><div class="seg" id="storytimes" role="radiogroup" hidden></div></div>
+        <div class="storyacts" id="storyacts" role="group" aria-label="Parts of the story"><button class="pill why" id="story-why" title="What are the fish doing, and why?" aria-expanded="false" aria-controls="storywhy">Why?</button></div>
         <div class="storyplay" id="storyplay">
-          <button class="pill" id="story-home">Back to start</button>
-          <div class="seg" id="storysizes" role="radiogroup" hidden></div>
+          <button class="pill listen" id="story-listen" aria-pressed="false" hidden>Listen</button>
           <button class="pill" id="story-play" role="switch" aria-checked="false" hidden><span>Play</span><i></i></button>
           <button class="pill" id="story-music" role="switch" aria-checked="false" hidden><span>Music</span><i></i></button>
+          <button class="pill" id="story-home">Find the fish</button>
         </div>
+        <div class="storyplay" id="storyday"><div class="seg" id="storytimes" role="radiogroup" hidden></div><div class="seg" id="storysizes" role="radiogroup" hidden></div></div>
         <div class="storyplay" id="storytoys" hidden>
           <div class="seg" id="storycolours" role="radiogroup" hidden></div>
           <div class="seg" id="storytrails" role="radiogroup" hidden></div>
@@ -274,7 +245,7 @@ h1, h2, p { margin: 0; }
         <div class="justtray" id="justtray" role="group" aria-label="Play choices" hidden>
           <button class="pill" id="story-exit">Back to the story</button>
         </div>
-        <button class="pill justbtn" id="story-more" aria-expanded="false" aria-controls="justtray" aria-label="Play choices"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h10M18 7h2M4 17h4M12 17h8"/><circle cx="16" cy="7" r="2"/><circle cx="10" cy="17" r="2"/></svg></button>
+        <button class="pill justbtn" id="story-more" aria-expanded="false" aria-controls="justtray">More</button>
       </div>
     </div>
   </main>
@@ -284,12 +255,10 @@ h1, h2, p { margin: 0; }
       <p class="kicker" id="storykicker"></p>
       <h2 id="storytitle"></h2>
       <p class="fact" id="storyfact" aria-live="polite"></p>
-      <button class="pill listen" id="story-listen" aria-pressed="false" hidden>Listen</button>
     </div>
-    <nav class="parts" id="storybeats" aria-label="Parts of the story"></nav>
     <div id="storylinks-out" style="display:grid;gap:18px"></div>
     <details class="sources">
-      <summary>Where the story comes from</summary>
+      <summary>For grown-ups: where the story comes from</summary>
       <ul id="storysources"></ul>
       <h4>What the picture leaves out</h4>
       <ul id="storyleft"></ul>

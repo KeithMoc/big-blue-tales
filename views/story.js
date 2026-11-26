@@ -43,7 +43,7 @@ export function createStoryView({ engine, env, settings, go }) {
     beat = id;
     $('storyfact').textContent = beatLine(b, settings.level);
     if (!$('storywhy').hidden) why(true);   // an open card follows the story; a closed one stays closed
-    for (const el of [...$('storybeats').children, ...$('storyacts').children]) if (el.dataset.beat) el.setAttribute('aria-pressed', String(el.dataset.beat === id));
+    for (const el of $('storyacts').children) if (el.dataset.beat) el.setAttribute('aria-pressed', String(el.dataset.beat === id));
   }
   // The ? on the picture: what the school is doing now and why, shown only when it is pressed.
   function why(on) {
@@ -64,8 +64,7 @@ export function createStoryView({ engine, env, settings, go }) {
     $('storykicker').textContent = `Story · ${L.habitat.name}`;
     $('storytitle').textContent = S.title; $('storyhead-title').textContent = S.title;
     $('storyhead-kicker').textContent = `Story · ${L.habitat.name}`;
-    $('storybeats').replaceChildren(...S.beats.map(b => h('button', { 'data-beat': b.id, 'aria-pressed': 'false', text: b.label, onclick: () => { why(false); runner?.beat(b.id); showBeat(b.id); } })));
-    // the same parts as buttons on the stage, so they are there with the panel hidden and on a phone
+    // the parts of the story, as big buttons on the stage (the one place they are: the panel tells, the buttons choose)
     $('storyacts').replaceChildren($('story-why'), ...S.beats.map(b => h('button', { class: 'act', 'data-beat': b.id, 'aria-pressed': 'false', text: b.label, onclick: () => { why(false); runner?.beat(b.id); showBeat(b.id); } })));
     showBeat(beat || S.beats[0].id);
     renderPlay();

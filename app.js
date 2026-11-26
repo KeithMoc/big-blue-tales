@@ -42,13 +42,5 @@ if (engine) {
   again.addEventListener('click', () => location.reload());
 }
 
-// Speed numbers (Settings > Speed numbers)
-const perf = $('perf');
-setInterval(() => {
-  if (!engine || !settings.show.perf) return;
-  const s = engine.stats();
-  perf.textContent = `${s.fps} fps   quality ${5 - s.step}/5\n${s.triangles.toLocaleString('en')} triangles\n${s.calls} draw calls\n${s.geometries} shapes, ${s.textures} textures in memory`;
-}, 500);
-
 // handles for checking the page from a test script (tools/smoke.cjs)
 window.__sea = { engine, env, settings, device, storyView };

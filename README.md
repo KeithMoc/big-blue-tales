@@ -14,7 +14,8 @@ desktop Chromium only (see "Not checked").
 **A school of anchovies.** Hundreds of little silver fish swim together, turn in a ring, and squeeze into a ball.
 Then a California sea lion swims by and loops up through them!
 
-- Tap the parts of the story, or the **?** to hear why the fish do what they do.
+- Tap the parts of the story, or **Why?** to hear why the fish do what they do. **Listen** reads the story aloud.
+- Lost the fish? **Find the fish** brings them back to the middle.
 - Watch at sunrise, in the day, at sunset or at night.
 - Pick a school, a big school or a huge school.
 - Switch on **Play** for rainbow fish and a line of light. Tap the water to make the fish dart, or draw a line and
@@ -27,6 +28,10 @@ Then a California sea lion swims by and loops up through them!
 Every line a child reads or hears is tied to a quoted source, and anything pretend is labelled on the page and
 listed under "What the picture leaves out". The words are written in a gentle tone for ages 5 to 7. Non-commercial
 and educational. Licences are in `NOTICE.md`.
+
+Every button has a word on it, and the buttons a child uses sit together under the picture: the parts of the story
+first, then Listen, Play, Music and Find the fish, then the time of day and the size of the school. Settings holds
+only two switches for a grown-up: sounds when you tap, and reading each part aloud when it is tapped.
 
 ## For contributors
 
