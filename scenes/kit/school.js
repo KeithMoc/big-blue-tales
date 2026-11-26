@@ -107,11 +107,12 @@ export function fishMaterial(THREE, { caustics = true, sun = [0.24, 0.93, 0.28],
       .replace('#include <color_fragment>', `#include <color_fragment>
         {
           float up = clamp(vBody.y / 0.08, -1.3, 1.3);                       // -1 belly .. 1 back
-          float back = smoothstep(0.3, 0.72, up);
-          float stripe = (1.0 - smoothstep(0.05, 0.2, abs(up - 0.14))) * (1.0 - back) * smoothstep(-0.42, -0.2, vBody.z);
+          // NOAA: "bluish-green above and silvery below, and adults have a faint silver stripe on the side"
+          float back = smoothstep(0.18, 0.6, up);
+          float stripe = (1.0 - smoothstep(0.04, 0.14, abs(up - 0.08))) * (1.0 - back) * smoothstep(-0.42, -0.2, vBody.z);
           vec3 paint = mix(vec3(0.93, 0.96, 0.97), vec3(0.70, 0.80, 0.86), smoothstep(-0.95, -0.15, up));
-          paint = mix(paint, vec3(0.045, 0.21, 0.25), back);
-          paint = mix(paint, vec3(0.97, 0.99, 1.0), stripe * 0.5);
+          paint = mix(paint, vec3(0.05, 0.25, 0.22), back);
+          paint = mix(paint, vec3(1.0), stripe * 0.8);
           float fin = step(vBody.z, -0.37) + step(0.09, vBody.y) + step(vBody.y, -0.084);   // tail, back fin and belly fins: thin and dusky
           paint = mix(paint, vec3(0.42, 0.58, 0.64), min(1.0, fin));
           float eye = length(vec2(vBody.z - 0.385, vBody.y - 0.012));

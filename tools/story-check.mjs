@@ -74,6 +74,11 @@ for (const id of index.scenes) {
       words(o, `${id}/time ${o.id}`); listed(S, o.sources, `${id}/time ${o.id}`);
     }
   }
+  // the entry's introduction: words for ages 5 to 7, from listed sources
+  if (S.entry?.intro) {
+    if (!S.entry.intro.sources?.length) problems.push(`${id}: the entry's intro needs a source`);
+    words(S.entry.intro, `${id}/intro`); listed(S, S.entry.intro.sources, `${id}/intro`);
+  }
   for (const [k, v] of Object.entries(S.labels || {})) if (typeof v !== 'string' || !v) problems.push(`${id}: label "${k}" has no words`);
   if (S.play) {
     for (const k of ['sizes', 'colours', 'trails']) if (S.play[k] && !(S.play[k].label && S.play[k].options?.every(o => o.id && o.label))) problems.push(`${id}: play.${k} needs a label and options with id and label`);

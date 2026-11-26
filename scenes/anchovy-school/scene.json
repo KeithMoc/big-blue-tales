@@ -3,6 +3,19 @@
   "id": "anchovy-school",
   "title": "A school of anchovies",
   "kicker": "Sunlit sea",
+  "entry": {
+    "about": "The entry: the name in the sky, a Start button, how many seconds the camera takes to glide down to the school, and the short introduction read when it arrives (every word from its sources).",
+    "kicker": "A Big Blue Tale",
+    "title": "A school of anchovies",
+    "start": "Start",
+    "glide": 7,
+    "intro": {
+      "young": "Meet the anchovy! It is a small fish, no longer than a ruler. It is blue-green on top and silver underneath, with a thin silver stripe on its side. Anchovies eat plankton. Plankton are tiny plants and animals that float in the sea. Anchovies live near the top of the sea, in big groups called schools. Lots of animals eat anchovies: bigger fish, sea birds and sea lions.",
+      "sources": [
+        "noaa-anchovy"
+      ]
+    }
+  },
   "cast": [
     {
       "name": "Northern anchovy",
@@ -215,7 +228,7 @@
     "noaa-anchovy": {
       "name": "NOAA Fisheries: Northern Anchovy",
       "url": "https://www.fisheries.noaa.gov/species/northern-anchovy",
-      "quote": "Anchovies form large, dense schools near the ocean surface. [...] They are bluish-green above and silvery below, and adults have a faint silver stripe on the side."
+      "quote": "Northern anchovies are small, compressed fish with long snouts that overhang a large mouth. [...] They are bluish-green above and silvery below, and adults have a faint silver stripe on the side. [...] Northern anchovies grow quickly, up to about 7 inches. [...] Northern anchovies feed on plankton (tiny floating plants and animals). [...] They are an important part of the food chain for other fish species, including many recreationally and commercially important fish, as well as birds and marine mammals. [...] Anchovies form large, dense schools near the ocean surface."
     },
     "adw-anchovy": {
       "name": "Animal Diversity Web, University of Michigan: Engraulis mordax (northern anchovy)",

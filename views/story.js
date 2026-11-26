@@ -10,6 +10,7 @@ import { OPTIONS } from '../sounds/index.js';
 import { canSpeak, speak, stopSpeaking, setStoryNarration, warmNarration } from '../ui/speech.js';
 import { beatLine } from '../ui/story-lines.js';
 import { label } from '../ui/words.js';
+import { audio } from '../ui/audio.js';
 
 export function createStoryView({ engine, env, settings, go }) {
   const tags = $('storytags'), spot = new THREE.Vector3();
@@ -195,6 +196,47 @@ export function createStoryView({ engine, env, settings, go }) {
     for (const el of tags.children) if (!list.some(l => l.id === el.dataset.tag)) el.hidden = true;
   }
 
+  // The entry, once a visit (scene.json "entry": kicker, title, start, glide seconds): "Diving in" while the story
+  // loads, then its name in the sky of its opening time of day with a big Start. Start is the tap that lets the
+  // browser play sound. The name lifts away and the camera glides down through the surface to the school; then the
+  // buttons come in. A tap on the picture or Skip ends the glide; with motion reduced it cuts straight in.
+  let entered = false, entryTimer = 0;
+  function endEntry(arrived = false) {
+    clearTimeout(entryTimer); const was = entered; entered = true;
+    // the introduction (scene.json entry.intro, recorded): read once, as the camera reaches the school
+    const intro = arrived && !was ? text(S?.entry?.intro || {}) : '';
+    if (intro) { const n = $('storytime'); n.textContent = intro; n.hidden = false; read(null); speak(intro, () => { if (n.textContent === intro) n.hidden = true; }); }
+    $('entry').hidden = true; $('entryskip').hidden = true;
+    runner?.hold(false); $('app').classList.remove('entering');
+  }
+  function entry() {
+    const E = S.entry || {}, sc = runner?.current?.scene;
+    if (entered || !sc?.follow) { endEntry(); return; }
+    $('entrykicker').textContent = E.kicker || 'A Big Blue Tale';
+    $('entryname').textContent = E.title || S.title;
+    $('entrygo-label').textContent = E.start || 'Start';
+    $('entryload').hidden = true; $('entrytitle').hidden = false; $('entrytitle').classList.remove('going');
+    // just over the sea, looking up into the sky
+    const at = sc.follow().clone(), up = (sc.surface ?? at.y) - at.y;
+    runner.hold(true);
+    engine.flyTo({ pos: at.clone().add(new THREE.Vector3(0, up + 1.6, 14)), target: at.clone().add(new THREE.Vector3(0, up + 4, 0)) }, 0);
+  }
+  function skipEntry() { if (entered) return; runner?.home(0); endEntry(true); }
+  $('entrygo').addEventListener('click', () => {
+    try { audio(); } catch { /* no sound on this device: the story works without it */ }
+    const glide = calm ? 0 : (S?.entry?.glide ?? 7);
+    $('entrytitle').classList.add('going');
+    setTimeout(() => {
+      $('entrytitle').hidden = true;
+      if (!glide || !runner?.current) { skipEntry(); return; }
+      engine.flyTo(runner.homeView(), glide);
+      $('entryskip').hidden = false;
+      entryTimer = setTimeout(() => endEntry(true), glide * 1000);
+    }, glide ? 900 : 0);
+  });
+  $('entryskip').addEventListener('click', skipEntry);
+  engine?.canvas?.addEventListener('pointerdown', () => { if (!entered && $('entrytitle').hidden && !$('entry').hidden) skipEntry(); });
+
   async function open(id) {
     const mine = ++seq; active = true;
     $('storyfact').textContent = 'The story is on its way.';
@@ -209,13 +251,14 @@ export function createStoryView({ engine, env, settings, go }) {
       const voice = await loadVoice(S.id); if (mine !== seq) return;
       setStoryNarration(voice); if (settings.show.voice) warmNarration(settings.level);
       $('story-listen').hidden = !canSpeak; render();
-      if (!runner) return;
+      if (!runner) { endEntry(); return; }
       engine.canvas.setAttribute('aria-label', `${S.title}. Drag or use the arrow keys to look around. Plus and minus zoom.`);
       await runner.open(S.id);
       if (mine !== seq) return;
       renderPlay(); syncSound();
       clearInterval(tagTimer); tagTimer = setInterval(placeTags, 50);
-    } catch (e) { console.error(e); if (mine === seq) $('storyfact').textContent = 'This story could not be opened.'; }
+      entry();
+    } catch (e) { console.error(e); if (mine === seq) { $('storyfact').textContent = 'This story could not be opened.'; endEntry(); } }
   }
   function close() {
     if (!active) return;

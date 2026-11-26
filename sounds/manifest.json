@@ -195,7 +195,7 @@
     3.98
    ],
    "hash": "64ded1025c6294ed",
-   "fileHash": "f7674356bcedf1d8",
+   "fileHash": "b9be5113e2458830",
    "licence": "CC BY 4.0",
    "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
    "credit": {
@@ -223,7 +223,7 @@
     4.324
    ],
    "hash": "872dbda685157fdb",
-   "fileHash": "f7674356bcedf1d8",
+   "fileHash": "b9be5113e2458830",
    "licence": "CC BY 4.0",
    "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
    "credit": {
@@ -251,7 +251,7 @@
     3.86
    ],
    "hash": "c17e969f4c8373cb",
-   "fileHash": "f7674356bcedf1d8",
+   "fileHash": "b9be5113e2458830",
    "licence": "CC BY 4.0",
    "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
    "credit": {
@@ -279,7 +279,7 @@
     2.981
    ],
    "hash": "eed4f859325f8dc1",
-   "fileHash": "f7674356bcedf1d8",
+   "fileHash": "b9be5113e2458830",
    "licence": "CC BY 4.0",
    "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
    "credit": {
@@ -307,7 +307,7 @@
     10.391
    ],
    "hash": "5d451ea2ad8b034b",
-   "fileHash": "f7674356bcedf1d8",
+   "fileHash": "b9be5113e2458830",
    "licence": "CC BY 4.0",
    "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
    "credit": {
@@ -335,7 +335,7 @@
     11.17
    ],
    "hash": "71b39158139decc2",
-   "fileHash": "f7674356bcedf1d8",
+   "fileHash": "b9be5113e2458830",
    "licence": "CC BY 4.0",
    "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
    "credit": {
@@ -363,7 +363,7 @@
     3.784
    ],
    "hash": "6fc55a317d287d7f",
-   "fileHash": "f7674356bcedf1d8",
+   "fileHash": "b9be5113e2458830",
    "licence": "CC BY 4.0",
    "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
    "credit": {
@@ -391,7 +391,7 @@
     9.775
    ],
    "hash": "b233eb0f0b3fa935",
-   "fileHash": "f7674356bcedf1d8",
+   "fileHash": "b9be5113e2458830",
    "licence": "CC BY 4.0",
    "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
    "credit": {
@@ -419,7 +419,7 @@
     8.063
    ],
    "hash": "e5dd1005fa799aba",
-   "fileHash": "f7674356bcedf1d8",
+   "fileHash": "b9be5113e2458830",
    "licence": "CC BY 4.0",
    "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
    "credit": {
@@ -447,7 +447,7 @@
     13.077
    ],
    "hash": "91c5106d0dd5518e",
-   "fileHash": "f7674356bcedf1d8",
+   "fileHash": "b9be5113e2458830",
    "licence": "CC BY 4.0",
    "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
    "credit": {
@@ -456,6 +456,34 @@
     "sourceUrl": "https://elevenlabs.io/"
    },
    "note": "Recorded on a paid ElevenLabs plan and released by Sea Creatures Lab under CC BY 4.0 (the maintainer, 2026-11-22)."
+  },
+  {
+   "id": "story-anchovy-school/narration/young/1e96c326",
+   "kind": "narration",
+   "scope": "story-anchovy-school",
+   "level": "young",
+   "where": "entry:intro",
+   "text": "Meet the anchovy! It is a small fish, no longer than a ruler. It is blue-green on top and silver underneath, with a thin silver stripe on its side. Anchovies eat plankton. Plankton are tiny plants and animals that float in the sea. Anchovies live near the top of the sea, in big groups called schools. Lots of animals eat anchovies: bigger fish, sea birds and sea lions.",
+   "provider": "elevenlabs",
+   "model": "eleven_v4",
+   "voice": "XZaHzN3l87VsxLaaU01w",
+   "voiceName": "Bronwyn",
+   "provenance": "generated",
+   "file": "scenes/anchovy-school/audio/narration.young.mp3",
+   "at": [
+    75.306,
+    27.26
+   ],
+   "hash": "46c660af4ed4d372",
+   "fileHash": "b9be5113e2458830",
+   "licence": "CC BY 4.0",
+   "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
+   "credit": {
+    "title": "A school of anchovies, the story read aloud for younger readers",
+    "author": "ElevenLabs text to speech, voice Bronwyn",
+    "sourceUrl": "https://elevenlabs.io/"
+   },
+   "note": "Recorded on a paid ElevenLabs plan on 2026-11-26 at the maintainer's request (the introduction read when the camera reaches the school) and released by Sea Creatures Lab under CC BY 4.0."
   }
  ]
 }

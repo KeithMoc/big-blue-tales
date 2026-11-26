@@ -46,11 +46,11 @@ export function loadScene(id) {
 }
 
 export function createSceneRunner({ engine, env, onBeat = () => {}, onCue = () => {}, calm = false, specks = () => true }) {
-  let live = null, t = 0, token = 0;
+  let live = null, t = 0, token = 0, held = false;   // held: the camera is not led to the follow point (the entry)
   const offset = new THREE.Vector3();
 
   function close() {
-    token++;
+    token++; held = false;
     if (!live) return;
     engine.run(false); engine.setLoop(null, null); engine.setGround(null);
     for (const c of live.mounted) unmount(c);
@@ -91,7 +91,7 @@ export function createSceneRunner({ engine, env, onBeat = () => {}, onCue = () =
     engine.setLoop((dt) => {
       const d = calm ? dt * 0.6 : dt; t += d;
       scene.update(t, d);
-      if (scene.follow && !calm) engine.shift(offset.subVectors(scene.follow(), engine.controls.target).multiplyScalar(1 - Math.exp(-1.4 * d)));
+      if (scene.follow && !calm && !held) engine.shift(offset.subVectors(scene.follow(), engine.controls.target).multiplyScalar(1 - Math.exp(-1.4 * d)));
       scene.clear?.(engine.camera.position);
       env.update({ lit: 1, t, dt: d, bodies: scene.bodies?.() || [], lens: engine.lens, calm, specks: S.environment.specks !== false && !scene.dry?.() && specks() });   // specks(): Settings > Drifting specks
     });
@@ -111,6 +111,15 @@ export function createSceneRunner({ engine, env, onBeat = () => {}, onCue = () =
       const v = view(live.S), at = live.scene.follow && !calm ? live.scene.follow() : null;
       if (at) { v.pos.add(at).sub(v.target); v.target.copy(at); }
       engine.flyTo(v, seconds);
+    },
+    /** The entry holds the camera still over the sea while the title shows, and lets it go when the glide ends. */
+    hold(on) { held = !!on; },
+    /** The opening view around where the story is now (for the entry's glide down to the school). */
+    homeView() {
+      if (!live) return null;
+      const v = view(live.S), at = live.scene.follow && !calm ? live.scene.follow() : null;
+      if (at) { v.pos.add(at).sub(v.target); v.target.copy(at); }
+      return v;
     },
     stats() { const e = engine.stats(); return { ...e, tier: device.tier, ...(live?.scene.stats?.() || {}) }; },
   };

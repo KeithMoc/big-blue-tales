@@ -26,7 +26,13 @@ const TIER_BUDGET = { low: { triangles: 60000, calls: 40 }, mid: { triangles: 12
     page.on('response', r => { requests.push(r.url()); if (r.status() >= 400) errors.push(`${name} ${r.status()}: ${r.url()}`); });
     await page.goto(url);
     await page.waitForFunction(() => window.__sea?.storyView?.runner?.current?.scene, null, { timeout: 90000 });
-    await page.waitForTimeout(2500);
+    // the entry: the name in the sky, Start, then the glide (skipped here); the buttons are only there after it
+    await page.waitForSelector('#entrygo', { state: 'visible', timeout: 30000 });
+    await page.screenshot({ path: `${out}/${name}-entry.png` });
+    await page.click('#entrygo'); await page.waitForTimeout(1500);
+    if (await page.isVisible('#entryskip')) await page.click('#entryskip');
+    if (await page.evaluate(() => document.getElementById('app').classList.contains('entering'))) errors.push(`${name}: the buttons did not come in after the entry`);
+    await page.waitForTimeout(1500);
     await page.screenshot({ path: `${out}/${name}-open.png` });
     if (name === 'desktop') {
       const info = await page.evaluate(() => ({

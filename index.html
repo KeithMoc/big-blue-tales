@@ -221,11 +221,33 @@ h1, h2, p { margin: 0; }
 @container stage (max-width: 760px) { .modes button { min-height: 50px; font-size: 17px; padding: 0 16px; } .tools { flex-wrap: wrap; justify-content: flex-end; max-width: calc(100% - 24px); } }
 .showcard .grown ul { display: grid; gap: 6px; padding-left: 18px; font-size: 14px; line-height: 1.4; }
 .showcard .grown a { color: var(--glow); }
+/* the entry: "Diving in", then the story's name in the sky with a big Start, then a glide down to the fish; the
+   buttons come in when it ends. Nothing in it is heavy: it is the story's own sea and sky behind a few words. */
+.entry { position: absolute; inset: 0; z-index: 5; display: grid; place-items: center; pointer-events: none; }
+.entry > * { pointer-events: auto; }
+.entry[hidden] { display: none; }
+.entryload { display: grid; justify-items: center; gap: 10px; color: var(--ink); font-size: 22px; font-weight: 700; }
+.entryfish { font-size: 56px; animation: entryswim 1.6s ease-in-out infinite; font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif; }
+@keyframes entryswim { 0%, 100% { translate: -24px 0; rotate: -6deg; } 50% { translate: 24px -8px; rotate: 6deg; } }
+.entrytitle { display: grid; justify-items: center; gap: 18px; text-align: center; padding: 0 16px; transition: opacity 0.9s, translate 0.9s; }
+.entrytitle h1, .entrykicker { animation: entryfloat 5s ease-in-out infinite; }
+.entrytitle.going { opacity: 0; translate: 0 -40px; }
+@keyframes entryfloat { 0%, 100% { translate: 0 0; } 50% { translate: 0 -10px; } }
+.entrykicker { font-size: 18px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #fff7e6; text-shadow: 0 2px 12px rgba(40, 20, 0, 0.6); }
+.entrytitle h1 { font-family: var(--display); font-weight: 700; font-size: clamp(40px, 9cqw, 88px); line-height: 1.02; color: #fff; text-wrap: balance; text-shadow: 0 4px 24px rgba(30, 10, 40, 0.55), 0 0 2px rgba(30, 10, 40, 0.5); }
+.entrygo { min-height: 72px; padding: 0 36px; border-radius: 999px; border: 0; background: var(--lamp); color: #1a1204; font-size: 26px; font-weight: 700; display: inline-flex; align-items: center; gap: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.35); }
+.entrygo:hover { filter: brightness(1.06); }
+.entryskip { position: absolute; right: 16px; bottom: 16px; min-height: 48px; padding: 0 20px; border-radius: 999px; border: 1px solid var(--line); background: rgba(3, 7, 12, 0.6); color: var(--ink); font-weight: 700; }
+.entering .tools, .entering .storyfoot, .entering .storyhead, .entering #storytags { opacity: 0; pointer-events: none; }
+.entering .storypanel { display: none; }
+.app.entering { grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(0, 1fr) auto; }   /* the picture has the whole page */
+.tools, .storyfoot, .storyhead, .storypanel { transition: opacity 0.8s; }
+@media (prefers-reduced-motion: reduce) { .entryfish, .entrytitle h1, .entrykicker { animation: none; } }
 </style>
 <script type="importmap">
 { "imports": { "three": "./vendor/three.module.min.js", "three/addons/": "./vendor/addons/", "creature-kit": "./kit/creature-kit.js", "creature-kit/parts": "./kit/parts.js", "creature-kit/skin": "./kit/skin.js", "creature-kit/mouth": "./kit/mouth.js" } }
 </script>
-<div class="app" id="app" data-mode="story">
+<div class="app entering" id="app" data-mode="story">
   <main class="stage" id="stage">
     <div id="view"></div>
     <div class="tools">
@@ -251,6 +273,15 @@ h1, h2, p { margin: 0; }
         <h3>What the picture leaves out</h3>
         <ul id="storyleft"></ul>
       </section>
+    </div>
+    <div class="entry" id="entry" aria-live="polite">
+      <div class="entryload" id="entryload"><span class="entryfish" aria-hidden="true">🐟</span><p>Diving in…</p></div>
+      <div class="entrytitle" id="entrytitle" hidden>
+        <p class="entrykicker" id="entrykicker"></p>
+        <h1 id="entryname"></h1>
+        <button class="entrygo" id="entrygo"><span class="emo" aria-hidden="true">▶️</span><span id="entrygo-label">Start</span></button>
+      </div>
+      <button class="entryskip" id="entryskip" hidden>Skip</button>
     </div>
     <div class="paused" id="paused" role="status" hidden><p>One moment…</p><button id="btn-again" hidden>Tap to try again</button></div>
     <div class="story" id="story">
