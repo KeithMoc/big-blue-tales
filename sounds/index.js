@@ -2,7 +2,7 @@
 // folder (scenes/<id>/audio/narration.json, read by scenes/links.js loadVoice). Each sound file's maker, prompt and
 // licence is in sounds/manifest.json. Edited by hand: no tool writes this file. Licence: MIT.
 const u = (p) => new URL(p, import.meta.url).href;
-export const OPTIONS = {"recorded":true,"waitMs":2500,"fallback":{"engine":"browser","lang":"en-AU","rate":0.92},"sfx":{"volume":0.3},"story":{"about":"Sound in a story. music = how loud the music is, on from Start until the visitor turns it off; duck = how loud it is while a line is read; fadeMs = how long it takes to come and go. sea = the sea now and then (never a steady bed): every = the gap in seconds, from and to; swell and bubbles = how loud each is, times sfx.volume.","music":0.35,"duck":0.12,"fadeMs":1200,"sea":{"every":[7,14],"swell":0.9,"bubbles":0.6}}};
+export const OPTIONS = {"recorded":true,"waitMs":2500,"fallback":{"engine":"browser","lang":"en-AU","rate":0.92},"sfx":{"volume":0.3},"story":{"about":"Sound in a story. music = how loud the music is, on from Start until the visitor turns it off; duck = how loud it is while a line is read; fadeIn = how long, in ms, the music takes to rise from silence after Start; fadeMs = how long it takes to come and go. sea = the sea now and then (never a steady bed): every = the gap in seconds, from and to; swell and bubbles = how loud each is, times sfx.volume.","music":0.35,"duck":0.12,"fadeMs":1200,"fadeIn":6000,"sea":{"every":[7,14],"swell":0.9,"bubbles":0.6}}};
 export const LABELS = {"story.listen":"Listen","story.stop":"Stop"};
 export const SFX = {
   "story-dart": { url: u('./shell/sfx.story-dart.mp3'), on: {} },

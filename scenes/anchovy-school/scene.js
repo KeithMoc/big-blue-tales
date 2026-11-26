@@ -3,7 +3,7 @@
 //   near school  - the fish that are steered, with painted bodies and mirror sides that flash in the sun
 //   far schools  - more anchovies in the haze, turning slowly around the middle (no cost to the CPU)
 //   the sea      - open water, the surface overhead, the sky above it and the light of one time of day, all from the
-//                  story kit (createSeaPlace). The story opens at sunset; sunrise, day and night can be picked.
+//                  story kit (createSeaPlace). The story opens in the bright day; sunrise, sunset and night can be picked.
 //                  At night the school swims spread out: that is sourced (scene.json, "times"). The colours are a look.
 //   room         - the school has a home (the middle of its loop, ring or ball) that can be anywhere in AREA. While
 //                  the fish swim together the home drifts slowly, and in Play a drawn line leads it somewhere new.
@@ -49,8 +49,9 @@ const PARTS = [['travel', 12], ['ring', 12], ['ball', 10], ['poke', 14]];
 // lion's pack is 3 long (a 2.25 m male), so the two are the right size next to each other. SURFACE is the sea surface
 // at rest. The school's home stops two units under it, so the eye stays in the water unless the fish leap.
 const SURFACE = 9, AREA = { half: 24, top: 7, bottom: -12 };
-// The time of day the story opens at (the maintainer approved the evening, 2026-11-24), and the one at which the school is loose.
-const OPENS = 'sunset', LOOSE_AT = 'night';
+// The time of day the story opens at (bright day first, for ages 5 to 7: the maintainer, 2026-11-26; it was the
+// evening before), and the one at which the school is loose.
+const OPENS = 'day', LOOSE_AT = 'night';
 // Play, pretend: how long the school keeps leaping, how far the leap reaches along the water and how high and deep it goes
 const LEAP = { seconds: 14, along: 2.6, up: 1.5, down: 2.6 };
 // The sea lion's visit (source "loop" in scene.json: it comes in on a level, straight line 0.5 to 1 m deeper than the

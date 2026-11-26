@@ -259,16 +259,35 @@ h1, h2, p { margin: 0; }
 .entry { position: absolute; inset: 0; z-index: 5; display: grid; place-items: center; pointer-events: none; }
 .entry > * { pointer-events: auto; }
 .entry[hidden] { display: none; }
-.entryload { display: grid; justify-items: center; gap: 10px; color: var(--ink); font-size: 22px; font-weight: 700; }
-.entryfish { display: block; } .entryfish .ico { width: 112px; height: 112px; }
+/* Diving in (the concept KM shared, 2026-11-26): light from the surface fading into deep blue, a small school drifting
+   across, and three dots for how far the loading is. Plain CSS and one inline SVG, so it shows before anything loads. */
+.entryload { position: absolute; inset: 0; display: grid; place-items: center; align-content: center; gap: 18px; overflow: hidden; color: #fff8ea; font-size: clamp(28px, 7cqw, 44px); font-weight: 700;
+  background: radial-gradient(120% 60% at 50% -10%, #8fd8ef 0%, #2f93bf 28%, #0d5a8e 55%, #062f58 80%, #031b36 100%); }
+.entryload[hidden] { display: none; }
+.entryload::before { content: ''; position: absolute; inset: -10% -20% 30%; pointer-events: none; opacity: 0.55; filter: blur(6px);
+  background: repeating-linear-gradient(100deg, rgba(255, 255, 255, 0) 0 7%, rgba(220, 246, 255, 0.35) 9%, rgba(255, 255, 255, 0) 12% 18%);
+  mask-image: linear-gradient(#000, transparent); -webkit-mask-image: linear-gradient(#000, transparent); animation: shafts 9s ease-in-out infinite alternate; }
+@keyframes shafts { from { translate: -3% 0; opacity: 0.4; } to { translate: 3% 0; opacity: 0.65; } }
+.loadschool { position: absolute; left: 0; top: 14%; width: clamp(560px, 92vw, 760px); animation: drift 16s linear infinite; }
+@keyframes drift { from { translate: -95% 30%; } to { translate: 110vw -25%; } }
+.entryload p { position: relative; text-shadow: 0 3px 16px rgba(0, 20, 50, 0.6); }
+.loaddots { position: relative; display: flex; gap: 14px; }
+.loaddots i { width: 18px; height: 18px; border-radius: 50%; border: 3px solid #5ec4e6; transition: background 0.3s, border-color 0.3s; }
+.entryload[data-step="1"] .loaddots i:nth-child(-n+1), .entryload[data-step="2"] .loaddots i:nth-child(-n+2), .entryload[data-step="3"] .loaddots i { background: var(--lamp); border-color: var(--lamp); }
 .entrytitle { display: grid; justify-items: center; gap: 18px; text-align: center; padding: 0 16px; transition: opacity 0.9s, translate 0.9s; }
 .entrytitle h1, .entrykicker { animation: entryfloat 5s ease-in-out infinite; }
 .entrytitle.going { opacity: 0; translate: 0 -40px; }
 @keyframes entryfloat { 0%, 100% { translate: 0 0; } 50% { translate: 0 -10px; } }
-.entrykicker { font-size: 18px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #fff7e6; text-shadow: 0 2px 12px rgba(40, 20, 0, 0.6); }
-.entrytitle h1 { font-family: var(--display); font-weight: 700; font-size: clamp(40px, 9cqw, 88px); line-height: 1.02; color: #fff; text-wrap: balance; text-shadow: 0 4px 24px rgba(30, 10, 40, 0.55), 0 0 2px rgba(30, 10, 40, 0.5); }
-.entrygo { min-height: 72px; padding: 0 36px; border-radius: 999px; border: 0; background: var(--lamp); color: #1a1204; font-size: 26px; font-weight: 700; display: inline-flex; align-items: center; gap: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.35); }
-.entrygo:hover { filter: brightness(1.06); }
+.entrykicker { font-size: 18px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #fff; text-shadow: 0 2px 12px rgba(0, 20, 50, 0.6); }
+.entrytitle h1 { font-family: var(--display); font-weight: 700; font-size: clamp(40px, 9cqw, 88px); line-height: 1.02; color: #fff; text-wrap: balance; text-shadow: 0 4px 24px rgba(0, 20, 50, 0.55), 0 0 2px rgba(0, 20, 50, 0.5); }
+/* the Play button: a big round coral bubble with a white triangle, its word underneath (the concept, 2026-11-26) */
+.entrygo { border: 0; background: none; padding: 4px; color: #fff; font-size: 28px; font-weight: 700; display: grid; justify-items: center; gap: 10px; text-shadow: 0 2px 10px rgba(0, 20, 50, 0.6); }
+.entryplay { position: relative; width: clamp(112px, 30cqw, 148px); aspect-ratio: 1; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #ff9f80 0%, #ff6a4d 45%, #e8492f 100%); box-shadow: inset 0 -8px 18px rgba(150, 30, 10, 0.35), 0 10px 30px rgba(0, 30, 60, 0.45); transition: transform 0.15s; }
+.entryplay::before { content: ''; position: absolute; left: 22%; top: 13%; width: 28%; height: 14%; border-radius: 50%; background: rgba(255, 255, 255, 0.45); transform: rotate(-30deg); }
+.entryplay::after { content: ''; position: absolute; left: 39%; top: 29%; width: 36%; height: 42%; background: #fff; clip-path: polygon(8% 0, 100% 50%, 8% 100%); border-radius: 4px; }
+.entrygo:hover .entryplay { transform: scale(1.04); } .entrygo:active .entryplay { transform: scale(0.96); }
+.entrygo:focus-visible { outline: none; } .entrygo:focus-visible .entryplay { box-shadow: 0 0 0 4px #fff, 0 10px 30px rgba(0, 30, 60, 0.45); }
+@media (max-height: 480px) { .entrytitle { gap: 8px; } .entrytitle h1 { font-size: 34px; } .entrykicker { font-size: 14px; } .entryplay { width: 76px; } .entrygo { font-size: 20px; gap: 4px; } }
 .entryskip { position: absolute; right: 16px; top: 16px; min-height: 48px; padding: 0 20px 0 8px; display: inline-flex; align-items: center; gap: 8px; border-radius: 999px; border: 1px solid var(--line); background: rgba(3, 7, 12, 0.6); color: var(--ink); font-weight: 700; font-size: 16px; }
 .entryskip[hidden] { display: none; }
 /* Skip the introduction: only while it is read */
@@ -276,7 +295,7 @@ h1, h2, p { margin: 0; }
 .entering .tools, .entering .storyfoot, .entering .storyhead, .entering #storytags { opacity: 0; pointer-events: none; }
 .app.entering { grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(0, 1fr) auto; }   /* the picture has the whole page */
 .tools, .storyfoot, .storyhead { transition: opacity 0.8s; }
-@media (prefers-reduced-motion: reduce) { .entrytitle h1, .entrykicker { animation: none; } }
+@media (prefers-reduced-motion: reduce) { .entrytitle h1, .entrykicker, .entryload::before { animation: none; } .loadschool { animation: none; translate: 20% 10%; } }
 </style>
 <script type="importmap">
 { "imports": { "three": "./vendor/three.module.min.js", "three/addons/": "./vendor/addons/", "creature-kit": "./kit/creature-kit.js", "creature-kit/parts": "./kit/parts.js", "creature-kit/skin": "./kit/skin.js", "creature-kit/mouth": "./kit/mouth.js" } }
@@ -310,11 +329,13 @@ h1, h2, p { margin: 0; }
       </section>
     </div>
     <div class="entry" id="entry" aria-live="polite">
-      <div class="entryload" id="entryload"><span class="entryfish ico-live" data-icon="loading" aria-hidden="true"></span><p>Diving in…</p></div>
+      <div class="entryload" id="entryload" data-step="1">
+        <svg class="loadschool" viewBox="0 0 480 200" aria-hidden="true"><defs><g id="lfish"><path d="M0 0 C10 -6 34 -7 50 -2 C54 -1 56 1 50 3 C34 7 10 6 0 0 Z" fill="#cfe3ec"/><path d="M4 -1 C16 -4 34 -4 48 -1" stroke="#3f8fa8" stroke-width="2.4" fill="none"/><path d="M6 1 L42 1" stroke="#ffffff" stroke-width="1" opacity="0.8"/><path d="M1 0 L-10 -7 L-7 0 L-10 7 Z" fill="#a9c8d6"/></g></defs><g transform="rotate(-12 240 100)"><use href="#lfish" transform="translate(40 60) scale(1.0)"/><use href="#lfish" transform="translate(120 40) scale(0.9)"/><use href="#lfish" transform="translate(200 70) scale(1.1)"/><use href="#lfish" transform="translate(90 110) scale(0.8)"/><use href="#lfish" transform="translate(260 30) scale(0.85)"/><use href="#lfish" transform="translate(300 95) scale(1.0)"/><use href="#lfish" transform="translate(170 130) scale(0.75)"/><use href="#lfish" transform="translate(350 55) scale(0.9)"/><use href="#lfish" transform="translate(230 150) scale(0.7)"/><use href="#lfish" transform="translate(20 140) scale(0.7)"/><use href="#lfish" transform="translate(400 110) scale(0.8)"/><use href="#lfish" transform="translate(330 170) scale(0.65)"/></g></svg>
+        <p>Diving in…</p><span class="loaddots" aria-hidden="true"><i></i><i></i><i></i></span></div>
       <div class="entrytitle" id="entrytitle" hidden>
         <p class="entrykicker" id="entrykicker"></p>
         <h1 id="entryname"></h1>
-        <button class="entrygo" id="entrygo"><i data-icon="start"></i><span id="entrygo-label">Start</span></button>
+        <button class="entrygo" id="entrygo"><i class="entryplay" aria-hidden="true"></i><span id="entrygo-label">Play</span></button>
       </div>
       <button class="entryskip" id="entryskip" hidden><i data-icon="skip"></i><span>Skip</span></button>
     </div>

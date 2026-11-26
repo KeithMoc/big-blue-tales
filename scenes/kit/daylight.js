@@ -33,13 +33,14 @@ export const TIMES = {
     animalTop: [1.2, 0.92, 0.8], animalDeep: [0.62, 0.76, 0.94], mirrorTop: '#e6b09c', mirrorDown: '#2f80ae',
     bright: '#d2b2c0', wash: 0.55,
   },
+  // the bright day the anchovy story opens in (the maintainer, 2026-11-26): a little more sun in the water than before
   day: {
     sun: [-0.22, 0.82, -0.52],
     sky: { top: '#2a74cc', mid: '#a7d6f1', glow: '#e4f2fb', sun: '#fff4dc', sea: '#0b4a78' }, stars: 0,
     down: { top: '#63c8ea', level: '#0d5a8e', deep: '#021a33', glow: '#d9f6ff' },
     shallow: { top: '#8cdaf1', level: '#1976ab', deep: '#062f58', glow: '#e8fbff' }, reach: 6, haze: 1,
-    light: '#eaf8ff', warm: 0.3, shafts: 0.2,
-    animalTop: [1.05, 1.05, 1.02], animalDeep: [0.7, 0.86, 1.0], mirrorTop: '#7fd0ee', mirrorDown: '#2f8fc4',
+    light: '#fff6e0', warm: 0.45, shafts: 0.3,
+    animalTop: [1.1, 1.08, 1.02], animalDeep: [0.7, 0.86, 1.0], mirrorTop: '#7fd0ee', mirrorDown: '#2f8fc4',
     bright: '#63c8ea', wash: 0.4,
   },
   // the evening the anchovy story was first given (the maintainer approved this look, 2026-11-24)

@@ -11,7 +11,6 @@ const PARTS = [['sfx', 'Sounds when you tap', 'all'], ['voice', 'Read each part 
 // panel, actions, words and snow are not switches any more (always on); they stay as classes the page can read
 // Read aloud is on at first: ages 5 to 7 hear each part as it is tapped (audit, 2026-11-26)
 const EVERYTHING = { sfx: true, voice: true, panel: true, actions: true, words: true, snow: true };
-const JUST_FISH = { ...EVERYTHING, panel: false, voice: true };
 
 export function createSettings() {
   const level = 'young';   // the one age group this story carries: ages 5 to 7
@@ -47,13 +46,12 @@ export function createSettings() {
   $('btn-show').addEventListener('click', () => openShow($('showcard').hidden));
   document.addEventListener('pointerdown', (e) => { if (!e.target.closest('#showcard, #btn-show')) openShow(false); });
 
-  // Full screen is a shortcut: it remembers the current switches, flips to "Just the fish", and puts
-  // everything back when you leave.
+  // Full screen is a shortcut to "Just the fish": it puts the panel aside and nothing else. Read aloud and tap sounds
+  // are one setting for the whole book, so a change made inside Just the fish is still there when you leave it.
   function setExplore(on) {
     if (on === explore) return;
-    explore = on;
-    if (on) { saved = { ...show }; show = { ...JUST_FISH, sfx: show.sfx }; }
-    else { show = saved ? { ...EVERYTHING, ...saved } : { ...EVERYTHING }; saved = null; }
+    explore = on; saved = null;
+    show = { ...show, panel: !on };
     applyShow(); openShow(false);
     // real full screen where the browser allows it; the stripped-back layout works either way
     const el = document.documentElement;

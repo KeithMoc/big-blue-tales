@@ -42,13 +42,15 @@ export function createStoryView({ engine, env, settings, go }) {
     if (n.textContent !== piece) n.textContent = piece;
     n.hidden = false;
   }
+  let talking = false;
+  const speaking = () => talking;
   function say(words, done) {
     const mine = ++said; clearInterval(subTimer); $('storycaption').hidden = true; captioned = words;
-    const ok = !!words && speak(words, () => { if (mine === said) { hideCaption(); duck(false); } done?.(); });
-    if (ok) { subTimer = setInterval(subtitle, 100); duck(true); } else hideCaption();
+    const ok = !!words && speak(words, () => { if (mine === said) { talking = false; hideCaption(); duck(false); } done?.(); });
+    if (ok) { talking = true; subTimer = setInterval(subtitle, 100); duck(true); } else hideCaption();
     return ok;
   }
-  function hush() { said++; stopSpeaking(); hideCaption(); duck(false); quiet = null; clearTimeout(quietTimer); }
+  function hush() { talking = false; said++; stopSpeaking(); hideCaption(); duck(false); quiet = null; clearTimeout(quietTimer); }
   // With Read aloud off and Captions on, a line that would have been read still shows, as a caption with no voice,
   // for as long as it would take to say. So what is pretend, and how to play, is always on the page.
   let quiet = null, quietTimer = 0;
@@ -129,9 +131,11 @@ export function createStoryView({ engine, env, settings, go }) {
   }
   // Time of day: the whole picture moves to another light. With "Read each part aloud" on, the line for the time
   // picked is read once, with its caption; where it says what the animals do then, scene.json names its source.
+  // A new time of day is shown as a caption only, never read aloud: the sky changes with a sound of its own, and a
+  // voice on top of it was too much (KM, 2026-11-26). A part being read aloud is left to finish.
   function timeNote(words) {
-    if (!words) { if (captioned && S?.times?.options.some(o => text(o) === captioned)) hush(); return; }
-    tell(words);
+    if (!words) { if (quiet && S?.times?.options.some(o => text(o) === quiet.text)) hush(); return; }
+    if (active && !speaking()) show(words);
   }
   function renderPlay() {
     const sc = sceneNow(), P = S?.play || {};
@@ -166,7 +170,10 @@ export function createStoryView({ engine, env, settings, go }) {
   // past or a few bubbles rise, never while a line is read. Which sounds, and how loud, are data: sounds/index.js
   // (SFX and OPTIONS.story).
   const SOUND = OPTIONS.story || {}, SEA = SOUND.sea || {}; let music = null, ducked = false, seaTimer = 0, seaN = 0;
-  const wantMusic = () => store.get('sm-music') !== '0' && hasSfx('story-music');
+  // Music is on unless the visitor turned it off (saved under a new name, so an old "off" from before music came in
+  // from Start does not stay), and it starts with the first tap, Start, fading up from silence (fadeIn).
+  const wantMusic = () => store.get('bbt-music') !== '0' && hasSfx('story-music');
+  const musicNow = () => wantMusic() && (started || entered);
   const musicLevel = () => (ducked ? SOUND.duck ?? 0.12 : SOUND.music ?? 0.35);
   function duck(on) { if (on === ducked) return; ducked = on; music?.level(musicLevel(), 500); }
   const seaOn = () => active && entered && !document.hidden && settings.show.sfx && !!SEA.every && hasSfx('sea-swell');
@@ -178,13 +185,20 @@ export function createStoryView({ engine, env, settings, go }) {
     seaTimer = setTimeout(seaTick, (lo + r * (hi - lo)) * 1000);
   }
   function syncSound() {
-    const on = active && !document.hidden, m = on && wantMusic();
-    if (m && !music) music = loopSfx('story-music', musicLevel(), SOUND.fadeMs); else if (!m && music) { music.stop(SOUND.fadeMs); music = null; }
+    const on = active && !document.hidden, m = on && musicNow();
+    if (m && !music) music = loopSfx('story-music', musicLevel(), SOUND.fadeIn ?? 6000); else if (!m && music) { music.stop(SOUND.fadeMs); music = null; }
     const sw = $('story-music'); sw.hidden = !hasSfx('story-music'); sw.setAttribute('aria-checked', String(wantMusic()));
     if (seaOn()) { if (!seaTimer) seaTimer = setTimeout(seaTick, 2500); } else { clearTimeout(seaTimer); seaTimer = 0; }
   }
   const cue = (id) => { if (settings.show.sfx) playSfx(id); };
-  $('story-music').addEventListener('click', () => { store.set('sm-music', store.get('sm-music') === '0' ? '1' : '0'); syncSound(); });
+  // on the title screen, before any tap, the browser keeps the music silent: a first tap on the note starts it
+  // (fading in) rather than turning it off
+  $('story-music').addEventListener('click', () => {
+    const first = !started && !entered; started = true;
+    try { audio(); } catch { /* no sound on this device */ }
+    if (!(first && wantMusic())) store.set('bbt-music', wantMusic() ? '0' : '1');
+    syncSound();
+  });
   document.addEventListener('visibilitychange', syncSound);
   // Find the fish and Just the fish are round buttons in the corner. Just the fish fills the screen with the picture
   // and leaves only a + in the corner (the maintainer's call, 2026-11-26). The + rolls everything out at once: Music,
@@ -267,7 +281,7 @@ export function createStoryView({ engine, env, settings, go }) {
   // loads, then its name in the sky of its opening time of day with a big Start. Start is the tap that lets the
   // browser play sound. The name lifts away and the camera glides down through the surface to the school; then the
   // buttons come in. A tap on the picture or Skip ends the glide; with motion reduced it cuts straight in.
-  let entered = false, entryTimer = 0, introTimer = 0, introDone = null;
+  let started = false, entered = false, entryTimer = 0, introTimer = 0, introDone = null;
   function endEntry(arrived = false) {
     clearTimeout(entryTimer); const was = entered; entered = true;
     // the introduction (scene.json entry.intro, recorded): read once, as the camera reaches the school
@@ -292,20 +306,22 @@ export function createStoryView({ engine, env, settings, go }) {
     $('entryname').textContent = E.title || S.title;
     $('entrygo-label').textContent = E.start || 'Start';
     $('entryload').hidden = true; $('entrytitle').hidden = false; $('entrytitle').classList.remove('going');
-    // just over the sea, looking up into the sky
-    const at = sc.follow().clone(), up = (sc.surface ?? at.y) - at.y;
-    runner.hold(true);
-    engine.flyTo({ pos: at.clone().add(new THREE.Vector3(0, up + 1.6, 14)), target: at.clone().add(new THREE.Vector3(0, up + 4, 0)) }, 0);
+    // under the water, below the school, looking up at it and the sunlit surface (the concept KM shared, 2026-11-26)
+    const at = sc.follow().clone(), [below, back, look] = E.view || [10, 5, -4];
+    const aim = new THREE.Vector3(0, look + (innerWidth > innerHeight ? 2.5 : 0), 0);   // a wide screen sees less sky: aim nearer the school
+    runner.hold(aim);                                // the camera swims along under the school while the title shows
+    engine.flyTo({ pos: at.clone().add(new THREE.Vector3(0, -below, back)), target: at.clone().add(aim) }, 0);
   }
   function skipEntry() { if (entered) return; runner?.home(0); endEntry(true); }
   $('entrygo').addEventListener('click', () => {
     try { audio(); } catch { /* no sound on this device: the story works without it */ }
+    started = true; syncSound();                     // the music fades in from here
     const glide = calm ? 0 : (S?.entry?.glide ?? 7);
     $('entrytitle').classList.add('going');
     setTimeout(() => {
       $('entrytitle').hidden = true;
       if (!glide || !runner?.current) { skipEntry(); return; }
-      engine.flyTo(runner.homeView(), glide);
+      runner.hold(true); engine.flyTo(runner.homeView(), glide);     // still while it glides down
       $('entryskip').hidden = false;
       entryTimer = setTimeout(() => endEntry(true), glide * 1000);
     }, glide ? 900 : 0);
@@ -324,12 +340,14 @@ export function createStoryView({ engine, env, settings, go }) {
       document.documentElement.dataset.env = 'bright';
       beat = null; playing = false; noted = ''; timeNote(''); syncTurn(); tags.replaceChildren();
       const voice = await loadVoice(S.id); if (mine !== seq) return;
+      $('entryload').dataset.step = '2';            // the story's words and voice are here: now the sea and the fish
       setStoryNarration(voice); if (settings.show.voice) warmNarration(settings.level);
       render();
       if (!runner) { endEntry(); return; }
       engine.canvas.setAttribute('aria-label', `${S.title}. Drag or use the arrow keys to look around. Plus and minus zoom.`);
       await runner.open(S.id);
       if (mine !== seq) return;
+      $('entryload').dataset.step = '3';
       renderPlay(); syncSound();
       clearInterval(tagTimer); tagTimer = setInterval(placeTags, 50);
       entry();
@@ -341,7 +359,7 @@ export function createStoryView({ engine, env, settings, go }) {
     clearInterval(tagTimer); tags.replaceChildren();
     runner?.close(); read(null); setStoryNarration(null);
   }
-  settings.onChange(() => { if (just && !settings.exploring) justPlay(false); if (active) { if (reading) read(null); render(); syncSound(); } });   // Esc out of full screen leaves Just the fish too
+  settings.onChange(() => { syncVoice(); syncCaptions(); if (just && !settings.exploring) justPlay(false); if (active) { if (reading) read(null); render(); syncSound(); } });   // Esc out of full screen leaves Just the fish too
 
   return { open, close, get current() { return S; }, get beat() { return beat; }, runner, stories: loadStories };
 }
