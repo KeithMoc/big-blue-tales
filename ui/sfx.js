@@ -3,6 +3,7 @@
 import { SFX, OPTIONS } from '../sounds/index.js';
 import { canPlay, audio, decode } from './audio.js';
 const buffers = new Map();
+const WAKE = ['pointerdown', 'touchend', 'click', 'keydown'];
 const load = (id) => { if (!buffers.has(id)) { const p = decode(SFX[id].url); p.catch(() => buffers.delete(id)); buffers.set(id, p); } return buffers.get(id); };
 export const hasSfx = (id) => canPlay && !!SFX[id];
 export function playSfx(id, volume = 1) {
@@ -26,8 +27,9 @@ export function loopSfx(id, volume = 1, fadeMs = 800) {
       // fade up only once the browser lets sound out, so the fade is heard and does not end in silence
       if (ctx.state === 'running') level(volume); else ctx.addEventListener('statechange', function up() { if (ctx.state !== 'running') return; ctx.removeEventListener('statechange', up); if (!over) level(volume); }); }, () => {});
     // a page opened from a link has had no tap yet, and a browser keeps it silent until one comes
-    const wake = () => { if (!over) audio(); };
-    document.addEventListener('pointerdown', wake, { once: true, capture: true });
+    // (iOS lets sound in on a touch's end or a click, other browsers on a press or a key: any of them will do)
+    const wake = () => { if (!over) audio(); for (const ev of WAKE) document.removeEventListener(ev, wake, true); };
+    for (const ev of WAKE) document.addEventListener(ev, wake, true);
     return { level, stop(ms = fadeMs) { if (over) return; over = true; level(0, ms); setTimeout(() => { try { src?.stop(); } catch { /* never started */ } g.disconnect(); }, ms + 80); } };
   } catch { return null; }
 }
